@@ -13,7 +13,7 @@ byte nodePayload[PAYLOAD_SIZE];
 void setup()
 {
 
-  Serial.begin(9600);  
+  Serial.begin(9600);
   Serial.println("SLAVE SENDER NODE");
   Serial.print("Node address: ");
   Serial.println(NODE_ADDRESS);
@@ -26,16 +26,16 @@ void setup()
 }
 
 void loop()
-{ 
+{
   delay(100);
-  nodePayload[0] = NODE_ADDRESS; // I am sending Node address back.  Replace with any other data 
+  nodePayload[0] = NODE_ADDRESS; // I am sending Node address back.  Replace with any other data
   nodePayload[1] = analogRead(A0)/4; // Read A0 and fit into 1 byte. Replace this line with your sensor value
-  
+
 }
 
 void requestEvent()
 {
-  Wire.write(nodePayload,PAYLOAD_SIZE);  
-  Serial.print("Sensor value: ");  // for debugging purposes. 
-  Serial.println(nodePayload[1]); // for debugging purposes. 
+  Wire.write(nodePayload,PAYLOAD_SIZE);
+  Serial.print("Sensor value: ");  // for debugging purposes.
+  Serial.println(nodePayload[1]); // for debugging purposes.
 }
