@@ -2,10 +2,9 @@
 
 #define NODE_ADDRESS 2 // Change this unique address for each I2C slave node
 #define PAYLOAD_SIZE 2 // Number of bytes  expected to be received by the master I2C node
-byte nodePayload[PAYLOAD_SIZE];
-
-const int samples = 10;
-const int debounce = 10;
+unsigned int data;
+const int samples = 50;
+const unsigned int debounce = 20000;
 const int threshold = 100;
 int rolling[samples]; // global variable will keep track of relevant samples
 
@@ -26,23 +25,19 @@ void setup() {
 void loop() {
   int sense = analogRead(inp);
   unsigned long revTime;
-
-  if(sense < threshold && (unsigned long)(micros() - lastTime) > debounce){
+  //Serial.println(sense);
+  if(sense > threshold && (unsigned long)(micros() - lastTime) > debounce){
     revTime = micros() - lastTime;
     lastTime = micros();
-    unsigned long avg = updateAverage(revTime);
-    unsigned long speed = convertUnits(avg);
-    sendData(speed);
+    unsigned int freq = convertUnits(revTime);
+    unsigned int avg = updateAverage(freq);
+    data = avg;
+    Serial.println(data);
   }
 }
 
-void sendData(unsigned int data){
-  byte* payload = (byte*) & data;
-  Wire.write(payload, PAYLOAD_SIZE);
-}
-
-int updateAverage(int newVal){
-  int tempRolling[samples];
+int updateAverage(unsigned int newVal){
+  unsigned int tempRolling[samples];
 
   tempRolling[samples - 1] = newVal; // the last element is the new value
 
@@ -53,18 +48,20 @@ int updateAverage(int newVal){
   for(int i = 0; i < samples; i ++){ // overwrite the old array with the new one
     rolling[i] = tempRolling[i];
   }
-  int sum = 0;
+  unsigned long sum = 0;
   for(int i = 0; i < samples; i ++){ // sum the elements
     sum += rolling[i];
   }
-  int avg = sum/samples;
+  unsigned int avg = sum/samples;
 
   return avg;
 }
 
-int convertUnits(int input){
+unsigned int convertUnits(unsigned long input){
   //to Hz:
   unsigned int freq = 1000000/input;
+  return freq;
+  /*
   //MPH:
   float circ = wheelDia * 3.1416;
   int speedMPH = (freq * 3600 * circ)/63360;
@@ -88,7 +85,6 @@ void printArray(int arr[], int len){ // useful for debugging
 
 void requestEvent()
 {
-  Wire.write(nodePayload,PAYLOAD_SIZE);
-  Serial.print("Sensor value: ");  // for debugging purposes.
-  Serial.println(nodePayload[1]); // for debugging purposes.
+  byte* payload = (byte*) & data;
+  Wire.write(payload,PAYLOAD_SIZE);
 }
