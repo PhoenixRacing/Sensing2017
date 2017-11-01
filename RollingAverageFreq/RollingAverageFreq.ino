@@ -3,7 +3,7 @@
 #define NODE_ADDRESS 2 // Change this unique address for each I2C slave node
 #define PAYLOAD_SIZE 2 // Number of bytes  expected to be received by the master I2C node
 unsigned int data;
-const int samples = 50;
+const int samples = 10;
 const unsigned int debounce = 20000;
 const int threshold = 100;
 int rolling[samples]; // global variable will keep track of relevant samples

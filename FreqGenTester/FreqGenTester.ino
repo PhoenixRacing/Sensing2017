@@ -7,7 +7,7 @@ void setup(){
 }
 
 void loop(){
-  int val = analogRead(7);
+  int val = analogRead(0);
   int freq = map(val, 0, 1023, 5, 50);
   Serial.println(freq);
   digitalWrite(out, HIGH);
