@@ -72,9 +72,9 @@ void setup() {
   Serial.println("7 Segment Backpack Test");
 #endif
   tachDisp.begin(0x70);
-  speedoDisp.begin(0x71);
-  cvtTempDisp.begin(0x72);
-  gearBoxTempDisp.begin(0x73);
+  speedoDisp.begin(0x72);
+  cvtTempDisp.begin(0x73);
+  gearBoxTempDisp.begin(0x74);
 
   Wire.begin();        // Activate I2C link
 
