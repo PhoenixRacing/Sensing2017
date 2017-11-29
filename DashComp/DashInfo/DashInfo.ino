@@ -12,10 +12,57 @@ Adafruit_7segment speedoDisp = Adafruit_7segment();
 Adafruit_7segment cvtTempDisp = Adafruit_7segment();
 Adafruit_7segment gearBoxTempDisp = Adafruit_7segment();
 
-unsigned int tach = 0;
-unsigned int speedo = 0;
-unsigned int cvtTemp = 0;
-unsigned int gearBoxTemp = 0;
+//unsigned int tach = 0;
+//unsigned int speedo = 0;
+//unsigned int cvtTemp = 0;
+//unsigned int gearBoxTemp = 0;
+
+//unsigned int samples = 5;
+
+//unsigned int tachCounter = 0;
+//unsigned int speedoCounter = 0;
+//unsigned int cvtTempCounter = 0;
+//unsigned int gearBoxTempCounter = 0;
+
+unsigned int recentTach;
+unsigned int recentSpeedo;
+unsigned int recentCvtTemp;
+unsigned int recentGearBoxTemp;
+
+const int maxTime = 30000;
+
+unsigned long lastWriteTime = 0;
+
+typedef struct {
+  float sum;
+  int count;
+} average_data;
+
+average_data tach;
+average_data speedo;
+average_data cvtTemp;
+average_data gearBoxTemp;
+
+void acceptSample(average_data *avg, float data) {
+  avg -> sum += data;
+  avg -> count++;
+}
+
+//acceptSample(&tach, tach_value);
+
+float getAverage(average_data *avg) {
+
+    float sum = avg -> sum;
+    int n = avg -> count;
+    return (sum/n);
+
+}
+
+void resetAverage(average_data *avg) {
+  avg -> sum = 0;
+  avg -> count = 0;
+}
+
 int wheelDia = 22;
 
 void setup() {
@@ -33,48 +80,6 @@ void setup() {
 
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
-  for (int nodeAddress = START_NODE; nodeAddress <= NODE_MAX; nodeAddress++) { // we are starting from Node address 2
-    Wire.requestFrom(nodeAddress, PAYLOAD_SIZE);    // request data from node#
-    if(Wire.available() == PAYLOAD_SIZE) {  // if data size is avaliable from nodes
-      unsigned int data = receiveData();
-      switch(nodeAddress) {
-        case 2: //receive data from tach
-          Serial.print("tach: ");
-          tach = convertToRPM(data);
-          Serial.println(tach);
-          break;
-        case 3: //receive data from speedo
-          Serial.print("speedo: ");
-          speedo = convertToSpeed(data);
-          Serial.println(speedo);
-          break;
-        case 4: //receive data from cvtTemp
-          Serial.print("cvtTemp: ");
-          cvtTemp = data;
-          Serial.println(cvtTemp);
-          break;
-        case 5: //receive data from gearBoxTemp
-          Serial.print("gearBoxTemp: ");
-          gearBoxTemp = data;
-          Serial.println(gearBoxTemp);
-          break;
-      }
-      tachDisp.println(tach);
-      tachDisp.writeDisplay();
-      speedoDisp.println(speedo);
-      speedoDisp.writeDisplay();
-      cvtTempDisp.println(cvtTemp);
-      cvtTempDisp.writeDisplay();
-      gearBoxTempDisp.println(gearBoxTemp);
-      gearBoxTempDisp.writeDisplay();
-    delay(500);
-    }
-  }
-    delay(NODE_READ_DELAY);
-}
-
 unsigned int receiveData(){
   byte payload[PAYLOAD_SIZE];
   for(byte i = 0; i < PAYLOAD_SIZE; i ++){
@@ -83,6 +88,7 @@ unsigned int receiveData(){
   unsigned int data = *((unsigned int*)payload);
   return data;
 }  
+
 unsigned int convertToSpeed(unsigned int freq){
 
   //MPH:
@@ -99,4 +105,83 @@ unsigned int convertToRPM(unsigned int freq){
   return RPM;
   
 }
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  for (int nodeAddress = START_NODE; nodeAddress <= NODE_MAX; nodeAddress++) { // we are starting from Node address 2
+    Wire.requestFrom(nodeAddress, PAYLOAD_SIZE);    // request data from node#
+    if(Wire.available() == PAYLOAD_SIZE) {  // if data size is avaliable from nodes
+      unsigned int data = receiveData();
+      switch(nodeAddress) {
+        case 2: //receive data from tach
+          Serial.print("tach: ");
+          recentTach = data;
+          acceptSample(&tach, recentTach);
+          Serial.println(recentTach);
+          break;
+        case 3: //receive data from speedo
+          Serial.print("speedo: ");
+          recentSpeedo = data;
+          acceptSample(&speedo, data);
+          Serial.println(recentSpeedo);
+          break;
+        case 4: //receive data from cvtTemp
+          Serial.print("cvtTemp: ");
+          recentCvtTemp = data;
+          acceptSample(&cvtTemp, data);
+          Serial.println(recentCvtTemp);
+          break;
+        case 5: //receive data from gearBoxTemp
+          Serial.print("gearBoxTemp: ");
+          recentGearBoxTemp = data;
+          acceptSample(&gearBoxTemp, data);
+          Serial.println(recentGearBoxTemp);
+          break;
+      }
+      tachDisp.println(recentTach);
+      tachDisp.writeDisplay();
+      speedoDisp.println(recentSpeedo);
+      speedoDisp.writeDisplay();
+      cvtTempDisp.println(recentCvtTemp);
+      cvtTempDisp.writeDisplay();
+      gearBoxTempDisp.println(recentGearBoxTemp);
+      gearBoxTempDisp.writeDisplay();
+
+      if (millis() - lastWriteTime > maxTime) {
+        getAverage(&tach);
+        //write to sd card
+        lastWriteTime = millis();
+      }
+    delay(500);
+    }
+  }
+}
+//    delay(NODE_READ_DELAY);
+//    
+//    int rollingAvgTach(){
+//      int data = analogRead(0);
+//      
+//      tempRolling[samples - 1] = data; // the last element is the new value
+//  
+//      for(int i = 0; i < samples - 1; i ++){ // copy the last elements of the old array into the beginning of the new array
+//        tempRolling[i] = rolling[i+1];
+//      }
+//  
+//      for(int i = 0; i < samples; i ++){ // overwrite the old array with the new one
+//       rolling[i] = tempRolling[i];
+//      }
+//      int sum = 0;
+//      for(int i = 0; i < samples; i ++){ // sum the elements
+//       sum += rolling[i];
+//      }
+//      int avg = sum/samples;
+//  
+//      printArray(rolling, samples);
+//      Serial.print("Rolling Average: ");
+//      Serial.println(avg);
+//      Serial.println("*****");
+//      delay(refreshRate);
+//    }
+//}
+
 
