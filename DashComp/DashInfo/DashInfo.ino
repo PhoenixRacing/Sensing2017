@@ -1,3 +1,5 @@
+#define DEBUG
+
 #include <Wire.h> // Enable this line if using Arduino Uno, Mega, etc.
 #include <Adafruit_GFX.h>
 #include "Adafruit_LEDBackpack.h"
@@ -5,31 +7,21 @@
 #define PAYLOAD_SIZE 2 // how many bytes to expect from each I2C salve node
 #define NODE_MAX 4 // maximum number of slave nodes (I2C addresses) to probe
 #define START_NODE 2 // The starting I2C address of slave nodes
-#define NODE_READ_DELAY 1 // Some delay between I2C node reads
+//#define NODE_READ_DELAY 1 // Some delay between I2C node reads
+
+const int refreshTime = 0;
 
 Adafruit_7segment tachDisp = Adafruit_7segment();
 Adafruit_7segment speedoDisp = Adafruit_7segment();
 Adafruit_7segment cvtTempDisp = Adafruit_7segment();
 Adafruit_7segment gearBoxTempDisp = Adafruit_7segment();
 
-//unsigned int tach = 0;
-//unsigned int speedo = 0;
-//unsigned int cvtTemp = 0;
-//unsigned int gearBoxTemp = 0;
-
-//unsigned int samples = 5;
-
-//unsigned int tachCounter = 0;
-//unsigned int speedoCounter = 0;
-//unsigned int cvtTempCounter = 0;
-//unsigned int gearBoxTempCounter = 0;
-
 unsigned int recentTach;
-unsigned int recentSpeedo;
-unsigned int recentCvtTemp;
-unsigned int recentGearBoxTemp;
+float recentSpeedo;
+float recentCvtTemp;
+float recentGearBoxTemp;
 
-const int maxTime = 30000;
+const int maxTime = 10000;
 
 unsigned long lastWriteTime = 0;
 
@@ -70,30 +62,34 @@ unsigned int receiveData(){
   }
   unsigned int data = *((unsigned int*)payload);
   return data;
-}  
+}
 
 int wheelDia = 22;
 int spokes = 6;
 
-unsigned int convertToSpeed(unsigned int freq){
+unsigned int convertToRPM(unsigned int freq){
+  //RPM:
+  unsigned int RPM = freq*2;
+  return RPM;
+}
+
+float convertToSpeed(unsigned int freq){
   //MPH:
   float circ = wheelDia * 3.1416;
   //(freq pulses/1 min)(1 rev/spokes pulses)(circ in/1 rev)(1 ft/12 in)(1 mi/5280 ft)(60 min/1 hr)
   float converter = (circ*60)/(spokes*12*5280);
   float speedMPH = round(freq * converter * 100)/100;
   return speedMPH;
-
 }
 
-/*unsigned int convertToRPM(unsigned int freq){
-  //RPM:
-  unsigned int RPM = freq * 60 * 2;
-  return RPM;
-}*/
+float convertToTemp(unsigned int temp100){
+  return temp100/100;
+}
+
+
 
 void setup() {
-  // put your setup code here, to run once:
-#ifndef __AVR_ATtiny85__
+#ifdef DEBUG
   Serial.begin(9600);
   Serial.println("7 Segment Backpack Test");
 #endif
@@ -113,28 +109,36 @@ void loop() {
       unsigned int data = receiveData();
       switch(nodeAddress) {
         case 2: //receive data from tach
-          Serial.print("tach: ");
-          recentTach = data;
+          recentTach = convertToRPM(data);
           acceptSample(&tach, recentTach);
+        #ifdef DEBUG
+          Serial.print("tach: ");
           Serial.println(recentTach);
+        #endif
           break;
         case 3: //receive data from speedo
-          Serial.print("speedo: ");
           recentSpeedo = convertToSpeed(data);
           acceptSample(&speedo, recentSpeedo);
+        #ifdef DEBUG
+          Serial.print("speedo: ");
           Serial.println(recentSpeedo);
+        #endif
           break;
         case 4: //receive data from cvtTemp
+          recentCvtTemp = convertToTemp(data);
+          acceptSample(&cvtTemp, recentCvtTemp);
+        #ifdef DEBUG
           Serial.print("cvtTemp: ");
-          recentCvtTemp = data;
-          acceptSample(&cvtTemp, data);
           Serial.println(recentCvtTemp);
+        #endif
           break;
         case 5: //receive data from gearBoxTemp
+          recentGearBoxTemp = convertToTemp(data);
+          acceptSample(&gearBoxTemp, recentGearBoxTemp);
+        #ifdef DEBUG
           Serial.print("gearBoxTemp: ");
-          recentGearBoxTemp = data;
-          acceptSample(&gearBoxTemp, data);
           Serial.println(recentGearBoxTemp);
+        #endif
           break;
       }
       tachDisp.println(recentTach);
@@ -147,40 +151,23 @@ void loop() {
       gearBoxTempDisp.writeDisplay();
 
       if (millis() - lastWriteTime > maxTime) {
-        getAverage(&tach);
+        unsigned int logTach = round(getAverage(&tach));
+        float logSpeedo = round(getAverage(&speedo)*100)/100;
+        float logCvt = round(getAverage(&cvtTemp)*100)/100;
+        float logGb = round(getAverage(&gearBoxTemp)*100)/100;
+        //get RTC time
+        //build log line
         //write to sd card
+      #ifdef DEBUG
+        Serial.println("Writing line to SD card: ");
+      #endif
         lastWriteTime = millis();
+        resetAverage(&tach);
+        resetAverage(&speedo);
+        resetAverage(&cvtTemp);
+        resetAverage(&gearBoxTemp);
       }
-    delay(500);
+    delay(refreshTime);
     }
   }
 }
-//    delay(NODE_READ_DELAY);
-//    
-//    int rollingAvgTach(){
-//      int data = analogRead(0);
-//      
-//      tempRolling[samples - 1] = data; // the last element is the new value
-//  
-//      for(int i = 0; i < samples - 1; i ++){ // copy the last elements of the old array into the beginning of the new array
-//        tempRolling[i] = rolling[i+1];
-//      }
-//  
-//      for(int i = 0; i < samples; i ++){ // overwrite the old array with the new one
-//       rolling[i] = tempRolling[i];
-//      }
-//      int sum = 0;
-//      for(int i = 0; i < samples; i ++){ // sum the elements
-//       sum += rolling[i];
-//      }
-//      int avg = sum/samples;
-//  
-//      printArray(rolling, samples);
-//      Serial.print("Rolling Average: ");
-//      Serial.println(avg);
-//      Serial.println("*****");
-//      delay(refreshRate);
-//    }
-//}
-
-
