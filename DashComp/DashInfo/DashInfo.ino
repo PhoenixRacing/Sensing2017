@@ -63,7 +63,33 @@ void resetAverage(average_data *avg) {
   avg -> count = 0;
 }
 
+unsigned int receiveData(){
+  byte payload[PAYLOAD_SIZE];
+  for(byte i = 0; i < PAYLOAD_SIZE; i ++){
+    payload[i] = Wire.read();
+  }
+  unsigned int data = *((unsigned int*)payload);
+  return data;
+}  
+
 int wheelDia = 22;
+int spokes = 6;
+
+unsigned int convertToSpeed(unsigned int freq){
+  //MPH:
+  float circ = wheelDia * 3.1416;
+  //(freq pulses/1 min)(1 rev/spokes pulses)(circ in/1 rev)(1 ft/12 in)(1 mi/5280 ft)(60 min/1 hr)
+  float converter = (circ*60)/(spokes*12*5280);
+  float speedMPH = round(freq * converter * 100)/100;
+  return speedMPH;
+
+}
+
+/*unsigned int convertToRPM(unsigned int freq){
+  //RPM:
+  unsigned int RPM = freq * 60 * 2;
+  return RPM;
+}*/
 
 void setup() {
   // put your setup code here, to run once:
@@ -80,34 +106,7 @@ void setup() {
 
 }
 
-unsigned int receiveData(){
-  byte payload[PAYLOAD_SIZE];
-  for(byte i = 0; i < PAYLOAD_SIZE; i ++){
-    payload[i] = Wire.read();
-  }
-  unsigned int data = *((unsigned int*)payload);
-  return data;
-}  
-
-unsigned int convertToSpeed(unsigned int freq){
-
-  //MPH:
-  float circ = wheelDia * 3.1416;
-  int speedMPH = (freq * 36 * circ)/633.6;
-  return speedMPH;
-
-}
-
-unsigned int convertToRPM(unsigned int freq){
-
-  //RPM:
-  unsigned int RPM = freq * 60 * 2;
-  return RPM;
-  
-}
-
 void loop() {
-  // put your main code here, to run repeatedly:
   for (int nodeAddress = START_NODE; nodeAddress <= NODE_MAX; nodeAddress++) { // we are starting from Node address 2
     Wire.requestFrom(nodeAddress, PAYLOAD_SIZE);    // request data from node#
     if(Wire.available() == PAYLOAD_SIZE) {  // if data size is avaliable from nodes
@@ -121,8 +120,8 @@ void loop() {
           break;
         case 3: //receive data from speedo
           Serial.print("speedo: ");
-          recentSpeedo = data;
-          acceptSample(&speedo, data);
+          recentSpeedo = convertToSpeed(data);
+          acceptSample(&speedo, recentSpeedo);
           Serial.println(recentSpeedo);
           break;
         case 4: //receive data from cvtTemp
