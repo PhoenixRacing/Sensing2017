@@ -3,6 +3,23 @@
 #include <Wire.h> // Enable this line if using Arduino Uno, Mega, etc.
 #include <Adafruit_GFX.h>
 #include "Adafruit_LEDBackpack.h"
+/* Display segment layout:
+     8
+   -----
+ 3| 2  |7
+  -----
+4| 5  |6
+ -----  .1
+
+*/
+
+uint8_t O = B00111111;
+uint8_t L = B00111000;
+uint8_t I = B00000110;
+uint8_t n = B01010100;
+uint8_t b = B01111100;
+uint8_t A = B01110111;
+uint8_t J = B00011110;
 
 #define PAYLOAD_SIZE 2 // how many bytes to expect from each I2C salve node
 #define NODE_MAX 4 // maximum number of slave nodes (I2C addresses) to probe
@@ -91,7 +108,7 @@ float convertToTemp(unsigned int temp100){
 void setup() {
 #ifdef DEBUG
   Serial.begin(9600);
-  Serial.println("7 Segment Backpack Test");
+  Serial.println("Starting Dash Display and Logger...");
 #endif
   tachDisp.begin(0x70);
   speedoDisp.begin(0x72);
@@ -99,6 +116,33 @@ void setup() {
   gearBoxTempDisp.begin(0x74);
 
   Wire.begin();        // Activate I2C link
+
+  tachDisp.writeDigitRaw(0,O);
+  tachDisp.writeDigitRaw(1,L);
+  tachDisp.writeDigitRaw(3,I);
+  tachDisp.writeDigitRaw(4,n);
+  speedoDisp.writeDigitRaw(0,b);
+  speedoDisp.writeDigitRaw(1,A);
+  speedoDisp.writeDigitRaw(3,J);
+  speedoDisp.writeDigitRaw(4,A);
+  cvtTempDisp.println(2017);
+  gearBoxTempDisp.println(2018);
+
+  tachDisp.writeDisplay();
+  speedoDisp.writeDisplay();
+  cvtTempDisp.writeDisplay();
+  gearBoxTempDisp.writeDisplay();
+
+  delay(3000);
+  tachDisp.println(0);
+  speedoDisp.println(0);
+  cvtTempDisp.println(0);
+  gearBoxTempDisp.println(0);
+
+  tachDisp.writeDisplay();
+  speedoDisp.writeDisplay();
+  cvtTempDisp.writeDisplay();
+  gearBoxTempDisp.writeDisplay();
 
 }
 
@@ -141,6 +185,7 @@ void loop() {
         #endif
           break;
       }
+
       tachDisp.println(recentTach);
       tachDisp.writeDisplay();
       speedoDisp.println(recentSpeedo);
