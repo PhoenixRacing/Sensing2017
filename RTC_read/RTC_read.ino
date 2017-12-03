@@ -4,13 +4,9 @@
 
 RTC_DS3231 rtc;
 
-char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+//char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 
 void setup () {
-
-#ifndef ESP8266
-  while (!Serial); // for Leonardo/Micro/Zero
-#endif
 
   Serial.begin(9600);
 
@@ -33,7 +29,7 @@ void setup () {
 
 void loop () {
     DateTime now = rtc.now();
-    
+
     Serial.print(now.year(), DEC);
     Serial.print('/');
     Serial.print(now.month(), DEC);
@@ -47,7 +43,7 @@ void loop () {
     Serial.print(now.second(), DEC);
     Serial.print(')');
     Serial.println();
-    
+
     Serial.println();
     delay(1000);
 }
