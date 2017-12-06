@@ -37,6 +37,9 @@ uint8_t r = B01010000;
 RTC_DS3231 rtc;
 File logFile;
 char fileName[13];
+boolean logFlag = false;
+
+#define BUTTON_PIN 2 //logger button pin 2
 
 #define PAYLOAD_SIZE 2 // how many bytes to expect from each I2C salve node
 #define NODE_MAX 4 // maximum number of slave nodes (I2C addresses) to probe
@@ -138,7 +141,7 @@ float recentSpeedo;
 float recentCvtTemp;
 float recentGearBoxTemp;
 
-const int maxTime = 10000;
+const int maxTime = 5000;
 
 unsigned long lastWriteTime = 0;
 
@@ -160,7 +163,9 @@ unsigned int convertToRPM(unsigned int freq){
   return RPM;
 }
 
-void writeLine(unsigned int tachData, float speedData, float cvtData, float gbData){
+
+
+void writeLine(unsigned int tachData, float speedData, float cvtData, float gbData, boolean logger){
   DateTime logTime = rtc.now();
   char line[31];
   char MM[4];
@@ -169,6 +174,17 @@ void writeLine(unsigned int tachData, float speedData, float cvtData, float gbDa
   char SPED[6];
   char CVTTE[7];
   char GBTEM[7];
+  //char F;
+
+/*
+  if(logger) {
+    F = "1";
+  }
+  else {
+    F ="0";
+  }
+  */
+  
   sprintf(line, "%02d:", logTime.hour());
   sprintf(MM, "%02d:", logTime.minute());
   sprintf(SS, "%02d,", logTime.second());
@@ -176,7 +192,7 @@ void writeLine(unsigned int tachData, float speedData, float cvtData, float gbDa
   //sprintf included with arduino does not handle floats, so this:
   sprintf(SPED, "%02d.%01d,", int(speedData), (round(speedData*10)%10));
   sprintf(CVTTE, "%03d.%01d,", int(cvtData), (round(cvtData*10)%10));
-  sprintf(GBTEM, "%03d.%01d", int(gbData), (round(gbData*10)%10));
+  sprintf(GBTEM, "%03d.%01d,", int(gbData), (round(gbData*10)%10));
 
   strcat(line, MM);
   strcat(line, SS);
@@ -184,6 +200,7 @@ void writeLine(unsigned int tachData, float speedData, float cvtData, float gbDa
   strcat(line, SPED);
   strcat(line, CVTTE);
   strcat(line, GBTEM);
+  //strcat(line, F);
 
   Serial.println(line);
 
@@ -221,6 +238,7 @@ void setup() {
   displayStartup();
   delay(3000);
   displayZero();
+  pinMode(BUTTON_PIN,INPUT_PULLUP);
 
   if(!rtc.begin()){
     displayError(1);
@@ -323,6 +341,10 @@ void loop() {
   recentCvtTemp = analogRead(2)/10;
   recentGearBoxTemp = analogRead(3)/10;
 
+  if (!digitalRead(BUTTON_PIN)) {
+    logFlag = true;
+  }
+
   acceptSample(&tach, recentTach);
   acceptSample(&speedo, recentSpeedo);
   acceptSample(&cvtTemp, recentCvtTemp);
@@ -340,7 +362,8 @@ void loop() {
     float logSpeedo = round(getAverage(&speedo)*100)/100;
     float logCvt = round(getAverage(&cvtTemp)*100)/100;
     float logGb = round(getAverage(&gearBoxTemp)*100)/100;
-    writeLine(logTach, logSpeedo, logCvt, logGb);
+    writeLine(logTach, logSpeedo, logCvt, logGb, logFlag);
+    logFlag = false;
   #ifdef DEBUG
     Serial.println("Writing line to SD card");
   #endif
