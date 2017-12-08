@@ -44,7 +44,7 @@ void send_data() {
   // Unimplemented
 }
 
-void requestEvent()
+void request_event()
 {
   byte* payload = (byte*) & data;
   Wire.write(payload,PAYLOAD_SIZE);
@@ -54,7 +54,7 @@ void setup() {
   Serial.begin(9600);
 
   Wire.begin(NODE_ADDRESS);  // Activate I2C network
-  Wire.onRequest(requestEvent); // Request attention of master node
+  Wire.onRequest(request_event); // Request attention of master node
 
   pinMode(gearbox_pin, INPUT);
 
