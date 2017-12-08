@@ -22,7 +22,7 @@ unsigned long last_time_send_data = 0;
 
 volatile int wheel_rpm_this_window = 0;
 
-void increment_wheel_rpm() {
+void increment_wheel_rpm_isr() {
   wheel_rpm_this_window += 1;
 }
 
@@ -51,7 +51,8 @@ void setup() {
 
   pinMode(gearbox_pin, INPUT);
 
-  pinMode(rpm_pin);
+  // Attach an interrupt to rpm_pin. When it rises (low to high) it triggers increment_wheel_rpm_isr
+  pinMode(rpm_pin, INPUT);
   attachInterrupt(digitalPinToInterrupt(rpm_pin), increment_wheel_rpm_isr, RISING);
 }
 
