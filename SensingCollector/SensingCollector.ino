@@ -43,6 +43,13 @@ void send_data() {
   // Average and send
   // Unimplemented
 }
+
+void requestEvent()
+{
+  byte* payload = (byte*) & data;
+  Wire.write(payload,PAYLOAD_SIZE);
+}
+
 void setup() {
   Serial.begin(9600);
 
