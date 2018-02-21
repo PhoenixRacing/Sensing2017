@@ -1,6 +1,8 @@
 // CAN Send Example
 //
 
+const byte dataLen = 4;
+
 #include <mcp_can.h>
 #include <SPI.h>
 
@@ -17,13 +19,13 @@ void setup()
   CAN0.setMode(MCP_NORMAL);   // Change to normal mode to allow messages to be transmitted
 }
 
-byte data[8] = {0x12, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x11};
+unsigned int realData[dataLen]={10,35,27,1022};
+
 
 void loop()
 {
-  // send data:  ID = 0x101, Standard CAN Frame, Data length = 8 bytes, 'data' = array of data bytes to send
-  byte sndStat = CAN0.sendMsgBuf(0x101, 0, 8, data);
-  Serial.println(data[0]);
+  // send data:  (ID = 0x101, Standard CAN Frame, Data length in bytes, 'data' = array of data bytes to send)
+  byte sndStat = CAN0.sendMsgBuf(0x101, 0, dataLen*sizeof(int), (uint8_t*)realData);
   if(sndStat == CAN_OK){
     Serial.println("Message Sent Successfully!");
   } else {
