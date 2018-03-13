@@ -17,7 +17,7 @@
 #include <Adafruit_MAX31865.h>
 
 // Use software SPI: CS, DI, DO, CLK 
-Adafruit_MAX31865 max = Adafruit_MAX31865(10, 11, 12, 13);
+Adafruit_MAX31865 max = Adafruit_MAX31865(5, 6, 7, 8);
 // use hardware SPI, just pass in the CS pin
 //Adafruit_MAX31865 max = Adafruit_MAX31865(10);
 
