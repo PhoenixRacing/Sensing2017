@@ -165,25 +165,26 @@ unsigned long lastWriteTime = 0;
 //  unsigned int data = *((unsigned int*)payload);
 //  return data;
 //}
-
-const int wheelDia = 22;
-const int spokes = 6;
-
-unsigned int convertToRPM(unsigned int freq){
-  //RPM:
-  unsigned int RPM = freq*2;
-  return RPM;
-}
+//
+//const int wheelDia = 22;
+//const int spokes = 6;
+//
+//unsigned int convertToRPM(unsigned int freq){
+//  //RPM:
+//  unsigned int RPM = freq*2;
+//  return RPM;
+//}
 
 void writeLine(unsigned int tachData, unsigned int speedData, float cvtData, float gbData, boolean logger){
+//void writeLine(unsigned int logTach, unsigned int logSpeedo, float logCvt, float logGb, boolean logger){
   DateTime logTime = rtc.now();
   char line[36];
   char MM[4];
   char SS[4];
-  char TACH[6];
-  char SPED[6];
-  char CVTTE[7];
-  char GBTEM[7];
+  char TACH[5]; //6
+  char SPED[2]; //6
+  char CVTTE[7]; //7
+  char GBTEM[7]; //7
   char F[2];
 
   if(logger) {
@@ -199,9 +200,12 @@ void writeLine(unsigned int tachData, unsigned int speedData, float cvtData, flo
   sprintf(TACH, "%04d,", tachData);
   //Serial.println(TACH);
   //sprintf included with arduino does not handle floats, so this:
-  sprintf(SPED, "%02d.%01d,", (speedData));//, (round(getAverage(4)*10)%10)); //int(getAverage(recentData[1])), (round(getAverage(recentData[1])*10)%10));
-  sprintf(CVTTE, "%03d.%01d,", (cvtData));//, (round(getAverage(4)*10)%10)); //int(getAverage(recentData[2])), (round(getAverage(recentData[2])*10)%10));
-  sprintf(GBTEM, "%04d.%01d,", (gbData));//, (round(getAverage(4)*10)%10)); //int(getAverage(recentData[3])), (round(getAverage(recentData[3])*10)%10));
+  sprintf(SPED, "%02d,", int(speedData));//, (round(getAverage(4)*10)%10)); //int(getAverage(recentData[1])), (round(getAverage(recentData[1])*10)%10));
+  sprintf(CVTTE, "%01d.%01d,", int(cvtData), (round(cvtData*10)%10));//, (round(getAverage(4)*10)%10)); //int(getAverage(recentData[2])), (round(getAverage(recentData[2])*10)%10));
+  sprintf(GBTEM, "%01d.%01d,", int(gbData), (round(gbData*10)%10));//, (round(getAverage(4)*10)%10)); //int(getAverage(recentData[3])), (round(getAverage(recentData[3])*10)%10));
+  //Serial.println(SPED);
+  //Serial.println(CVTTE);
+  //Serial.println(GBTEM);
 
   strcat(line, MM);
   strcat(line, SS);
