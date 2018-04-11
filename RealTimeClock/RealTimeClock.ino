@@ -16,7 +16,7 @@ void setup()
   Serial.begin(9600);
   // set the initial time here:
   // DS3231 seconds, minutes, hours, day, date, month, year
-  //setDS3231time(00,23,21,3,7,11,17);
+  setDS3231time(00,35,21,5,5,4,18);
 }
 void setDS3231time(byte second, byte minute, byte hour, byte dayOfWeek, byte
 dayOfMonth, byte month, byte year)

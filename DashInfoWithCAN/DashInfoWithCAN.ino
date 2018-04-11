@@ -34,21 +34,21 @@ E 04: File creation failed
      8
    -----
  3| 2  |7
-  -----
-4| 5  |6
- -----  .1
+   -----
+ 4| 5  |6
+   -----  .1
 
 */
 
-uint8_t O = B00111111;
-uint8_t L = B00111000;
-uint8_t I = B00000110;
-uint8_t n = B01010100;
-uint8_t b = B01111100;
-uint8_t A = B01110111;
-uint8_t J = B00011110;
-uint8_t E = B01111001;
-uint8_t r = B01010000;
+#define LETTER_O B00111111
+#define LETTER_L B00111000
+#define LETTER_I B00000110
+#define LETTER_n B01010100
+#define LETTER_b B01111100
+#define LETTER_A B01110111
+#define LETTER_J B00011110
+#define LETTER_E B01111001
+#define LETTER_r B01010000
 
 RTC_DS3231 rtc;
 File logFile;
@@ -57,13 +57,13 @@ boolean logFlag = false;
 
 #define BUTTON_PIN 2 //logger button pin 2
 
-const int refreshTime = 100;
+#define REFRESH_TIME = 100;
 
-long unsigned int rxId = 0x101;
-const byte dataLen = 4;
-uint8_t rxBuf[dataLen*sizeof(int)];         //raw data from CAN
-unsigned int recentData[dataLen];             //data from CAN converted back to ints
-#define CAN0_INT 2                          // Set INT to pin 2
+//long unsigned int rxId = 0x101;
+#define DATA_LEN 4
+uint8_t rxBuf[DATA_LEN*sizeof(int)];         //raw data from CAN
+unsigned int recentData[DATA_LEN];             //data from CAN converted back to ints
+//#define CAN0_INT 2                          // Set INT to pin 2
 MCP_CAN CAN0(10);                           // Set CS to pin 10
 
 
@@ -117,14 +117,14 @@ void writeDisplays(){
 }
 
 void displayStartup(){
-  tachDisp.writeDigitRaw(0,O);
-  tachDisp.writeDigitRaw(1,L);
-  tachDisp.writeDigitRaw(3,I);
-  tachDisp.writeDigitRaw(4,n);
-  speedoDisp.writeDigitRaw(0,b);
-  speedoDisp.writeDigitRaw(1,A);
-  speedoDisp.writeDigitRaw(3,J);
-  speedoDisp.writeDigitRaw(4,A);
+  tachDisp.writeDigitRaw(0,LETTER_O);
+  tachDisp.writeDigitRaw(1,LETTER_L);
+  tachDisp.writeDigitRaw(3,LETTER_I);
+  tachDisp.writeDigitRaw(4,LETTER_n);
+  speedoDisp.writeDigitRaw(0,LETTER_b);
+  speedoDisp.writeDigitRaw(1,LETTER_A);
+  speedoDisp.writeDigitRaw(3,LETTER_J);
+  speedoDisp.writeDigitRaw(4,LETTER_A);
   cvtTempDisp.println(2017);
   gearBoxTempDisp.println(2018);
   writeDisplays();
@@ -147,85 +147,57 @@ void displayClear(){
 }
 
 void displayError(int code){
-  gearBoxTempDisp.writeDigitRaw(0,E);
-  gearBoxTempDisp.writeDigitRaw(1,r);
+  gearBoxTempDisp.writeDigitRaw(0,LETTER_E);
+  gearBoxTempDisp.writeDigitRaw(1,LETTER_r);
   gearBoxTempDisp.writeDigitNum(3,int(code/10));
   gearBoxTempDisp.writeDigitNum(4,code%10);
   gearBoxTempDisp.drawColon(1);
   writeDisplays();
 }
 
-//unsigned int recentTach;
-//float recentSpeedo;
-//float recentCvtTemp;
-//float recentGearBoxTemp;
-
-const int maxTime = 5000;
+#define WRITE_INTERVAL 5000
 
 unsigned long lastWriteTime = 0;
 
-//unsigned int receiveData(){
-//  byte payload[PAYLOAD_SIZE];
-//  for(byte i = 0; i < PAYLOAD_SIZE; i ++){
-//    payload[i] = Wire.read();
-//  }
-//  unsigned int data = *((unsigned int*)payload);
-//  return data;
-//}
-//
-//const int wheelDia = 22;
-//const int spokes = 6;
-//
-//unsigned int convertToRPM(unsigned int freq){
-//  //RPM:
-//  unsigned int RPM = freq*2;
-//  return RPM;
-//}
-
 void writeLine(unsigned int tachData, unsigned int speedData, float cvtData, float gbData, boolean logger){
-//void writeLine(unsigned int logTach, unsigned int logSpeedo, float logCvt, float logGb, boolean logger){
   DateTime logTime = rtc.now();
-  char line[40];
-  char MM[6];
-  char SS[6];
-  char TACH[5]; //6
-  char SPED[2]; //6
-  char CVTTE[7]; //7
-  char GBTEM[7]; //7
-  char F[2];
+  char line[30];
+  char MM[4];
+  char SS[4];
+  char TACH[6];
+  char SPED[4];
+  char CVTTE[6];
+  char GBTEM[6];
+  char F[3];
 
   if(logger) {
-    F[0] = "1";
+    F[0] = '1';
   }
   else {
-    F[0] ="0";
+    F[0] = '0';
   }
+  F[1] = ',';
     
   sprintf(line,"%02d:", logTime.hour());
   sprintf(MM, "%02d:", logTime.minute());
   sprintf(SS, "%02d,", logTime.second());
   sprintf(TACH, "%03d,", tachData);
-  //Serial.println(TACH);
   //sprintf included with arduino does not handle floats, so this:
-  sprintf(SPED, "%02d,", int(speedData));//, (round(getAverage(4)*10)%10)); //int(getAverage(recentData[1])), (round(getAverage(recentData[1])*10)%10));
-  sprintf(CVTTE, "%01d.%01d,", int(cvtData), (round(cvtData*10)%10));//, (round(getAverage(4)*10)%10)); //int(getAverage(recentData[2])), (round(getAverage(recentData[2])*10)%10));
-  sprintf(GBTEM, "%01d.%01d,", int(gbData), (round(gbData*10)%10));//, (round(getAverage(4)*10)%10)); //int(getAverage(recentData[3])), (round(getAverage(recentData[3])*10)%10));
-  //Serial.println(SPED);
-  //Serial.println(CVTTE);
-  //Serial.println(GBTEM);
+  sprintf(SPED, "%02d,", round(speedData));                             //, (round(getAverage(4)*10)%10)); //int(getAverage(recentData[1])), (round(getAverage(recentData[1])*10)%10));
+  sprintf(CVTTE, "%01d.%01d,", int(cvtData), (round(cvtData*10)%10));   //, (round(getAverage(4)*10)%10)); //int(getAverage(recentData[2])), (round(getAverage(recentData[2])*10)%10));
+  sprintf(GBTEM, "%01d.%01d,", int(gbData), (round(gbData*10)%10));     //, (round(getAverage(4)*10)%10)); //int(getAverage(recentData[3])), (round(getAverage(recentData[3])*10)%10));
 
   strcat(line, MM);
   strcat(line, SS);
-  //Serial.println(line);
-  //Serial.println(TACH);
   strcat(line, TACH);
-  //Serial.println(line);
   strcat(line, SPED);
   strcat(line, CVTTE);
   strcat(line, GBTEM);
-  //strcat(line, F);
+  strcat(line, F);
 
-  Serial.println(line);
+  #ifdef DEBUG
+    Serial.println(line);
+  #endif
 
   logFile = SD.open(fileName, FILE_WRITE);
   if(logFile){
@@ -237,7 +209,7 @@ void writeLine(unsigned int tachData, unsigned int speedData, float cvtData, flo
 void setup() {
 #ifdef DEBUG
   Serial.begin(9600);
-  Serial.println("Starting Dash Display and Logger...");
+  Serial.println("Starting Dash Display and Logger in Debug Mode...");
 #endif
 
   initializeDisplays();
@@ -283,7 +255,7 @@ void setup() {
 
   
   CAN0.setMode(MCP_NORMAL);                     // Set operation mode to normal so the MCP2515 sends acks to received data. //makes the Message Sent successfully on the RX side. 
-  pinMode(CAN0_INT, INPUT);                     // Configuring pin for /INT input
+  //pinMode(CAN0_INT, INPUT);                     // Configuring pin for /INT input
 
   DateTime now = rtc.now();
   char MO[3];
@@ -320,46 +292,28 @@ void loop() {
     logFlag = true;
   }
 
-//  if(true){
-//    recentData[0] = 567;
-//    recentData[1] = 234;
-//    recentData[2] = 567;
-//    recentData[3] = 132;
-//    
-//    acceptSample(&tach, recentData[0]);
-//    acceptSample(&speedo, recentData[1]);
-//    acceptSample(&cvtTemp, recentData[2]);
-//    acceptSample(&gearBoxTemp, recentData[3]);
-//  }
+  CAN0.readMsgBuf(0x101, DATA_LEN, rxBuf);
+  memcpy(recentData,rxBuf,DATA_LEN*sizeof(int));
 
-  if(!digitalRead(CAN0_INT))                    // If CAN0_INT pin is low, read receive buffer
-  { 
-    CAN0.readMsgBuf(&rxId, &dataLen, rxBuf);
-    memcpy(recentData,rxBuf,4*sizeof(int));
+  acceptSample(&tach, recentData[0]);
+  acceptSample(&speedo, recentData[1]);
+  acceptSample(&cvtTemp, recentData[2]);
+  acceptSample(&gearBoxTemp, recentData[3]);
+  
 
-    acceptSample(&tach, recentData[0]);
-    acceptSample(&speedo, recentData[1]);
-    acceptSample(&cvtTemp, recentData[2]);
-    acceptSample(&gearBoxTemp, recentData[3]);
-  }
-
-  tachDisp.println(int(getAverage(&tach)));
-  speedoDisp.println(int((getAverage(&speedo))/100));
-  cvtTempDisp.println(((getAverage(&cvtTemp))/100),1);
-  gearBoxTempDisp.println(((getAverage(&gearBoxTemp))/100),1);
+  tachDisp.println(recentData[0]);
+  speedoDisp.println(round(recentData[1]/100));
+  cvtTempDisp.println(recentData[2]/100);
+  gearBoxTempDisp.println(recentData[3]/100);
 
   writeDisplays();
 
-  if (millis() - lastWriteTime > maxTime) {
+  if (millis() - lastWriteTime > WRITE_INTERVAL) {
     unsigned int logTach = (getAverage(&tach));
-    unsigned int logSpeedo = (getAverage(&speedo))/100;
+    unsigned int logSpeedo = round((getAverage(&speedo))/100);
     float logCvt = (getAverage(&cvtTemp))/100;
     float logGb = (getAverage(&gearBoxTemp))/100;
     writeLine(logTach, logSpeedo, logCvt, logGb, logFlag);
-    Serial.println(logTach);
-    Serial.println(logSpeedo);
-    Serial.println(logCvt);
-    Serial.println(logGb);
     logFlag = false;
   #ifdef DEBUG
     Serial.println("Writing line to SD card");
@@ -370,5 +324,4 @@ void loop() {
     resetAverage(&cvtTemp);
     resetAverage(&gearBoxTemp);
   }
-  (refreshTime);
 }

@@ -84,9 +84,9 @@ Adafruit_7segment gearBoxTempDisp = Adafruit_7segment();
 
 void initializeDisplays(){
   tachDisp.begin(0x70);
-  speedoDisp.begin(0x72);
-  cvtTempDisp.begin(0x73);
-  gearBoxTempDisp.begin(0x74);
+  speedoDisp.begin(0x73);
+  cvtTempDisp.begin(0x74);
+  gearBoxTempDisp.begin(0x72);
   tachDisp.setBrightness(15);
   speedoDisp.setBrightness(15);
   cvtTempDisp.setBrightness(15);
