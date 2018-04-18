@@ -3,16 +3,8 @@
 #include <mcp_can.h> // library from: https://github.com/coryjfowler/MCP_CAN_lib
 #include <SPI.h>
 
-//#define PAYLOAD_SIZE 2 // how many bytes to expect from each I2C salve node
-//#define NODE_MAX 6 // maximum number of slave nodes (I2C addresses) to probe
-//#define START_NODE 3 // The starting I2C address of slave nodes
-//#define NODE_READ_DELAY 1000 // Some delay between I2C node reads
-
 #define RREF      430.0 //we have PT100, resistor reference 
 #define RNOMINAL  100.0 // The 'nominal' 0-degrees-C resistance of the sensor: 100.0 for PT100, 1000.0 for PT1000
-
-//int nodePayload[PAYLOAD_SIZE];
-//unsigned int realData; 
 
 MCP_CAN CAN0(10);     // Set CS to pin 10
 const byte dataLen = 4;
@@ -25,11 +17,10 @@ int potIn = A0;
 void setup()
 {
   pinMode(potIn, INPUT);
-  Serial.begin(115200);
-  Serial.println("MASTER READER NODE");
+  Serial.begin(9600);
   Wire.begin();        // Activate I2C link
 
-  Serial.println("Adafruit MAX31865 PT100 Sensor Test!");
+  //Serial.println("Adafruit MAX31865 PT100 Sensor Test!");
   //max.begin(MAX31865_3WIRE);  // set to 2WIRE or 4WIRE as necessary //begin CAN
 
   // Initialize MCP2515 running at 16MHz with a baudrate of 500kb/s and the masks and filters disabled.
@@ -39,27 +30,21 @@ void setup()
 }
 
 int potRead;
-int tach = 3000;
+//int tach = 3000;
+char c; 
 int sped = 22.3*100;
-int cvt = 56.6*100;
+int cvt = 59*100;
 int gb = 25;
-int realData[] = {tach,sped,cvt,gb};
-
+int realData[] = {c,sped,cvt,gb}; 
 void loop()
 {
-//    for (int nodeAddress = START_NODE; nodeAddress <= NODE_MAX; nodeAddress++) { // we are starting from Node address 2
-//    Wire.requestFrom(nodeAddress, PAYLOAD_SIZE);    // request data from node#
-//    if(Wire.available() == PAYLOAD_SIZE) {  // if data size is avaliable from nodes
-//      for (int i = 0; i < PAYLOAD_SIZE; i++) nodePayload[i] = Wire.read();  // get nodes data
-//      for (int j = 0; j < PAYLOAD_SIZE; j++) Serial.println(nodePayload[j]);   // print nodes data   
-//      //the data we got from the i2c is nodePayload
-//      for (int k = 0; k < PAYLOAD_SIZE; k++) realData[k] = nodePayload[k];   //pass to i2c     
-//      }
-//    }
-  //  delay(NODE_READ_DELAY);
-  potRead = analogRead(potIn);
-  realData[0] = potRead;
-  Serial.println(realData[0]);
+  Wire.requestFrom(8,5);
+  while(Wire.available()){
+    char c = Wire.read();
+    Serial.print(c);
+    realData[0] = c;
+  delay(500);  
+  }
 
   //uint16_t rtd = max.readRTD();
   //Serial.print("RTD value: "); Serial.println(rtd);
@@ -71,7 +56,7 @@ void loop()
   //unsigned int Resistance = RREF*ratio;  //changed from floats because of the warning below
   //unsigned int temp = max.temperature(RNOMINAL, RREF);
   // can we send as floats instead? 
-   //realData[dataLen]={rtd, Resistance, temp}; //from can /// warning: narrowing conversion of '(((double)ratio) * 4.3e+2)' from 'double' to 'unsigned int' inside { } [-Wnarrowing]
+  //realData[dataLen]={rtd, Resistance, temp}; //from can /// warning: narrowing conversion of '(((double)ratio) * 4.3e+2)' from 'double' to 'unsigned int' inside { } [-Wnarrowing]
 
   // send data:  (ID = 0x101, Standard CAN Frame, Data length in bytes, 'data' = array of data bytes to send)
   byte sndStat = CAN0.sendMsgBuf(0x101, 0, dataLen*sizeof(int), (uint8_t*)realData);
