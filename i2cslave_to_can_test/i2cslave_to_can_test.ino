@@ -13,7 +13,6 @@ int potIn = A0;
 const byte dataLen = 4;
 
 #include <Wire.h>
-#include <I2C_Anything.h>
 
 byte b;
 

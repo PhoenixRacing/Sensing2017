@@ -9,9 +9,9 @@
 MCP_CAN CAN0(10);     // Set CS to pin 10
 const byte dataLen = 4;
 
-//Adafruit_MAX31865 max = Adafruit_MAX31865(5, 6, 7, 8); //SPI: CS, DI, DO, CLK
+Adafruit_MAX31865 max = Adafruit_MAX31865(5, 6, 7, 8); //SPI: CS, DI, DO, CLK
 // use hardware SPI, just pass in the CS pin
-Adafruit_MAX31865 max = Adafruit_MAX31865(10);                     //feel like this shouldn't be commented out- how is this working?
+//Adafruit_MAX31865 max = Adafruit_MAX31865(10);                     //feel like this shouldn't be commented out- how is this working?
 int potIn = A0;
 
 void setup()
@@ -44,30 +44,18 @@ void loop()
   i2cdataconversion(8,5); //address 8 with 5 characters
   Serial.println(stri2c);
 
-  uint16_t rtd = max.readRTD();
-  Serial.print("RTD value: "); Serial.println(rtd);
-  float ratio = rtd;
-  ratio /= 32768;
-  Serial.print("Ratio = "); Serial.println(ratio,8);
-  Serial.print("Resistance = "); Serial.println(RREF*ratio,8);
-  Serial.print("Temperature = "); Serial.println(max.temperature(RNOMINAL, RREF));
-  unsigned int Resistance = RREF*ratio;  //changed from floats because of the warning below
-  unsigned int temp = max.temperature(RNOMINAL, RREF);
-  // can we send as floats instead? 
- // realData[dataLen]={i2cdata,rtd, Resistance, temp}; //from can /// warning: narrowing conversion of '(((double)ratio) * 4.3e+2)' from 'double' to 'unsigned int' inside { } [-Wnarrowing]
-  // send data:  (ID = 0x101, Standard CAN Frame, Data length in bytes, 'data' = array of data bytes to send)
-//  byte sndStat = CAN0.sendMsgBuf(0x101, 0, dataLen*sizeof(int), (uint8_t*)realData);
-  if(sndStat == CAN_OK){
-    Serial.println("Message Sent Successfully!");
-  } else {
-    Serial.println("Error Sending Message...");
-  }
   printArray(realData,4);
   delay(100);   // send data per 100ms
 
-  // Check and print any faults
   //rtd specific - perhaps make the fourth field in the send array the error # (aka 1 = high threshold, 2 = low threshold, etc)
   uint8_t fault = max.readFault();
+  checkFaults(fault);
+  
+  Serial.println();
+  delay(1000); 
+}
+
+void checkFaults(uint8_t fault){
   if (fault) {
     Serial.print("Fault 0x"); Serial.println(fault, HEX);
     if (fault & MAX31865_FAULT_HIGHTHRESH) {
@@ -90,21 +78,17 @@ void loop()
     }
     max.clearFault();
   }
-  Serial.println();
-  delay(1000); 
 }
-
-
 void i2cdataconversion(int address, int numChar){
   Wire.requestFrom(address,numChar);
   while(Wire.available()){
     char c = Wire.read();
-      delay(500);  
+    delay(100);  
     for (int i= 0; i<5; i++){
       for (int j = 0; j<11; j++){
         if (String(c) == String(digarray[j])){
           stri2c += String(c);  
-          Serial.println(true);
+          Serial.println("true"); //this is happening 
           }
           else{
             return ;
@@ -126,3 +110,22 @@ void printArray(int arr[], int len){ // useful for debugging
   Serial.println("}");
 }
 
+
+//  uint16_t rtd = max.readRTD();
+//  Serial.print("RTD value: "); Serial.println(rtd);
+//  float ratio = rtd;
+//  ratio /= 32768;
+//  Serial.print("Ratio = "); Serial.println(ratio,8);
+//  Serial.print("Resistance = "); Serial.println(RREF*ratio,8);
+//  Serial.print("Temperature = "); Serial.println(max.temperature(RNOMINAL, RREF));
+//  unsigned int Resistance = RREF*ratio;  //changed from floats because of the warning below
+//  unsigned int temp = max.temperature(RNOMINAL, RREF);
+  // can we send as floats instead? 
+ // realData[dataLen]={i2cdata,rtd, Resistance, temp}; //from can /// warning: narrowing conversion of '(((double)ratio) * 4.3e+2)' from 'double' to 'unsigned int' inside { } [-Wnarrowing]
+  // send data:  (ID = 0x101, Standard CAN Frame, Data length in bytes, 'data' = array of data bytes to send)
+//  byte sndStat = CAN0.sendMsgBuf(0x101, 0, dataLen*sizeof(int), (uint8_t*)realData);
+//  if(sndStat == CAN_OK){
+//    Serial.println("Message Sent Successfully!");
+//  } else {
+//    Serial.println("Error Sending Message...");
+//  }
