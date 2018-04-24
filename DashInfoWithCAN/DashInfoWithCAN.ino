@@ -57,7 +57,9 @@ boolean logFlag = false;
 
 #define BUTTON_PIN 2 //logger button pin 2
 
-#define REFRESH_TIME = 100;
+#define REFRESH_TIME 100
+
+#define ERROR_DISPLAY_TIME 500
 
 //long unsigned int rxId = 0x101;
 #define DATA_LEN 4
@@ -159,13 +161,13 @@ void displayError(int code){
 
 unsigned long lastWriteTime = 0;
 
-void writeLine(unsigned int tachData, unsigned int speedData, float cvtData, float gbData, boolean logger){
+void writeLine(unsigned int tachData, float speedData, float cvtData, float gbData, boolean logger){
   DateTime logTime = rtc.now();
-  char line[30];
+  char line[32];
   char MM[4];
   char SS[4];
   char TACH[6];
-  char SPED[4];
+  char SPED[6];
   char CVTTE[6];
   char GBTEM[6];
   char F[3];
@@ -183,9 +185,9 @@ void writeLine(unsigned int tachData, unsigned int speedData, float cvtData, flo
   sprintf(SS, "%02d,", logTime.second());
   sprintf(TACH, "%03d,", tachData);
   //sprintf included with arduino does not handle floats, so this:
-  sprintf(SPED, "%02d,", round(speedData));                             //, (round(getAverage(4)*10)%10)); //int(getAverage(recentData[1])), (round(getAverage(recentData[1])*10)%10));
-  sprintf(CVTTE, "%01d.%01d,", int(cvtData), (round(cvtData*10)%10));   //, (round(getAverage(4)*10)%10)); //int(getAverage(recentData[2])), (round(getAverage(recentData[2])*10)%10));
-  sprintf(GBTEM, "%01d.%01d,", int(gbData), (round(gbData*10)%10));     //, (round(getAverage(4)*10)%10)); //int(getAverage(recentData[3])), (round(getAverage(recentData[3])*10)%10));
+  sprintf(SPED, "%01d.%01d,", int(speedData), (round(speedData*10)%10));
+  sprintf(CVTTE, "%01d.%01d,", int(cvtData), (round(cvtData*10)%10));
+  sprintf(GBTEM, "%01d.%01d,", int(gbData), (round(gbData*10)%10));
 
   strcat(line, MM);
   strcat(line, SS);
@@ -226,7 +228,7 @@ void setup() {
     #ifdef DEBUG
       Serial.println("RTC failed initialization");
     #endif
-    delay(5000);
+    delay(ERROR_DISPLAY_TIME);
   }
 
   if (rtc.lostPower()) {
@@ -234,7 +236,7 @@ void setup() {
     #ifdef DEBUG
       Serial.println("RTC time has been lost");
     #endif
-    delay(5000);
+    delay(ERROR_DISPLAY_TIME);
   }
 
   if (!SD.begin(4)){
@@ -242,7 +244,7 @@ void setup() {
     #ifdef DEBUG
       Serial.println("SD failed initialization");
     #endif
-    delay(5000);
+    delay(ERROR_DISPLAY_TIME);
   }
 
   // Initialize MCP2515 running at 16MHz with a baudrate of 500kb/s and the masks and filters disabled.
@@ -251,7 +253,7 @@ void setup() {
     #ifdef DEBUG
       Serial.println("CAN failed initialization");
     #endif
-    delay(5000);
+    delay(ERROR_DISPLAY_TIME);
 
   
   CAN0.setMode(MCP_NORMAL);                     // Set operation mode to normal so the MCP2515 sends acks to received data. //makes the Message Sent successfully on the RX side. 
@@ -302,15 +304,15 @@ void loop() {
   
 
   tachDisp.println(recentData[0]);
-  speedoDisp.println(round(recentData[1]/100));
-  cvtTempDisp.println(recentData[2]/100);
-  gearBoxTempDisp.println(recentData[3]/100);
+  speedoDisp.printFloat((float)recentData[1]/100,1);
+  cvtTempDisp.println(round(recentData[2]/100));
+  gearBoxTempDisp.println(round(recentData[3]/100));
 
   writeDisplays();
 
   if (millis() - lastWriteTime > WRITE_INTERVAL) {
     unsigned int logTach = (getAverage(&tach));
-    unsigned int logSpeedo = round((getAverage(&speedo))/100);
+    float logSpeedo = (getAverage(&speedo))/100;
     float logCvt = (getAverage(&cvtTemp))/100;
     float logGb = (getAverage(&gearBoxTemp))/100;
     writeLine(logTach, logSpeedo, logCvt, logGb, logFlag);
