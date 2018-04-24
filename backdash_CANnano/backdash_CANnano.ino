@@ -5,6 +5,9 @@
 
 #define RREF      430.0 //we have PT100, resistor reference 
 #define RNOMINAL  100.0 // The 'nominal' 0-degrees-C resistance of the sensor: 100.0 for PT100, 1000.0 for PT1000
+#define PAYLOAD_SIZE 2 // how many bytes to expect from each I2C slave node
+#define NODE_MAX 4 // maximum number of slave nodes (I2C addresses) to probe
+#define START_NODE 8 // The starting I2C address of slave nodes
 
 MCP_CAN CAN0(10);     // Set CS to pin 10
 const byte dataLen = 4;
@@ -12,11 +15,9 @@ const byte dataLen = 4;
 Adafruit_MAX31865 max = Adafruit_MAX31865(5, 6, 7, 8); //SPI: CS, DI, DO, CLK
 // use hardware SPI, just pass in the CS pin
 //Adafruit_MAX31865 max = Adafruit_MAX31865(10);                     //feel like this shouldn't be commented out- how is this working?
-int potIn = A0;
 
 void setup()
 {
-  pinMode(potIn, INPUT);
   Serial.begin(9600);
   Wire.begin();        // Activate I2C link
 
@@ -39,20 +40,13 @@ String stri2c = " ";
 //int digarray[] = {'0','1','2','3','4','5','6','7','8','9'};
 int digarray[] = {0,1,2,3,4,5,6,7,8,9};
 
-void loop()
-{
-  i2cdataconversion(8,5); //address 8 with 5 characters
-  Serial.println(stri2c);
-
-  printArray(realData,4);
-  delay(100);   // send data per 100ms
-
-  //rtd specific - perhaps make the fourth field in the send array the error # (aka 1 = high threshold, 2 = low threshold, etc)
-  uint8_t fault = max.readFault();
-  checkFaults(fault);
-  
-  Serial.println();
-  delay(1000); 
+unsigned int receiveData(){
+    byte payload[PAYLOAD_SIZE];
+    for(byte i = 0; i < PAYLOAD_SIZE; i ++){
+    payload[i] = Wire.read();
+  }
+  unsigned int data = *((unsigned int*)payload);
+  return data;
 }
 
 void checkFaults(uint8_t fault){
@@ -79,22 +73,24 @@ void checkFaults(uint8_t fault){
     max.clearFault();
   }
 }
+
 void i2cdataconversion(int address, int numChar){
   Wire.requestFrom(address,numChar);
   while(Wire.available()){
-    char c = Wire.read();
+    byte b = Wire.read();
     delay(100);  
-    for (int i= 0; i<5; i++){
-      for (int j = 0; j<11; j++){
-        if (String(c) == String(digarray[j])){
-          stri2c += String(c);  
-          Serial.println("true"); //this is happening 
-          }
-          else{
-            return ;
-           }
-        }
-      }
+    
+//    for (int i= 0; i<5; i++){
+//      for (int j = 0; j<11; j++){
+//        if (String(c) == String(digarray[j])){
+//          stri2c += String(c);  
+//          Serial.println("true"); //this is happening 
+//          }
+//          else{
+//            return ;
+//           }
+//        }
+//      }
   }
   return stri2c; 
 }
@@ -108,6 +104,20 @@ void printArray(int arr[], int len){ // useful for debugging
   }
   Serial.print(arr[len - 1]);
   Serial.println("}");
+}
+
+void loop()
+{
+  delay(100);   // send data per 100ms
+  unsigned int data = receiveData();
+  Serial.println(data);
+  //rtd specific - perhaps make the fourth field in the send array the error # (aka 1 = high threshold, 2 = low threshold, etc)
+  uint8_t fault = max.readFault();
+  checkFaults(fault);
+  realData[0] = data; 
+  printArray(realData,4);
+  Serial.println();
+  delay(1000); 
 }
 
 
