@@ -1,6 +1,5 @@
-#include <Adafruit_MAX31865.h>
 #include <Wire.h>
-// Use software SPI: CS, DI, DO, CLK
+#include <Adafruit_MAX31865.h>
 
 #define RREF  430.0 
 #define RNOMINAL  100.0 
@@ -10,25 +9,23 @@
 unsigned int data; //store recent data globally so it can be sent whenever master node requests it
 Adafruit_MAX31865 max = Adafruit_MAX31865(8, 11, 12, 13);
 
+
+void requestEvent(){ //This function is called like an interrupt whenever master node calls requestFrom(NODE_ADDRESS)
+  byte* payload = (byte*) & data; //important conversion from unsigned int to byte array
+  Wire.write(payload, PAYLOAD_SIZE);
+}
+
 void setup() {
-  // put your setup code here, to run once:
-// use hardware SPI, just pass in the CS pin
-Serial.begin(9600);
-max.begin(MAX31865_3WIRE);
-Wire.begin(NODE_ADDRESS);  // Activate I2C network
+  Serial.begin(9600);
+  Wire.begin(NODE_ADDRESS);  // Activate I2C network
+  max.begin(MAX31865_3WIRE);
+  Wire.onRequest(requestEvent); // call requestEvent() whenever master node asks for data
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-uint16_t  rtd = max.readRTD();
-  float ratio = rtd;
-  ratio /= 32768;
-  float temp =max.temperature(100, RREF);
- // Serial.print("Temperature = "); Serial.println(max.temperature(100,RREF));
- data = temp ; //max.temperature(100,RREF); // all that happens in loop() is updating the globals where the data is stored. There is no send() function
+   data = max.temperature(100,RREF); // all that happens in loop() is updating the globals where the data is stored. There is no send() function
   Serial.print(data);
-  max.readFault();
-  // Check and print any faults
+uint16_t  rtd = max.readRTD();
   uint8_t fault = max.readFault();
   if (fault) {
     Serial.print("Fault 0x"); Serial.println(fault, HEX);
@@ -52,10 +49,4 @@ uint16_t  rtd = max.readRTD();
     }
     max.clearFault();
   }
-}
-
-void requestEvent(){ //This function is called like an interrupt whenever master node calls requestFrom(NODE_ADDRESS)
-  byte* payload = (byte*) & data; //important conversion from unsigned int to byte array
-  Wire.write(payload, PAYLOAD_SIZE);
-  Serial.println("requested");
 }
