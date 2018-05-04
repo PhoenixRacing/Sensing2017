@@ -9,8 +9,8 @@
  *               AT REAR | AT DASH | DISPLAY
  * Wheel Speed | *100    | /100    | 0-40mph
  * Tach        | *1      | *1      | 1000-4000
- * GB Temp     | *100    | /100    | 10-120 C
- * CVT Temp    | *100    | /100    | 10-120 C
+ * GB Temp     | *1      | *1      | 10-120 C
+ * CVT Temp    | *1      | *1      | 10-120 C
  */
 
 //#define DEBUG
@@ -54,6 +54,12 @@ RTC_DS3231 rtc;
 File logFile;
 char fileName[13];
 boolean logFlag = false;
+
+
+#define SPEEDO_POS 0
+#define TACH_POS 1
+#define CVT_POS 2
+#define GEARBOX_POS 3
 
 #define BUTTON_PIN 2 //logger button pin 2
 
@@ -101,8 +107,8 @@ Adafruit_7segment cvtTempDisp = Adafruit_7segment();
 Adafruit_7segment gearBoxTempDisp = Adafruit_7segment();
 
 void initializeDisplays(){
-  tachDisp.begin(0x70);
-  speedoDisp.begin(0x73);
+  tachDisp.begin(0x73);
+  speedoDisp.begin(0x70);
   cvtTempDisp.begin(0x74);
   gearBoxTempDisp.begin(0x72);
   tachDisp.setBrightness(15);
@@ -119,14 +125,14 @@ void writeDisplays(){
 }
 
 void displayStartup(){
-  tachDisp.writeDigitRaw(0,LETTER_O);
-  tachDisp.writeDigitRaw(1,LETTER_L);
-  tachDisp.writeDigitRaw(3,LETTER_I);
-  tachDisp.writeDigitRaw(4,LETTER_n);
-  speedoDisp.writeDigitRaw(0,LETTER_b);
-  speedoDisp.writeDigitRaw(1,LETTER_A);
-  speedoDisp.writeDigitRaw(3,LETTER_J);
-  speedoDisp.writeDigitRaw(4,LETTER_A);
+  speedoDisp.writeDigitRaw(0,LETTER_O);
+  speedoDisp.writeDigitRaw(1,LETTER_L);
+  speedoDisp.writeDigitRaw(3,LETTER_I);
+  speedoDisp.writeDigitRaw(4,LETTER_n);
+  tachDisp.writeDigitRaw(0,LETTER_b);
+  tachDisp.writeDigitRaw(1,LETTER_A);
+  tachDisp.writeDigitRaw(3,LETTER_J);
+  tachDisp.writeDigitRaw(4,LETTER_A);
   cvtTempDisp.println(2017);
   gearBoxTempDisp.println(2018);
   writeDisplays();
@@ -161,15 +167,15 @@ void displayError(int code){
 
 unsigned long lastWriteTime = 0;
 
-void writeLine(unsigned int tachData, float speedData, float cvtData, float gbData, boolean logger){
+void writeLine(unsigned int tachData, float speedData, unsigned int cvtData, unsigned int gbData, boolean logger){
   DateTime logTime = rtc.now();
-  char line[32];
+  char line[27];
   char MM[4];
   char SS[4];
-  char TACH[6];
   char SPED[6];
-  char CVTTE[6];
-  char GBTEM[6];
+  char TACH[6];
+  char CVT[5];
+  char GBT[5];
   char F[3];
 
   if(logger) {
@@ -183,18 +189,18 @@ void writeLine(unsigned int tachData, float speedData, float cvtData, float gbDa
   sprintf(line,"%02d:", logTime.hour());
   sprintf(MM, "%02d:", logTime.minute());
   sprintf(SS, "%02d,", logTime.second());
-  sprintf(TACH, "%03d,", tachData);
   //sprintf included with arduino does not handle floats, so this:
-  sprintf(SPED, "%01d.%01d,", int(speedData), (round(speedData*10)%10));
-  sprintf(CVTTE, "%01d.%01d,", int(cvtData), (round(cvtData*10)%10));
-  sprintf(GBTEM, "%01d.%01d,", int(gbData), (round(gbData*10)%10));
+  sprintf(SPED, "%02d.%01d,", int(speedData), (round(speedData*10)%10));
+  sprintf(TACH, "%04d,", tachData);
+  sprintf(CVT, "%03d,", round(cvtData));
+  sprintf(GBT, "%03d,", round(gbData));
 
   strcat(line, MM);
   strcat(line, SS);
-  strcat(line, TACH);
   strcat(line, SPED);
-  strcat(line, CVTTE);
-  strcat(line, GBTEM);
+  strcat(line, TACH);
+  strcat(line, CVT);
+  strcat(line, GBT);
   strcat(line, F);
 
   #ifdef DEBUG
@@ -297,24 +303,24 @@ void loop() {
   CAN0.readMsgBuf(0x101, DATA_LEN, rxBuf);
   memcpy(recentData,rxBuf,DATA_LEN*sizeof(int));
 
-  acceptSample(&tach, recentData[0]);
-  acceptSample(&speedo, recentData[1]);
-  acceptSample(&cvtTemp, recentData[2]);
-  acceptSample(&gearBoxTemp, recentData[3]);
+  acceptSample(&tach, recentData[TACH_POS]);
+  acceptSample(&speedo, recentData[SPEEDO_POS]);
+  acceptSample(&cvtTemp, recentData[CVT_POS]);
+  acceptSample(&gearBoxTemp, recentData[GEARBOX_POS]);
   
 
-  tachDisp.println(recentData[0]);
-  speedoDisp.printFloat((float)recentData[1]/100,1);
-  cvtTempDisp.println(round(recentData[2]/100));
-  gearBoxTempDisp.println(round(recentData[3]/100));
+  speedoDisp.printFloat((float)recentData[SPEEDO_POS]/100,1);
+  tachDisp.println(recentData[TACH_POS]);
+  cvtTempDisp.println(recentData[CVT_POS]);
+  gearBoxTempDisp.println(recentData[GEARBOX_POS]);
 
   writeDisplays();
 
   if (millis() - lastWriteTime > WRITE_INTERVAL) {
     unsigned int logTach = (getAverage(&tach));
     float logSpeedo = (getAverage(&speedo))/100;
-    float logCvt = (getAverage(&cvtTemp))/100;
-    float logGb = (getAverage(&gearBoxTemp))/100;
+    unsigned int logCvt = (getAverage(&cvtTemp));
+    unsigned int logGb = (getAverage(&gearBoxTemp));
     writeLine(logTach, logSpeedo, logCvt, logGb, logFlag);
     logFlag = false;
   #ifdef DEBUG

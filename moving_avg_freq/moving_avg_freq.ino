@@ -8,7 +8,7 @@ extern "C"{
 #define PIN_1 A0
 #define BUFF1_LEN 15
 
-const int threshold = 700;
+const int threshold = 500;
 const unsigned int debounce = 400;
 unsigned long lastTime;
 
@@ -22,23 +22,26 @@ void setup() {
 }
 
 void loop() {
+  for(int i = 0; i < 100; i ++){
     unsigned long revTime;
   if((analogRead(PIN_1) > threshold) && ((micros() - lastTime) > debounce)){
     revTime = micros() - lastTime;
     lastTime = micros();
     //Serial.println(revTime);
-    unsigned int freq = convertUnits(revTime);
+    unsigned int freq = convertRPM(revTime);
    //Serial.println(freq);
     add_data_point(buff1, freq);
-    
-    Serial.println(get_avg(buff1));
   }
-//  else{
-//    Serial.println("Not");
-//    }
+  }
+  Serial.println(get_avg(buff1));
 }
 
-unsigned int convertUnits(unsigned long input){
+unsigned int convertFreq(unsigned long input){
    unsigned int freq = (1000000)/input;
+  return freq;
+}
+
+unsigned int convertRPM(unsigned long input){
+   unsigned int freq = (2*60*1000000)/input;
   return freq;
 }
