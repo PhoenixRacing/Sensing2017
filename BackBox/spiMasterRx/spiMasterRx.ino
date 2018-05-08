@@ -5,9 +5,11 @@
 #include <Wire.h>
 #include <mcp_can.h>
 #include <SPI.h>
+#include <Adafruit_MLX90614.h>
 
 #define TACH_NODE 3
 #define SPEEDO_RTD_NODE 2
+#define IR_NODE 90
 
 #define SPEEDO_POS 0
 #define TACH_POS 1
@@ -15,12 +17,12 @@
 #define GEARBOX_POS 3
 
 #define PAYLOAD_SIZE 2 // how many bytes to expect for each data point from each I2C slave node
-
-
 #define DATA_LEN 4
-
+const int refreshRate = 500;
 MCP_CAN CAN0(10);     // Set CS to pin 10
+unsigned int irdata;
 
+Adafruit_MLX90614 mlx = Adafruit_MLX90614(); //for the IR temp sensor
 
 void setup() {
   
@@ -45,12 +47,13 @@ void setup() {
   CAN0.setMode(MCP_NORMAL);
   
   Wire.begin();
+  mlx.begin();  
 }
 
 unsigned int realData[] = {0, 0, 0, 0}; //{tach,sped,cvt,gb}
 
 void loop() {
-  
+
   Wire.requestFrom(TACH_NODE, PAYLOAD_SIZE);//update tach
   if (Wire.available()) { // if data size is avaliable from node
     realData[TACH_POS] = receiveData();
@@ -78,13 +81,17 @@ void loop() {
     #endif
   }
   
-  //update CVT Temp here:
-  realData[CVT_POS] = 1;
+  irdata = mlx.readObjectTempC();
+
+  Wire.requestFrom(IR_NODE, PAYLOAD_SIZE); //update IR temp sensor 
+  if (Wire.available()){
+  realData[CVT_POS] = irdata;
   #ifdef DEBUG
     Serial.print("CVT:\t");
     Serial.println(realData[CVT_POS]);
   #endif
-
+  }
+  
   byte sndStat = CAN0.sendMsgBuf(0x101, 0, DATA_LEN*sizeof(int), (uint8_t*)realData); //this sends the whole realData array
   #ifdef DEBUG
     if(sndStat == CAN_OK){
