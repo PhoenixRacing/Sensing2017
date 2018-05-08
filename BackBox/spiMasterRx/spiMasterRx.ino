@@ -20,7 +20,6 @@
 #define DATA_LEN 4
 const int refreshRate = 500;
 MCP_CAN CAN0(10);     // Set CS to pin 10
-unsigned int irdata;
 
 Adafruit_MLX90614 mlx = Adafruit_MLX90614(); //for the IR temp sensor
 
@@ -80,17 +79,13 @@ void loop() {
       Serial.println(realData[GEARBOX_POS]);
     #endif
   }
-  
-  irdata = mlx.readObjectTempC();
 
-  Wire.requestFrom(IR_NODE, PAYLOAD_SIZE); //update IR temp sensor 
-  if (Wire.available()){
-  realData[CVT_POS] = irdata;
+  ////// IR sensor sending
+  realData[CVT_POS] = round(mlx.readObjectTempC());
   #ifdef DEBUG
     Serial.print("CVT:\t");
     Serial.println(realData[CVT_POS]);
   #endif
-  }
   
   byte sndStat = CAN0.sendMsgBuf(0x101, 0, DATA_LEN*sizeof(int), (uint8_t*)realData); //this sends the whole realData array
   #ifdef DEBUG
