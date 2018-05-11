@@ -301,7 +301,7 @@ void loop() {
   acceptSample(&speedo, recentData[1]);
   acceptSample(&cvtTemp, recentData[2]);
   acceptSample(&gearBoxTemp, recentData[3]);
-  
+  //Serial.println(realData[0]);
 
   tachDisp.println(recentData[0]);
   speedoDisp.printFloat((float)recentData[1]/100,1);

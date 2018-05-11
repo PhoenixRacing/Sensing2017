@@ -1,7 +1,5 @@
-// Program: I2C slave sender template for multi-node Arduino I2C network
-// Programmer: Hazim Bitar (techbitar.com)
-// Date: March 30, 2014
-// This example code is in the public domain.
+const int out = 13;
+const int highTime = 15;
 
 #include <Wire.h>
 
@@ -10,8 +8,9 @@
 
 byte nodePayload[PAYLOAD_SIZE];
 
-void setup()
-{
+void setup(){
+  Serial.begin(9600);
+  pinMode(out, OUTPUT);
 
   Serial.begin(9600);
   Serial.println("SLAVE SENDER NODE");
@@ -25,12 +24,20 @@ void setup()
   Wire.onRequest(requestEvent); // Request attention of master node
 }
 
-void loop()
-{
+void loop(){
+  int val = analogRead(0);
+  int freq = map(val, 0, 1023, 5, 50);
+  Serial.println(freq);
+  digitalWrite(out, HIGH);
+  delay(highTime);
+  digitalWrite(out, LOW);
+  int delayTime = 1000/freq - highTime;
+  delay(delayTime);
+
   delay(100);
   nodePayload[0] = NODE_ADDRESS; // I am sending Node address back.  Replace with any other data
   nodePayload[1] = analogRead(A0)/4; // Read A0 and fit into 1 byte. Replace this line with your sensor value
-
+  //Serial.readBytes(nodePayload(PAYLOAD_SIZE, [1]);
 }
 
 void requestEvent()
@@ -39,5 +46,3 @@ void requestEvent()
   Serial.print("Sensor value: ");  // for debugging purposes.
   Serial.println(nodePayload[1]); // for debugging purposes.
 }
-
-

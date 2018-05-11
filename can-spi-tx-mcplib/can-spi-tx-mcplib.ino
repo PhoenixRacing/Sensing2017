@@ -31,7 +31,7 @@ void loop()
 {
   // send data:  (ID = 0x101, Standard CAN Frame, Data length in bytes, 'data' = array of data bytes to send)
 
-  realData[0] = analogRead(0);
+  realData[0] = 52;//analogRead(0);
     
   byte sndStat = CAN0.sendMsgBuf(0x101, 0, dataLen*sizeof(int), (uint8_t*)realData);
   if(sndStat == CAN_OK){

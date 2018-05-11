@@ -13,7 +13,7 @@
  * CVT Temp    | *100    | /100    | 10-120 C
  */
 
-#define DEBUG
+//#define DEBUG
 
 /*ERROR CODES:
 E 01: RTC failed initialization
@@ -28,6 +28,7 @@ E 04: File creation failed
 #include "RTClib.h"
 #include <SPI.h>
 #include <SD.h>
+#include <mcp_can.h>
 /* Display segment layout:
 
      8
@@ -58,6 +59,14 @@ boolean logFlag = false;
 
 const int refreshTime = 100;
 
+long unsigned int rxId = 0x101;
+const byte dataLen = 4;
+uint8_t rxBuf[dataLen*sizeof(int)];         //raw data from CAN
+unsigned int recentData[dataLen];             //data from CAN converted back to ints
+#define CAN0_INT 2                          // Set INT to pin 2
+MCP_CAN CAN0(10);                           // Set CS to pin 10
+
+
 typedef struct {
   float sum;
   int count;
@@ -67,8 +76,6 @@ average_data tach;
 average_data speedo;
 average_data cvtTemp;
 average_data gearBoxTemp;
-
-unsigned int recentData[4];
 
 void acceptSample(average_data *avg, float data) {
   avg -> sum += data;
@@ -93,9 +100,9 @@ Adafruit_7segment gearBoxTempDisp = Adafruit_7segment();
 
 void initializeDisplays(){
   tachDisp.begin(0x70);
-  speedoDisp.begin(0x72);
-  cvtTempDisp.begin(0x73);
-  gearBoxTempDisp.begin(0x74);
+  speedoDisp.begin(0x73);
+  cvtTempDisp.begin(0x74);
+  gearBoxTempDisp.begin(0x72);
   tachDisp.setBrightness(15);
   speedoDisp.setBrightness(15);
   cvtTempDisp.setBrightness(15);
@@ -178,9 +185,9 @@ unsigned long lastWriteTime = 0;
 void writeLine(unsigned int tachData, unsigned int speedData, float cvtData, float gbData, boolean logger){
 //void writeLine(unsigned int logTach, unsigned int logSpeedo, float logCvt, float logGb, boolean logger){
   DateTime logTime = rtc.now();
-  char line[36];
-  char MM[4];
-  char SS[4];
+  char line[40];
+  char MM[6];
+  char SS[6];
   char TACH[5]; //6
   char SPED[2]; //6
   char CVTTE[7]; //7
@@ -194,10 +201,10 @@ void writeLine(unsigned int tachData, unsigned int speedData, float cvtData, flo
     F[0] ="0";
   }
     
-  sprintf(line, "%02d:", logTime.hour());
+  sprintf(line,"%02d:", logTime.hour());
   sprintf(MM, "%02d:", logTime.minute());
   sprintf(SS, "%02d,", logTime.second());
-  sprintf(TACH, "%04d,", tachData);
+  sprintf(TACH, "%03d,", tachData);
   //Serial.println(TACH);
   //sprintf included with arduino does not handle floats, so this:
   sprintf(SPED, "%02d,", int(speedData));//, (round(getAverage(4)*10)%10)); //int(getAverage(recentData[1])), (round(getAverage(recentData[1])*10)%10));
@@ -266,6 +273,18 @@ void setup() {
     delay(5000);
   }
 
+  // Initialize MCP2515 running at 16MHz with a baudrate of 500kb/s and the masks and filters disabled.
+  if(!CAN0.begin(MCP_ANY, CAN_500KBPS, MCP_16MHZ) == CAN_OK)
+    displayError(4);
+    #ifdef DEBUG
+      Serial.println("CAN failed initialization");
+    #endif
+    delay(5000);
+
+  
+  CAN0.setMode(MCP_NORMAL);                     // Set operation mode to normal so the MCP2515 sends acks to received data. //makes the Message Sent successfully on the RX side. 
+  pinMode(CAN0_INT, INPUT);                     // Configuring pin for /INT input
+
   DateTime now = rtc.now();
   char MO[3];
   char DD[3];
@@ -301,12 +320,23 @@ void loop() {
     logFlag = true;
   }
 
-  if(true){
-    recentData[0] = 567;
-    recentData[1] = 234;
-    recentData[2] = 567;
-    recentData[3] = 132;
-    
+//  if(true){
+//    recentData[0] = 567;
+//    recentData[1] = 234;
+//    recentData[2] = 567;
+//    recentData[3] = 132;
+//    
+//    acceptSample(&tach, recentData[0]);
+//    acceptSample(&speedo, recentData[1]);
+//    acceptSample(&cvtTemp, recentData[2]);
+//    acceptSample(&gearBoxTemp, recentData[3]);
+//  }
+
+  if(!digitalRead(CAN0_INT))                    // If CAN0_INT pin is low, read receive buffer
+  { 
+    CAN0.readMsgBuf(&rxId, &dataLen, rxBuf);
+    memcpy(recentData,rxBuf,4*sizeof(int));
+
     acceptSample(&tach, recentData[0]);
     acceptSample(&speedo, recentData[1]);
     acceptSample(&cvtTemp, recentData[2]);
