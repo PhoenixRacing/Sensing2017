@@ -4,14 +4,46 @@
 
 #define DEBUG
 
-#define RREF  430.0 
-#define RNOMINAL  100.0 
+#define RREF  430.0
+#define RNOMINAL  100.0
 #define NODE_ADDRESS 2 // Change this unique address for each I2C slave node
-#define PAYLOAD_SIZE 4 // Number of bytes  expected to be received by the master I2C node
-
-unsigned int tempdata; //[] = {0,0}; //store recent data globally so it can be sent whenever master node requests it
-unsigned int speeddata;
+#define PAYLOAD_SIZE 2 // Number of pieces of information to send
+unsigned int data[] = {0,0}; //store recent data globally so it can be sent whenever master node requests it
 Adafruit_MAX31865 max = Adafruit_MAX31865(8, 11, 12, 13);
+
+#ifdef __cplusplus
+extern "C"{
+  #endif
+  #include <moving.h>
+  #ifdef __cplusplus
+} ;
+#endif
+#define PIN_1 A0
+#define BUFF1_LEN 10
+
+#define THRESHOLD 700
+#define DEBOUNCE 15000 //(us) this is calculated, a little lower than the wavelength of our highest frequency
+#define MAXTIME 400000 //wavelength of lowest measurable frequency
+#define CONVERTER 29750*22 //wheel diameter is 22"
+unsigned long lastTime;
+
+cyclical_buffer * buff1;
+
+unsigned int convertMPH(unsigned long input){
+  if(input<=DEBOUNCE+1000){
+    return 9999;
+  }
+  if(input>=MAXTIME){
+    return 0;
+  }
+  unsigned int MPH = CONVERTER/input;
+  return MPH;
+}
+
+unsigned int convertHz(unsigned long input){
+  unsigned int Hz = (1000000)/input;
+  return Hz;
+}
 
 void setup() {
 #ifdef DEBUG
@@ -21,20 +53,58 @@ Serial.println("Starting Wheel Speed and Gearbox Temperature Node in Debugging M
 max.begin(MAX31865_3WIRE);
 Wire.begin(NODE_ADDRESS);  // Activate I2C network
 Wire.onRequest(requestEvent); // call requestEvent() whenever master node asks for data
+
+buff1 = create_buffer(BUFF1_LEN);
+lastTime = micros();
 }
 
 void loop() {
-
   updateTemp();
+<<<<<<< HEAD
   //actually update speed here
   delay(100);
+=======
+
+  unsigned long revTime;
+  if((analogRead(PIN_1) > THRESHOLD) && ((micros() - lastTime) > DEBOUNCE)){
+    revTime = micros() - lastTime;
+    lastTime = micros();
+    unsigned int mph = convertMPH(revTime);
+    #ifdef DEBUG
+    Serial.print(mph);
+    Serial.print(" MPH | \t");
+    Serial.print(convertHz(revTime));
+    Serial.println(" Hz");
+    #endif
+    add_data_point(buff1, mph);
+    data[0] = get_avg(buff1);
+  }
+  if((micros() - lastTime) > MAXTIME){
+    data[0] = 0;
+    buff1 = create_buffer(BUFF1_LEN);
+  }
+
+
+>>>>>>> fb9c4c7e7b4180212bbd0943245a2f44af648bc7
 }
+//
+//void requestEvent(){ //This function is called like an interrupt whenever master node calls requestFrom(NODE_ADDRESS)
+//   byte* payload = (byte*) & data[1]; //important conversion from unsigned int to byte array
+//   Wire.write(payload, PAYLOAD_SIZE);
+//   #ifdef DEBUG
+//   Serial.print((byte)payload[0]);
+//   Serial.print("|");
+//   Serial.println((byte)payload[1]);
+//   Serial.println("requested");
+//  #endif
+//}
 
 void requestEvent(){ //This function is called like an interrupt whenever master node calls requestFrom(NODE_ADDRESS)
+<<<<<<< HEAD
    byte payload[4];
    payload[0] = tempdata;
    payload[1] = tempdata >>8;
-   payload[2] = speeddata; 
+   payload[2] = speeddata;
    payload[3] = speeddata >> 8;
    //byte* payload = (byte*) & data[1]; //important conversion from unsigned int to byte array
    Wire.write(payload, PAYLOAD_SIZE);
@@ -43,44 +113,20 @@ void requestEvent(){ //This function is called like an interrupt whenever master
 //   Serial.print("|");
 //   Serial.println((byte)payload[1]);
 //   Serial.println("requested");
-//  #endif 
-}
-
-//void requestEvent(){ //This function is called like an interrupt whenever master node calls requestFrom(NODE_ADDRESS)
-//  //send speed
-//  byte* payload1 = (byte*) & data[0];
-//  Serial.print((byte)payload1[0]);
-//  Serial.print("|");
-//  Serial.println((byte)payload1[1]);
-//   
-//  byte* payload2 = (byte*) & data[1];
-//  Serial.print((byte)payload2[0]);
-//  Serial.print("|");
-//  Serial.println((byte)payload2[1]);
-//  
-//  byte* payload[PAYLOAD_SIZE*2];
-//  payload[0] = payload1[0];
-//  payload[1] = payload1[1];
-//  payload[2] = payload2[0];
-//  payload[3] = payload2[1];
-//  
-//  //memcpy(payload, payload1, PAYLOAD_SIZE);
-//  //memcpy(payload+PAYLOAD_SIZE, payload2, PAYLOAD_SIZE);
-//  
-//  Serial.print((byte)payload[0]);
-//  Serial.print("|");
-//  Serial.print((byte)payload[1]);
-//  Serial.print("|");
-//  Serial.print((byte)payload[2]);
-//  Serial.print("|");
-//  Serial.println((byte)payload[3]);
-//  
-//  Wire.write((byte*)payload, PAYLOAD_SIZE*2);
-//  
-//  #ifdef DEBUG
-//  Serial.println("requested");
 //  #endif
-//}
+=======
+  //send speed
+  byte* payload1 = (byte*) & data[0];
+  Wire.write(payload1, PAYLOAD_SIZE);
+
+  byte* payload2 = (byte*) & data[1];
+  Wire.write(payload2, PAYLOAD_SIZE);
+
+  #ifdef DEBUG
+  Serial.println("requested");
+  #endif
+>>>>>>> fb9c4c7e7b4180212bbd0943245a2f44af648bc7
+}
 
 void updateTemp(){
   uint16_t  rtd = max.readRTD();
@@ -91,8 +137,12 @@ void updateTemp(){
   #ifdef DEBUG
   //Serial.print("temp: ");
   //Serial.println(data[1]);
+<<<<<<< HEAD
   //checkRTDFault();
-  #endif 
+=======
+  checkRTDFault();
+>>>>>>> fb9c4c7e7b4180212bbd0943245a2f44af648bc7
+  #endif
 }
 
 void checkRTDFault(){
@@ -100,25 +150,23 @@ void checkRTDFault(){
   if (fault) {
     Serial.print("Fault 0x"); Serial.println(fault, HEX);
     if (fault & MAX31865_FAULT_HIGHTHRESH) {
-      Serial.println("RTD High Threshold"); 
+      Serial.println("RTD High Threshold");
     }
     if (fault & MAX31865_FAULT_LOWTHRESH) {
-      Serial.println("RTD Low Threshold"); 
+      Serial.println("RTD Low Threshold");
     }
     if (fault & MAX31865_FAULT_REFINLOW) {
-      Serial.println("REFIN- > 0.85 x Bias"); 
+      Serial.println("REFIN- > 0.85 x Bias");
     }
     if (fault & MAX31865_FAULT_REFINHIGH) {
-      Serial.println("REFIN- < 0.85 x Bias - FORCE- open"); 
+      Serial.println("REFIN- < 0.85 x Bias - FORCE- open");
     }
     if (fault & MAX31865_FAULT_RTDINLOW) {
-      Serial.println("RTDIN- < 0.85 x Bias - FORCE- open"); 
+      Serial.println("RTDIN- < 0.85 x Bias - FORCE- open");
     }
     if (fault & MAX31865_FAULT_OVUV) {
-      Serial.println("Under/Over voltage"); 
+      Serial.println("Under/Over voltage");
     }
     max.clearFault();
   }
 }
-
-

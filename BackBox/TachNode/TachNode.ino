@@ -2,7 +2,7 @@
 #define NODE_ADDRESS 3 // Change this unique address for each I2C slave node
 #define PAYLOAD_SIZE 2 // Number of bytes  expected to be received by the master I2C node
 
-//#define DEBUG
+#define DEBUG
 
 #ifdef __cplusplus
 extern "C"{
@@ -15,7 +15,7 @@ extern "C"{
 #define BUFF1_LEN 10
 
 #define THRESHOLD 700
-#define DEBOUNCE 20000 //(us) this is calculated, a little lower than the wavelength of our highest frequency 
+#define DEBOUNCE 175000 //(us) this is calculated, a little lower than the wavelength of our highest frequency 
 #define MAXTIME 240000 //wavelength of lowest measurable frequency
 unsigned long lastTime;
 
