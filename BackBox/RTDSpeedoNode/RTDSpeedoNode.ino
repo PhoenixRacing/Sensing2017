@@ -4,8 +4,8 @@
 
 #define DEBUG
 
-#define RREF  430.0 
-#define RNOMINAL  100.0 
+#define RREF  430.0
+#define RNOMINAL  100.0
 #define NODE_ADDRESS 2 // Change this unique address for each I2C slave node
 #define PAYLOAD_SIZE 2 // Number of pieces of information to send
 unsigned int data[] = {0,0}; //store recent data globally so it can be sent whenever master node requests it
@@ -22,10 +22,12 @@ extern "C"{
 #define BUFF1_LEN 10
 
 #define THRESHOLD 700
-#define DEBOUNCE 15000 //(us) this is calculated, a little lower than the wavelength of our highest frequency 
-#define MAXTIME 400000 //wavelength of lowest measurable frequency
+
+#define MAXTIME 400000 //
 #define CONVERTER 29750*22 //wheel diameter is 22"
 unsigned long lastTime;
+unsigned float lastfreqmeasurement = 0.6; //start with the frequency for going at 5MPH
+unsigned long DEBOUNCE =800000;
 
 cyclical_buffer * buff1;
 
@@ -53,14 +55,22 @@ Serial.println("Starting Wheel Speed and Gearbox Temperature Node in Debugging M
 max.begin(MAX31865_3WIRE);
 Wire.begin(NODE_ADDRESS);  // Activate I2C network
 Wire.onRequest(requestEvent); // call requestEvent() whenever master node asks for data
-
 buff1 = create_buffer(BUFF1_LEN);
 lastTime = micros();
 }
 
 void loop() {
   updateTemp();
-  
+  /* Ok so for variable debouncing for wheel speed:
+   Expect 0.6-10Hz in frequency measurement based on 22in diameter wheels and 5-40mph.
+   If we take measurements twice per wheel rotation, add in a factor of 2! we do not account for that
+   Considering that the time between frequency measurements would be 1/freq
+   and we want to debounce something that's ... about half of that time
+   We're changing debounce based on the lastfreqmeasurement, considering it won't go all over the place
+   And then doing 1/freqmeasured * 1000000 to get into microseconds
+   And then *1/2 to get the amount of debounce time we want to be reasonable, based on
+   the previous frequency measurement. */
+  DEBOUNCE = (1/lastfreqmeasurement) * .5 * 1000000 ; //convert the last freq measured into seconds, then microseconds, and take half of it as your debounce time.
   unsigned long revTime;
   if((analogRead(PIN_1) > THRESHOLD) && ((micros() - lastTime) > DEBOUNCE)){
     revTime = micros() - lastTime;
@@ -79,8 +89,8 @@ void loop() {
     data[0] = 0;
     buff1 = create_buffer(BUFF1_LEN);
   }
-  
-  
+  lastfreqmeasurement = convertHz(revtime);
+
 }
 //
 //void requestEvent(){ //This function is called like an interrupt whenever master node calls requestFrom(NODE_ADDRESS)
@@ -91,17 +101,17 @@ void loop() {
 //   Serial.print("|");
 //   Serial.println((byte)payload[1]);
 //   Serial.println("requested");
-//  #endif 
+//  #endif
 //}
 
 void requestEvent(){ //This function is called like an interrupt whenever master node calls requestFrom(NODE_ADDRESS)
   //send speed
   byte* payload1 = (byte*) & data[0];
   Wire.write(payload1, PAYLOAD_SIZE);
-   
+
   byte* payload2 = (byte*) & data[1];
   Wire.write(payload2, PAYLOAD_SIZE);
-  
+
   #ifdef DEBUG
   Serial.println("requested");
   #endif
@@ -117,7 +127,7 @@ void updateTemp(){
   //Serial.print("temp: ");
   //Serial.println(data[1]);
   checkRTDFault();
-  #endif 
+  #endif
 }
 
 void checkRTDFault(){
@@ -125,25 +135,23 @@ void checkRTDFault(){
   if (fault) {
     Serial.print("Fault 0x"); Serial.println(fault, HEX);
     if (fault & MAX31865_FAULT_HIGHTHRESH) {
-      Serial.println("RTD High Threshold"); 
+      Serial.println("RTD High Threshold");
     }
     if (fault & MAX31865_FAULT_LOWTHRESH) {
-      Serial.println("RTD Low Threshold"); 
+      Serial.println("RTD Low Threshold");
     }
     if (fault & MAX31865_FAULT_REFINLOW) {
-      Serial.println("REFIN- > 0.85 x Bias"); 
+      Serial.println("REFIN- > 0.85 x Bias");
     }
     if (fault & MAX31865_FAULT_REFINHIGH) {
-      Serial.println("REFIN- < 0.85 x Bias - FORCE- open"); 
+      Serial.println("REFIN- < 0.85 x Bias - FORCE- open");
     }
     if (fault & MAX31865_FAULT_RTDINLOW) {
-      Serial.println("RTDIN- < 0.85 x Bias - FORCE- open"); 
+      Serial.println("RTDIN- < 0.85 x Bias - FORCE- open");
     }
     if (fault & MAX31865_FAULT_OVUV) {
-      Serial.println("Under/Over voltage"); 
+      Serial.println("Under/Over voltage");
     }
     max.clearFault();
   }
 }
-
-
