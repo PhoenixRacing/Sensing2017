@@ -7,9 +7,10 @@
 #define RREF  430.0 
 #define RNOMINAL  100.0 
 #define NODE_ADDRESS 2 // Change this unique address for each I2C slave node
-#define PAYLOAD_SIZE 2 // Number of bytes  expected to be received by the master I2C node
+#define PAYLOAD_SIZE 4 // Number of bytes  expected to be received by the master I2C node
 
-unsigned int data[] = {0,0}; //store recent data globally so it can be sent whenever master node requests it
+unsigned int tempdata; //[] = {0,0}; //store recent data globally so it can be sent whenever master node requests it
+unsigned int speeddata;
 Adafruit_MAX31865 max = Adafruit_MAX31865(8, 11, 12, 13);
 
 void setup() {
@@ -25,22 +26,24 @@ Wire.onRequest(requestEvent); // call requestEvent() whenever master node asks f
 void loop() {
 
   updateTemp();
-
-  data[0] = 27*10;
   //actually update speed here
-  
-  
+  delay(100);
 }
 
 void requestEvent(){ //This function is called like an interrupt whenever master node calls requestFrom(NODE_ADDRESS)
-   byte* payload = (byte*) & data[1]; //important conversion from unsigned int to byte array
+   byte payload[4];
+   payload[0] = tempdata;
+   payload[1] = tempdata >>8;
+   payload[2] = speeddata; 
+   payload[3] = speeddata >> 8;
+   //byte* payload = (byte*) & data[1]; //important conversion from unsigned int to byte array
    Wire.write(payload, PAYLOAD_SIZE);
-   #ifdef DEBUG
-   Serial.print((byte)payload[0]);
-   Serial.print("|");
-   Serial.println((byte)payload[1]);
-   Serial.println("requested");
-  #endif 
+//   #ifdef DEBUG
+//   Serial.print((byte)payload[0]);
+//   Serial.print("|");
+//   Serial.println((byte)payload[1]);
+//   Serial.println("requested");
+//  #endif 
 }
 
 //void requestEvent(){ //This function is called like an interrupt whenever master node calls requestFrom(NODE_ADDRESS)
@@ -84,10 +87,10 @@ void updateTemp(){
   float ratio = rtd;
   ratio /= 32768;
   float temp = max.temperature(100, RREF);
-  data[1] = temp ; //max.temperature(100,RREF);
+  tempdata = temp ; //max.temperature(100,RREF);
   #ifdef DEBUG
-  Serial.print("temp: ");
-  Serial.println(data[1]);
+  //Serial.print("temp: ");
+  //Serial.println(data[1]);
   //checkRTDFault();
   #endif 
 }
