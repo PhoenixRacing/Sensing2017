@@ -18,12 +18,10 @@
 
 #include <Wire.h>
 #include <Adafruit_MLX90614.h>
-#define NODE_ADDRESS 3 // Change this unique address for each I2C slave node
+#define NODE_ADDRESS 90 // Change this unique address for each I2C slave node
 #define PAYLOAD_SIZE 2 // Number of bytes  expected to be received by the master I2C node
-const int samples = 10;
 const int refreshRate = 500;
-unsigned int avg;
-int rolling[samples]; // global variable will keep track of relevant samples
+unsigned int data;
 
 Adafruit_MLX90614 mlx = Adafruit_MLX90614();
 
@@ -37,43 +35,16 @@ void setup() {
 }
 
 void loop() {
-  float tempRolling[samples];
-  float data = mlx.readObjectTempC();
-  tempRolling[samples - 1] = data;
-  for(int i = 0; i < samples - 1; i ++){ // copy the last elements of the old array into the beginning of the new array
-    tempRolling[i] = rolling[i+1];
-  }
-  
-  for(int i = 0; i < samples; i ++){ // overwrite the old array with the new one
-    rolling[i] = tempRolling[i];
-  }
-  float sum = 0;
-  for(int i = 0; i < samples; i ++){ // sum the elements
-    sum += rolling[i];
-  }
-  avg = sum/samples;
-  
-  printArray(rolling, samples);
-  Serial.print("Rolling Average: ");
-  Serial.println(avg);
+  data = mlx.readObjectTempC();
+  Serial.print("Temperature read: ");
+  Serial.println(data);
   Serial.println("*****");
   delay(refreshRate);
 }
-
-void printArray(int arr[], int len){ // useful for debugging
-  Serial.print("{");
-  for(int i = 0; i < len - 1; i ++){
-    Serial.print(arr[i]);
-    Serial.print(", ");
-  }
-  Serial.print(arr[len - 1]);
-  Serial.println("}");
-}
 void requestEvent()
 {
-  //currently sending values to LCD around 109 C
   byte payload[2];
-  payload[0] = avg & 0xFF;
-  payload[1] = (avg >> 8) &0xFF;
+  payload[0] = data & 0xFF;
+  payload[1] = (data >> 8) &0xFF;
   Wire.write(payload,PAYLOAD_SIZE);
 }

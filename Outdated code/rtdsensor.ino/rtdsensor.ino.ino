@@ -17,49 +17,28 @@
 #include <Adafruit_MAX31865.h>
 
 //#include <Wire.h>
-//#include <mcp_can.h>
 #include <SPI.h>
 // Use software SPI: CS, DI, DO, CLK 
 Adafruit_MAX31865 max = Adafruit_MAX31865(8, 11, 12, 13);
-// use hardware SPI, just pass in the CS pin
-//Adafruit_MAX31865 max = Adafruit_MAX31865(10);
 
 #define DEBUG
 
 // The value of the Rref resistor. Use 430.0 for PT100 and 4300.0 for PT1000
-//#define TACH_NODE 2
-//#define SPEEDO_NODE 3
-//#define PAYLOAD_SIZE 2 // how many bytes to expect from each I2C slave node
-//#define NODE_MAX 3 // The highest I2C slave node address to probe
-//#define START_NODE 2 // The lowest I2C slave node address to probe
-
 #define RREF      430.0
 // The 'nominal' 0-degrees-C resistance of the sensor
 // 100.0 for PT100, 1000.0 for PT1000
 #define RNOMINAL  100.0
 
-//#define DATA_LEN 4
-
-//MCP_CAN CAN0(10);     // Set CS to pin 10
-
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
   Serial.println("Adafruit MAX31865 PT100 Sensor Test!");
 
   max.begin(MAX31865_3WIRE);  // set to 2WIRE or 4WIRE as necessary
-
-//    if (CAN0.begin(MCP_ANY, CAN_500KBPS, MCP_16MHZ) == CAN_OK) {
-//  Serial.println("MCP2515 Initialized Successfully!");
-//  }
-//  else {
-//    Serial.println("Error Initializing MCP2515...");
-//  }
 }
 
 
 void loop() {
   uint16_t rtd = max.readRTD();
-
   Serial.print("RTD value: "); Serial.println(rtd);
   float ratio = rtd;
   ratio /= 32768;
