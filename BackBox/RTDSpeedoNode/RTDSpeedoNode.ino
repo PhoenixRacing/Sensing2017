@@ -26,13 +26,13 @@ extern "C"{
 #define MAXTIME 400000 //
 #define CONVERTER 29750*22 //wheel diameter is 22"
 unsigned long lastTime;
-unsigned float lastfreqmeasurement = 0.6; //start with the frequency for going at 5MPH
-unsigned long DEBOUNCE =800000;
+//unsigned float lastfreqmeasurement = 0.6; //start with the frequency for going at 5MPH
+unsigned long lastRevTime = 800000;
 
 cyclical_buffer * buff1;
 
 unsigned int convertMPH(unsigned long input){
-  if(input<=DEBOUNCE+1000){
+  if(input<=lastRevTime+1000){
     return 9999;
   }
   if(input>=MAXTIME){
@@ -65,20 +65,20 @@ void loop() {
    Expect 0.6-10Hz in frequency measurement based on 22in diameter wheels and 5-40mph.
    If we take measurements twice per wheel rotation, add in a factor of 2! we do not account for that
    Considering that the time between frequency measurements would be 1/freq
-   and we want to debounce something that's ... about half of that time
-   We're changing debounce based on the lastfreqmeasurement, considering it won't go all over the place
+   and we want to lastRevTime something that's ... about half of that time
+   We're changing lastRevTime based on the lastfreqmeasurement, considering it won't go all over the place
    And then doing 1/freqmeasured * 1000000 to get into microseconds
-   And then *1/2 to get the amount of debounce time we want to be reasonable, based on
+   And then *1/2 to get the amount of lastRevTime time we want to be reasonable, based on
    the previous frequency measurement. */
-  DEBOUNCE = (1/lastfreqmeasurement) * .5 * 1000000 ; //convert the last freq measured into seconds, then microseconds, and take half of it as your debounce time.
+  //lastRevTime = (1/lastfreqmeasurement) * .5 * 1000000 ; //convert the last freq measured into seconds, then microseconds, and take half of it as your lastRevTime time.
   unsigned long revTime;
-  if((analogRead(PIN_1) > THRESHOLD) && ((micros() - lastTime) > DEBOUNCE)){
+  if((analogRead(PIN_1) > THRESHOLD) && ((micros() - lastTime) > lastRevTime*.75)){
     revTime = micros() - lastTime;
     lastTime = micros();
     unsigned int mph = convertMPH(revTime);
     #ifdef DEBUG
     Serial.print(mph);
-    Serial.print(" MPH | \t");
+    Serial.print(" MPH |\t");
     Serial.print(convertHz(revTime));
     Serial.println(" Hz");
     #endif
@@ -88,8 +88,10 @@ void loop() {
   if((micros() - lastTime) > MAXTIME){
     data[0] = 0;
     buff1 = create_buffer(BUFF1_LEN);
+    lastRevTime = MAXTIME;
   }
-  lastfreqmeasurement = convertHz(revtime);
+  //lastfreqmeasurement = convertHz(revtime);
+  lastRevTime = revTime;
 
 }
 //
