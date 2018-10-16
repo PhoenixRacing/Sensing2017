@@ -63,7 +63,7 @@ d11
 Text Label 4000 2650 0    50   ~ 0
 d12
 Text Label 4000 2750 0    50   ~ 0
-CLK
+SCK
 Text Label 4000 2850 0    50   ~ 0
 GND
 Text Label 4000 2950 0    50   ~ 0
@@ -178,7 +178,7 @@ Wire Wire Line
 Text Label 5800 1450 0    50   ~ 0
 GND
 Text Label 5800 1550 0    50   ~ 0
-3v3
+3V3
 Text Label 5800 1650 0    50   ~ 0
 d11
 Text Label 5800 1750 0    50   ~ 0
@@ -388,7 +388,7 @@ d12
 Text Label 8950 2800 0    50   ~ 0
 SCK
 Text Label 8950 2900 0    50   ~ 0
-3v3
+3V3
 Text Label 8950 3000 0    50   ~ 0
 ref
 Text Label 8950 3100 0    50   ~ 0
@@ -431,24 +431,9 @@ Text Notes 6350 1750 0    50   ~ 0
 sdo
 Text Notes 6350 1650 0    50   ~ 0
 sdi
-$Comp
-L Connector:Conn_01x02_Female J10
-U 1 1 5BB79404
-P 3000 1200
-F 0 "J10" H 3027 1176 50  0000 L CNN
-F 1 "Conn_01x02_Female" H 3027 1085 50  0000 L CNN
-F 2 "" H 3000 1200 50  0001 C CNN
-F 3 "~" H 3000 1200 50  0001 C CNN
-	1    3000 1200
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	2800 1200 2550 1200
-Wire Wire Line
-	2550 1300 2800 1300
-Text Label 2550 1200 0    50   ~ 0
-IN
-Text Label 2550 1300 0    50   ~ 0
+Text Label 2600 1400 0    50   ~ 0
+IN_UNFUSED
+Text Label 2600 1300 0    50   ~ 0
 GND
 Wire Wire Line
 	3500 2750 3500 2450
@@ -480,10 +465,10 @@ Wire Wire Line
 Connection ~ 6100 2650
 Connection ~ 6100 2550
 $Comp
-L Device:R R?
+L Device:R R1
 U 1 1 5BB970D7
 P 4150 2200
-F 0 "R?" H 4220 2246 50  0000 L CNN
+F 0 "R1" H 4220 2246 50  0000 L CNN
 F 1 "R" H 4220 2155 50  0000 L CNN
 F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 4080 2200 50  0001 C CNN
 F 3 "~" H 4150 2200 50  0001 C CNN
@@ -497,4 +482,46 @@ Wire Wire Line
 	4150 2050 4150 1850
 Text Label 4150 1850 0    50   ~ 0
 5V
+$Comp
+L Device:Fuse F1
+U 1 1 5BBD7D5C
+P 2200 1650
+F 0 "F1" H 2260 1696 50  0000 L CNN
+F 1 "Fuse" H 2260 1605 50  0000 L CNN
+F 2 "" V 2130 1650 50  0001 C CNN
+F 3 "~" H 2200 1650 50  0001 C CNN
+	1    2200 1650
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2200 1800 2200 1850
+Wire Wire Line
+	2200 1850 2500 1850
+Text Label 2500 1850 0    50   ~ 0
+IN
+$Comp
+L Connector:Conn_01x04_Female J10
+U 1 1 5BBFF9EB
+P 3300 1300
+F 0 "J10" H 3327 1276 50  0000 L CNN
+F 1 "Conn_01x04_Female" H 3327 1185 50  0000 L CNN
+F 2 "TestBaja:DC_Connector" H 3300 1300 50  0001 C CNN
+F 3 "~" H 3300 1300 50  0001 C CNN
+	1    3300 1300
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3100 1300 2600 1300
+Wire Wire Line
+	2200 1400 2200 1500
+Wire Wire Line
+	2200 1400 3100 1400
+Wire Wire Line
+	3100 1500 2600 1500
+Wire Wire Line
+	2600 1200 3100 1200
+Text Label 2600 1200 0    50   ~ 0
+GND
+Text Label 2600 1500 0    50   ~ 0
+GND
 $EndSCHEMATC
