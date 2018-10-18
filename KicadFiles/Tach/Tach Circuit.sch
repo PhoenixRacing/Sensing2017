@@ -20,7 +20,7 @@ U 1 1 5BBFFAF7
 P 3000 2650
 F 0 "D0" V 2954 2729 50  0000 L CNN
 F 1 "1N4007" V 3045 2729 50  0000 L CNN
-F 2 "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal" H 3000 2475 50  0001 C CNN
+F 2 "Diode_THT:D_DO-41_SOD81_P7.62mm_Horizontal" H 3000 2475 50  0001 C CNN
 F 3 "http://www.vishay.com/docs/88503/1n4001.pdf" H 3000 2650 50  0001 C CNN
 	1    3000 2650
 	0    1    1    0   
@@ -31,7 +31,7 @@ U 1 1 5BC00EDC
 P 3150 2500
 F 0 "D1" H 3150 2284 50  0000 C CNN
 F 1 "1N4007" H 3150 2375 50  0000 C CNN
-F 2 "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal" H 3150 2325 50  0001 C CNN
+F 2 "Diode_THT:D_DO-41_SOD81_P7.62mm_Horizontal" H 3150 2325 50  0001 C CNN
 F 3 "http://www.vishay.com/docs/88503/1n4001.pdf" H 3150 2500 50  0001 C CNN
 	1    3150 2500
 	-1   0    0    1   
@@ -64,7 +64,7 @@ U 1 1 5BC044BB
 P 3750 2500
 F 0 "D2" H 3750 2284 50  0000 C CNN
 F 1 "1N4148" H 3750 2375 50  0000 C CNN
-F 2 "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal" H 3750 2325 50  0001 C CNN
+F 2 "Diode_THT:D_T-1_P5.08mm_Horizontal" H 3750 2325 50  0001 C CNN
 F 3 "http://www.nxp.com/documents/data_sheet/1N4148_1N4448.pdf" H 3750 2500 50  0001 C CNN
 	1    3750 2500
 	-1   0    0    1   
@@ -76,7 +76,7 @@ U 1 1 5BC05DC7
 P 3900 2650
 F 0 "D3" V 3854 2729 50  0000 L CNN
 F 1 "1N4738" V 3945 2729 50  0000 L CNN
-F 2 "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal" H 3900 2475 50  0001 C CNN
+F 2 "Diode_THT:D_DO-41_SOD81_P7.62mm_Horizontal" H 3900 2475 50  0001 C CNN
 F 3 "https://www.vishay.com/docs/85816/1n4728a.pdf" H 3900 2650 50  0001 C CNN
 	1    3900 2650
 	0    1    1    0   
@@ -262,4 +262,26 @@ Wire Wire Line
 Connection ~ 5250 3550
 Wire Wire Line
 	5250 3550 4300 3550
+$Comp
+L Connector:Conn_01x01_Female VCC1
+U 1 1 5BC71D92
+P 4300 1800
+F 0 "VCC1" V 4238 1712 50  0000 R CNN
+F 1 "5V" V 4147 1712 50  0000 R CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 4300 1800 50  0001 C CNN
+F 3 "~" H 4300 1800 50  0001 C CNN
+	1    4300 1800
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Connector:Conn_01x01_Female GND1
+U 1 1 5BC72FD8
+P 5900 3750
+F 0 "GND1" V 5746 3798 50  0000 L CNN
+F 1 "GND" V 5837 3798 50  0000 L CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 5900 3750 50  0001 C CNN
+F 3 "~" H 5900 3750 50  0001 C CNN
+	1    5900 3750
+	0    1    1    0   
+$EndComp
 $EndSCHEMATC
