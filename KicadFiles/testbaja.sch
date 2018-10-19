@@ -436,11 +436,7 @@ IN_UNFUSED
 Text Label 2600 1300 0    50   ~ 0
 GND
 Wire Wire Line
-	3500 2750 3500 2450
-Wire Wire Line
-	2900 2450 3500 2450
-Wire Wire Line
-	2900 2750 3500 2750
+	2900 2450 3200 2450
 Wire Wire Line
 	6100 2250 6050 2250
 Wire Wire Line
@@ -485,19 +481,15 @@ Text Label 4150 1850 0    50   ~ 0
 $Comp
 L Device:Fuse F1
 U 1 1 5BBD7D5C
-P 2200 1650
-F 0 "F1" H 2260 1696 50  0000 L CNN
-F 1 "Fuse" H 2260 1605 50  0000 L CNN
-F 2 "" V 2130 1650 50  0001 C CNN
-F 3 "~" H 2200 1650 50  0001 C CNN
-	1    2200 1650
-	1    0    0    -1  
+P 2050 1400
+F 0 "F1" H 2110 1446 50  0000 L CNN
+F 1 "Fuse" H 2110 1355 50  0000 L CNN
+F 2 "TestBaja:Fuse_0ZCFSeries" V 1980 1400 50  0001 C CNN
+F 3 "~" H 2050 1400 50  0001 C CNN
+	1    2050 1400
+	0    -1   -1   0   
 $EndComp
-Wire Wire Line
-	2200 1800 2200 1850
-Wire Wire Line
-	2200 1850 2500 1850
-Text Label 2500 1850 0    50   ~ 0
+Text Label 1800 1400 0    50   ~ 0
 IN
 $Comp
 L Connector:Conn_01x04_Female J10
@@ -513,8 +505,6 @@ $EndComp
 Wire Wire Line
 	3100 1300 2600 1300
 Wire Wire Line
-	2200 1400 2200 1500
-Wire Wire Line
 	2200 1400 3100 1400
 Wire Wire Line
 	3100 1500 2600 1500
@@ -524,4 +514,40 @@ Text Label 2600 1200 0    50   ~ 0
 GND
 Text Label 2600 1500 0    50   ~ 0
 GND
+$Comp
+L LED:CQY99 D1
+U 1 1 5BC89853
+P 1650 1550
+F 0 "D1" V 1646 1472 50  0000 R CNN
+F 1 "RED" V 1555 1472 50  0000 R CNN
+F 2 "LED_THT:LED_D5.0mm_FlatTop" H 1650 1725 50  0001 C CNN
+F 3 "https://www.prtice.info/IMG/pdf/CQY99.pdf" H 1600 1550 50  0001 C CNN
+	1    1650 1550
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Device:R R2
+U 1 1 5BC8CD5C
+P 1650 1900
+F 0 "R2" H 1720 1946 50  0000 L CNN
+F 1 "220" H 1720 1855 50  0000 L CNN
+F 2 "Resistor_SMD:R_0805_2012Metric" V 1580 1900 50  0001 C CNN
+F 3 "~" H 1650 1900 50  0001 C CNN
+	1    1650 1900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1650 2050 1650 2100
+Wire Wire Line
+	1650 2100 1950 2100
+Text Label 1950 2100 0    50   ~ 0
+GND
+Wire Wire Line
+	1650 1400 1650 1450
+Wire Wire Line
+	1650 1400 1900 1400
+Wire Wire Line
+	3200 2550 3200 2450
+Wire Wire Line
+	2900 2750 3200 2750
 $EndSCHEMATC
