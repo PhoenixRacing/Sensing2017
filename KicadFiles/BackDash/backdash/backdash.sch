@@ -155,4 +155,17 @@ Text Label 3250 3650 2    50   ~ 0
 VCC
 Text Label 3250 3750 2    50   ~ 0
 GND
+$Comp
+L Connector:Conn_01x05_Female BUCK1
+U 1 1 5BDBB2FB
+P 4350 1900
+F 0 "BUCK1" H 4378 1926 50  0000 L CNN
+F 1 "Conn_01x05_Female" H 4378 1835 50  0000 L CNN
+F 2 "TestBaja:Buck_module" H 4350 1900 50  0001 C CNN
+F 3 "~" H 4350 1900 50  0001 C CNN
+	1    4350 1900
+	1    0    0    -1  
+$EndComp
+Text Notes 4000 2100 0    50   ~ 0
+OUT\n
 $EndSCHEMATC
