@@ -140,12 +140,12 @@ F 3 "~" H 4850 2700 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Connector_Generic:Conn_02x08_Counter_Clockwise DIP1
+L Connector_Generic:Conn_02x07_Counter_Clockwise DIP1
 U 1 1 5BC2544C
 P 5450 3000
 F 0 "DIP1" H 5500 3517 50  0000 C CNN
 F 1 "SN74HC14N" H 5500 3426 50  0000 C CNN
-F 2 "digikey-footprints:DIP-16_W7.62mm" H 5450 3000 50  0001 C CNN
+F 2 "Package_DIP:DIP-14_W7.62mm" H 5450 3000 50  0001 C CNN
 F 3 "~" H 5450 3000 50  0001 C CNN
 	1    5450 3000
 	1    0    0    -1  
@@ -257,8 +257,6 @@ Connection ~ 4300 2700
 Connection ~ 4300 3550
 Wire Wire Line
 	4300 3550 3900 3550
-Wire Wire Line
-	5250 3400 5250 3550
 Connection ~ 5250 3550
 Wire Wire Line
 	5250 3550 4300 3550
@@ -283,5 +281,18 @@ F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 5900 3750 50 
 F 3 "~" H 5900 3750 50  0001 C CNN
 	1    5900 3750
 	0    1    1    0   
+$EndComp
+Wire Wire Line
+	5250 3300 5250 3550
+$Comp
+L Graphic:Logo_Open_Hardware_Small #LOGO?
+U 1 1 5BE4F1B1
+P 4800 3200
+F 0 "#LOGO?" H 4800 3475 50  0001 C CNN
+F 1 "Logo_Open_Hardware_Small" H 4800 2975 50  0001 C CNN
+F 2 "" H 4800 3200 50  0001 C CNN
+F 3 "~" H 4800 3200 50  0001 C CNN
+	1    4800 3200
+	1    0    0    -1  
 $EndComp
 $EndSCHEMATC
