@@ -1,0 +1,230 @@
+EESchema Schematic File Version 4
+EELAYER 26 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Timer_RTC:DS3231M U1
+U 1 1 5BE4F67B
+P 2650 2050
+F 0 "U1" H 2650 1564 50  0000 C CNN
+F 1 "DS3231M" H 2650 1473 50  0000 C CNN
+F 2 "Package_SO:SOIC-16W_7.5x10.3mm_P1.27mm" H 2650 1450 50  0001 C CNN
+F 3 "http://datasheets.maximintegrated.com/en/ds/DS3231.pdf" H 2920 2100 50  0001 C CNN
+	1    2650 2050
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5BE4F6CF
+P 2650 2750
+F 0 "#PWR?" H 2650 2500 50  0001 C CNN
+F 1 "GND" H 2655 2577 50  0000 C CNN
+F 2 "" H 2650 2750 50  0001 C CNN
+F 3 "" H 2650 2750 50  0001 C CNN
+	1    2650 2750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2650 2750 2650 2450
+$Comp
+L Device:R R3
+U 1 1 5BE4F7AD
+P 1900 1650
+F 0 "R3" H 1970 1696 50  0000 L CNN
+F 1 "10k" H 1970 1605 50  0000 L CNN
+F 2 "" V 1830 1650 50  0001 C CNN
+F 3 "~" H 1900 1650 50  0001 C CNN
+	1    1900 1650
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R4
+U 1 1 5BE4F803
+P 1550 1800
+F 0 "R4" H 1620 1846 50  0000 L CNN
+F 1 "10k" H 1620 1755 50  0000 L CNN
+F 2 "" V 1480 1800 50  0001 C CNN
+F 3 "~" H 1550 1800 50  0001 C CNN
+	1    1550 1800
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+BATT #PWR?
+U 1 1 5BE4F838
+P 2650 1350
+F 0 "#PWR?" H 2650 1200 50  0001 C CNN
+F 1 "+BATT" H 2665 1523 50  0000 C CNN
+F 2 "" H 2650 1350 50  0001 C CNN
+F 3 "" H 2650 1350 50  0001 C CNN
+	1    2650 1350
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3V3 #PWR?
+U 1 1 5BE4F86E
+P 2550 1600
+F 0 "#PWR?" H 2550 1450 50  0001 C CNN
+F 1 "+3V3" H 2565 1773 50  0000 C CNN
+F 2 "" H 2550 1600 50  0001 C CNN
+F 3 "" H 2550 1600 50  0001 C CNN
+	1    2550 1600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2650 1650 2650 1350
+Wire Wire Line
+	2550 1650 2550 1600
+$Comp
+L power:+3V3 #PWR?
+U 1 1 5BE4F938
+P 1900 1500
+F 0 "#PWR?" H 1900 1350 50  0001 C CNN
+F 1 "+3V3" H 1915 1673 50  0000 C CNN
+F 2 "" H 1900 1500 50  0001 C CNN
+F 3 "" H 1900 1500 50  0001 C CNN
+	1    1900 1500
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3V3 #PWR?
+U 1 1 5BE4F949
+P 1550 1650
+F 0 "#PWR?" H 1550 1500 50  0001 C CNN
+F 1 "+3V3" H 1565 1823 50  0000 C CNN
+F 2 "" H 1550 1650 50  0001 C CNN
+F 3 "" H 1550 1650 50  0001 C CNN
+	1    1550 1650
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3V3 #PWR?
+U 1 1 5BE4F95A
+P 2250 2650
+F 0 "#PWR?" H 2250 2500 50  0001 C CNN
+F 1 "+3V3" H 2265 2823 50  0000 C CNN
+F 2 "" H 2250 2650 50  0001 C CNN
+F 3 "" H 2250 2650 50  0001 C CNN
+	1    2250 2650
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:CP C1
+U 1 1 5BE4F9A5
+P 2250 2800
+F 0 "C1" H 2368 2846 50  0000 L CNN
+F 1 "0.1uF" H 2368 2755 50  0000 L CNN
+F 2 "" H 2288 2650 50  0001 C CNN
+F 3 "~" H 2250 2800 50  0001 C CNN
+	1    2250 2800
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5BE4F9F1
+P 2250 2950
+F 0 "#PWR?" H 2250 2700 50  0001 C CNN
+F 1 "GND" H 2255 2777 50  0000 C CNN
+F 2 "" H 2250 2950 50  0001 C CNN
+F 3 "" H 2250 2950 50  0001 C CNN
+	1    2250 2950
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1550 1950 2150 1950
+Wire Wire Line
+	1900 1850 1900 1800
+Wire Wire Line
+	1900 1850 2150 1850
+$Comp
+L Device:Battery_Cell BT1
+U 1 1 5BE5009E
+P 3650 1600
+F 0 "BT1" H 3768 1696 50  0000 L CNN
+F 1 "Battery_Cell" H 3768 1605 50  0000 L CNN
+F 2 "" V 3650 1660 50  0001 C CNN
+F 3 "~" V 3650 1660 50  0001 C CNN
+	1    3650 1600
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+BATT #PWR?
+U 1 1 5BE500CC
+P 3650 1400
+F 0 "#PWR?" H 3650 1250 50  0001 C CNN
+F 1 "+BATT" H 3665 1573 50  0000 C CNN
+F 2 "" H 3650 1400 50  0001 C CNN
+F 3 "" H 3650 1400 50  0001 C CNN
+	1    3650 1400
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5BE500E1
+P 3650 1700
+F 0 "#PWR?" H 3650 1450 50  0001 C CNN
+F 1 "GND" H 3655 1527 50  0000 C CNN
+F 2 "" H 3650 1700 50  0001 C CNN
+F 3 "" H 3650 1700 50  0001 C CNN
+	1    3650 1700
+	1    0    0    -1  
+$EndComp
+Wire Notes Line
+	1250 3200 4300 3200
+Wire Notes Line
+	4300 3200 4300 950 
+Wire Notes Line
+	4300 950  1250 950 
+Wire Notes Line
+	1250 950  1250 3200
+Text Notes 3150 3000 0    50   ~ 0
+Real Time Clock - DS3231\nwith 3.6VBatt LIR2032
+$Comp
+L Interface_CAN_LIN:MCP2515-EST U?
+U 1 1 5BE502B9
+P 7450 2000
+F 0 "U?" H 7450 2978 50  0000 C CNN
+F 1 "MCP2515-EST" H 7450 2887 50  0000 C CNN
+F 2 "Package_SO:TSSOP-20_4.4x6.5mm_P0.65mm" H 7450 1100 50  0001 C CIN
+F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/21801e.pdf" H 7550 1200 50  0001 C CNN
+	1    7450 2000
+	1    0    0    -1  
+$EndComp
+Text Label 6650 1400 0    50   ~ 0
+SDI
+Text Label 6650 1500 0    50   ~ 0
+SDO
+Text Label 6500 1600 0    50   ~ 0
+CS_CAN
+Text Label 6650 1700 0    50   ~ 0
+SCK
+Wire Wire Line
+	6850 1400 6650 1400
+Wire Wire Line
+	6650 1500 6850 1500
+Wire Wire Line
+	6850 1600 6500 1600
+Wire Wire Line
+	6650 1700 6850 1700
+$Comp
+L power:GND #PWR?
+U 1 1 5BE50513
+P 7450 2800
+F 0 "#PWR?" H 7450 2550 50  0001 C CNN
+F 1 "GND" H 7455 2627 50  0000 C CNN
+F 2 "" H 7450 2800 50  0001 C CNN
+F 3 "" H 7450 2800 50  0001 C CNN
+	1    7450 2800
+	1    0    0    -1  
+$EndComp
+$EndSCHEMATC
