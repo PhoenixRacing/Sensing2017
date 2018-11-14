@@ -284,4 +284,15 @@ F 3 "~" H 5900 3750 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	5250 3300 5250 3550
+$Comp
+L Graphic:Logo_Open_Hardware_Small #LOGO1
+U 1 1 5BE4F1B1
+P 6450 2350
+F 0 "#LOGO1" H 6450 2625 50  0001 C CNN
+F 1 "Logo_Open_Hardware_Small" H 6450 2125 50  0001 C CNN
+F 2 "TestBaja:Baja_Logo_Tach" H 6450 2350 50  0001 C CNN
+F 3 "~" H 6450 2350 50  0001 C CNN
+	1    6450 2350
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC
