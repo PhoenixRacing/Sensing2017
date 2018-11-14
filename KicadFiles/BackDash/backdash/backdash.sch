@@ -168,77 +168,6 @@ F 3 "~" H 4350 1900 50  0001 C CNN
 $EndComp
 Text Notes 4000 2100 0    50   ~ 0
 OUT\n
-Text Label 6050 3750 2    50   ~ 0
-A0
-Text Label 6050 3850 2    50   ~ 0
-A1
-Text Label 6050 3950 2    50   ~ 0
-A2
-Text Label 6050 4050 2    50   ~ 0
-A3
-Text Label 6050 4150 2    50   ~ 0
-A4
-Text Label 6050 4250 2    50   ~ 0
-A5
-Text Label 6050 4350 2    50   ~ 0
-A6
-Text Label 6050 4450 2    50   ~ 0
-A7
-Text Label 6050 4550 2    50   ~ 0
-VCC
-Text Label 6050 4650 2    50   ~ 0
-RST
-Text Label 6050 4750 2    50   ~ 0
-GND
-Text Label 6050 4850 2    50   ~ 0
-VIN
-Text Label 6050 3350 2    50   ~ 0
-D12
-Text Label 6050 3250 2    50   ~ 0
-D11
-Text Label 6050 3150 2    50   ~ 0
-D10
-Text Label 6050 3050 2    50   ~ 0
-D9
-Text Label 6050 2950 2    50   ~ 0
-D8
-Text Label 6050 2850 2    50   ~ 0
-D7
-Text Label 6050 2750 2    50   ~ 0
-D6
-Text Label 6050 2650 2    50   ~ 0
-D5
-Text Label 6050 2550 2    50   ~ 0
-D4
-Text Label 6050 2450 2    50   ~ 0
-D3
-Text Label 6050 2350 2    50   ~ 0
-D2
-Text Label 6050 2250 2    50   ~ 0
-GND
-Text Label 6050 2150 2    50   ~ 0
-RST
-Text Label 6050 2050 2    50   ~ 0
-RX0
-$Comp
-L Connector:Conn_01x30_Female NANO4
-U 1 1 5BDBACFE
-P 6250 3350
-F 0 "NANO4" H 6277 3326 50  0000 L CNN
-F 1 "Conn_01x30_Female" H 6277 3235 50  0000 L CNN
-F 2 "TestBaja:arduino_nano" H 6250 3350 50  0001 C CNN
-F 3 "~" H 6250 3350 50  0001 C CNN
-	1    6250 3350
-	1    0    0    -1  
-$EndComp
-Text Label 6050 3450 2    50   ~ 0
-D13
-Text Label 6050 3550 2    50   ~ 0
-3.3V
-Text Label 6050 3650 2    50   ~ 0
-REF
-Text Label 6050 1950 2    50   ~ 0
-TX1
 Text Label 1500 6150 2    50   ~ 0
 A0
 Text Label 1500 6250 2    50   ~ 0
@@ -381,4 +310,12 @@ Text Label 3250 6150 2    50   ~ 0
 REF
 Text Label 3250 4450 2    50   ~ 0
 TX1
+NoConn ~ 1700 1100
+NoConn ~ 1700 1200
+NoConn ~ 1700 1300
+NoConn ~ 1550 1300
+NoConn ~ 1550 1200
+NoConn ~ 1550 1100
+NoConn ~ 1750 1400
+NoConn ~ 1750 1500
 $EndSCHEMATC
