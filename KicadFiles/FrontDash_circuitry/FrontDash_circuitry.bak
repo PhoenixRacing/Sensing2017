@@ -179,4 +179,52 @@ F 3 "" H 3650 1700 50  0001 C CNN
 	1    3650 1700
 	1    0    0    -1  
 $EndComp
+Wire Notes Line
+	1250 3200 4300 3200
+Wire Notes Line
+	4300 3200 4300 950 
+Wire Notes Line
+	4300 950  1250 950 
+Wire Notes Line
+	1250 950  1250 3200
+Text Notes 3150 3000 0    50   ~ 0
+Real Time Clock - DS3231\nwith 3.6VBatt LIR2032
+$Comp
+L Interface_CAN_LIN:MCP2515-EST U?
+U 1 1 5BE502B9
+P 7450 2000
+F 0 "U?" H 7450 2978 50  0000 C CNN
+F 1 "MCP2515-EST" H 7450 2887 50  0000 C CNN
+F 2 "Package_SO:TSSOP-20_4.4x6.5mm_P0.65mm" H 7450 1100 50  0001 C CIN
+F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/21801e.pdf" H 7550 1200 50  0001 C CNN
+	1    7450 2000
+	1    0    0    -1  
+$EndComp
+Text Label 6650 1400 0    50   ~ 0
+SDI
+Text Label 6650 1500 0    50   ~ 0
+SDO
+Text Label 6500 1600 0    50   ~ 0
+CS_CAN
+Text Label 6650 1700 0    50   ~ 0
+SCK
+Wire Wire Line
+	6850 1400 6650 1400
+Wire Wire Line
+	6650 1500 6850 1500
+Wire Wire Line
+	6850 1600 6500 1600
+Wire Wire Line
+	6650 1700 6850 1700
+$Comp
+L power:GND #PWR?
+U 1 1 5BE50513
+P 7450 2800
+F 0 "#PWR?" H 7450 2550 50  0001 C CNN
+F 1 "GND" H 7455 2627 50  0000 C CNN
+F 2 "" H 7450 2800 50  0001 C CNN
+F 3 "" H 7450 2800 50  0001 C CNN
+	1    7450 2800
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC
