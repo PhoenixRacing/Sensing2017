@@ -229,6 +229,95 @@ F 3 "" H 7450 2800 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
+L Device:Crystal Y?
+U 1 1 5BEBC3A0
+P 750 3800
+F 0 "Y?" V 704 3931 50  0000 L CNN
+F 1 "Crystal" V 795 3931 50  0000 L CNN
+F 2 "" H 750 3800 50  0001 C CNN
+F 3 "~" H 750 3800 50  0001 C CNN
+	1    750  3800
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:C C2
+U 1 1 5BEBCC31
+P 1300 3650
+F 0 "C2" V 1048 3650 50  0000 C CNN
+F 1 "22p" V 1139 3650 50  0000 C CNN
+F 2 "" H 1338 3500 50  0001 C CNN
+F 3 "~" H 1300 3650 50  0001 C CNN
+	1    1300 3650
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:C C3
+U 1 1 5BEBE28E
+P 1300 3950
+F 0 "C3" V 1048 3950 50  0000 C CNN
+F 1 "22p" V 1139 3950 50  0000 C CNN
+F 2 "" H 1338 3800 50  0001 C CNN
+F 3 "~" H 1300 3950 50  0001 C CNN
+	1    1300 3950
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	600  3650 750  3650
+Text Label 3000 4900 0    50   ~ 0
+XTAL1
+Text Label 3000 5000 0    50   ~ 0
+XTAL2
+Text Label 600  3650 0    50   ~ 0
+XTAL1
+Wire Wire Line
+	600  3950 750  3950
+Text Label 600  3950 0    50   ~ 0
+XTAL2
+Wire Wire Line
+	750  3650 1150 3650
+Connection ~ 750  3650
+Wire Wire Line
+	750  3950 1150 3950
+Connection ~ 750  3950
+Wire Wire Line
+	1450 3650 1450 3800
+Wire Wire Line
+	1700 3800 1450 3800
+Wire Wire Line
+	1700 3950 1700 3800
+Connection ~ 1450 3800
+Wire Wire Line
+	1450 3800 1450 3950
+Wire Bus Line
+	550  7750 6900 7750
+Wire Bus Line
+	6900 3350 550  3350
+Wire Bus Line
+	550  3350 550  7750
+Wire Bus Line
+	6900 3350 6900 7750
+Text Label 2400 4000 1    50   ~ 0
+VCC
+Text Label 2500 4000 1    50   ~ 0
+AVCC
+Wire Wire Line
+	800  4400 950  4400
+Text Label 1100 4400 0    50   ~ 0
+AVCC
+Text Label 800  4400 2    50   ~ 0
+VCC
+$Comp
+L Device:C C4
+U 1 1 5BEEEC4C
+P 950 4550
+F 0 "C4" H 1065 4596 50  0000 L CNN
+F 1 "100n" H 1065 4505 50  0000 L CNN
+F 2 "" H 988 4400 50  0001 C CNN
+F 3 "~" H 950 4550 50  0001 C CNN
+	1    950  4550
+	1    0    0    -1  
+$EndComp
+$Comp
 L MCU_Microchip_ATmega:ATmega328P-AU U?
 U 1 1 5BEB9259
 P 2400 5500
@@ -239,94 +328,215 @@ F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/ATmega328_P%20AVR%20MCU%20w
 	1    2400 5500
 	1    0    0    -1  
 $EndComp
-$Comp
-L Device:Crystal Y?
-U 1 1 5BEBC3A0
-P 3600 4950
-F 0 "Y?" V 3554 5081 50  0000 L CNN
-F 1 "Crystal" V 3645 5081 50  0000 L CNN
-F 2 "" H 3600 4950 50  0001 C CNN
-F 3 "~" H 3600 4950 50  0001 C CNN
-	1    3600 4950
-	0    1    1    0   
-$EndComp
-$Comp
-L Device:C C?
-U 1 1 5BEBCC31
-P 4150 4800
-F 0 "C?" V 3898 4800 50  0000 C CNN
-F 1 "C" V 3989 4800 50  0000 C CNN
-F 2 "" H 4188 4650 50  0001 C CNN
-F 3 "~" H 4150 4800 50  0001 C CNN
-	1    4150 4800
-	0    1    1    0   
-$EndComp
-$Comp
-L Device:C C?
-U 1 1 5BEBE28E
-P 4150 5100
-F 0 "C?" V 3898 5100 50  0000 C CNN
-F 1 "C" V 3989 5100 50  0000 C CNN
-F 2 "" H 4188 4950 50  0001 C CNN
-F 3 "~" H 4150 5100 50  0001 C CNN
-	1    4150 5100
-	0    1    1    0   
-$EndComp
+Connection ~ 950  4400
 Wire Wire Line
-	3450 4800 3600 4800
-Text Label 3000 4900 0    50   ~ 0
-XTAL1
-Text Label 3000 5000 0    50   ~ 0
-XTAL2
-Text Label 3450 4800 0    50   ~ 0
-XTAL1
+	950  4300 950  4400
 Wire Wire Line
-	3450 5100 3600 5100
-Text Label 3450 5100 0    50   ~ 0
-XTAL2
+	1100 4400 950  4400
+Text Label 3000 5800 0    50   ~ 0
+RESET
+Text Label 1600 4750 0    50   ~ 0
+RESET
 Wire Wire Line
-	3600 4800 4000 4800
-Connection ~ 3600 4800
-Wire Wire Line
-	3600 5100 4000 5100
-Connection ~ 3600 5100
+	1600 4750 1600 4800
 $Comp
-L power:GND #PWR?
-U 1 1 5BEC73B8
-P 4550 5100
-F 0 "#PWR?" H 4550 4850 50  0001 C CNN
-F 1 "GND" H 4555 4927 50  0000 C CNN
-F 2 "" H 4550 5100 50  0001 C CNN
-F 3 "" H 4550 5100 50  0001 C CNN
-	1    4550 5100
+L Device:R R5
+U 1 1 5BF0D770
+P 1600 4950
+F 0 "R5" H 1670 4996 50  0000 L CNN
+F 1 "1k" H 1670 4905 50  0000 L CNN
+F 2 "" V 1530 4950 50  0001 C CNN
+F 3 "~" H 1600 4950 50  0001 C CNN
+	1    1600 4950
 	1    0    0    -1  
 $EndComp
+$Comp
+L Switch:SW_Push SW1
+U 1 1 5BF1B5B4
+P 900 5050
+F 0 "SW1" H 900 5335 50  0000 C CNN
+F 1 "SW_Push" H 900 5244 50  0000 C CNN
+F 2 "" H 900 5250 50  0001 C CNN
+F 3 "" H 900 5250 50  0001 C CNN
+	1    900  5050
+	0    -1   -1   0   
+$EndComp
 Wire Wire Line
-	4300 4800 4300 4950
+	1600 5100 1600 5200
 Wire Wire Line
-	4550 4950 4300 4950
-Wire Wire Line
-	4550 5100 4550 4950
-Connection ~ 4300 4950
-Wire Wire Line
-	4300 4950 4300 5100
+	1600 5200 1200 5200
+Text Label 950  4700 0    50   ~ 0
+GND
+Text Label 2400 7000 0    50   ~ 0
+GND
+Text Label 1700 3950 0    50   ~ 0
+GND
+Text Label 3000 3500 0    50   ~ 0
+GND
 $Comp
 L power:GND #PWR?
-U 1 1 5BECAC8B
-P 2400 7000
-F 0 "#PWR?" H 2400 6750 50  0001 C CNN
-F 1 "GND" H 2405 6827 50  0000 C CNN
-F 2 "" H 2400 7000 50  0001 C CNN
-F 3 "" H 2400 7000 50  0001 C CNN
-	1    2400 7000
+U 1 1 5BF34B50
+P 3000 3500
+F 0 "#PWR?" H 3000 3250 50  0001 C CNN
+F 1 "GND" H 3005 3327 50  0000 C CNN
+F 2 "" H 3000 3500 50  0001 C CNN
+F 3 "" H 3000 3500 50  0001 C CNN
+	1    3000 3500
 	1    0    0    -1  
 $EndComp
-Wire Bus Line
-	550  7750 6900 7750
-Wire Bus Line
-	6900 3350 550  3350
-Wire Bus Line
-	550  3350 550  7750
-Wire Bus Line
-	6900 3350 6900 7750
+Text Label 900  4850 0    50   ~ 0
+RESET
+Text Label 900  5250 0    50   ~ 0
+GND
+Text Label 1200 4800 0    50   ~ 0
++5V
+Wire Wire Line
+	1200 4800 1200 5200
+Text Label 2700 3700 0    50   ~ 0
++5V
+$Comp
+L power:+5V #PWR?
+U 1 1 5BF3F365
+P 2700 3700
+F 0 "#PWR?" H 2700 3550 50  0001 C CNN
+F 1 "+5V" H 2715 3873 50  0000 C CNN
+F 2 "" H 2700 3700 50  0001 C CNN
+F 3 "" H 2700 3700 50  0001 C CNN
+	1    2700 3700
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_02x03_Counter_Clockwise J1
+U 1 1 5BF4A0AC
+P 3900 3800
+F 0 "J1" H 3950 4117 50  0000 C CNN
+F 1 "ICSP" H 3950 4026 50  0000 C CNN
+F 2 "" H 3900 3800 50  0001 C CNN
+F 3 "~" H 3900 3800 50  0001 C CNN
+	1    3900 3800
+	1    0    0    -1  
+$EndComp
+Text Label 3000 4800 0    50   ~ 0
+SCK
+Text Label 3000 4700 0    50   ~ 0
+MISO
+Text Label 3000 4600 0    50   ~ 0
+MOSI
+Text Label 3700 3700 2    50   ~ 0
+MISO
+Text Label 3700 3900 2    50   ~ 0
+RESET
+Text Label 4200 3700 0    50   ~ 0
++5V
+Text Label 4200 3900 0    50   ~ 0
+GND
+Text Label 4200 3800 0    50   ~ 0
+MOSI
+Text Label 3700 3800 2    50   ~ 0
+SCK
+Text Label 950  4300 0    50   ~ 0
++5V
+Text Label 700  5400 0    50   ~ 0
++5V
+Wire Wire Line
+	700  5400 700  5500
+$Comp
+L Device:C C5
+U 1 1 5BF4F324
+P 700 5650
+F 0 "C5" H 815 5696 50  0000 L CNN
+F 1 "100n" H 815 5605 50  0000 L CNN
+F 2 "" H 738 5500 50  0001 C CNN
+F 3 "~" H 700 5650 50  0001 C CNN
+	1    700  5650
+	1    0    0    -1  
+$EndComp
+Text Label 700  5800 0    50   ~ 0
+GND
+$Comp
+L Device:R R6
+U 1 1 5BF55492
+P 950 5500
+F 0 "R6" V 743 5500 50  0000 C CNN
+F 1 "1k" V 834 5500 50  0000 C CNN
+F 2 "" V 880 5500 50  0001 C CNN
+F 3 "~" H 950 5500 50  0001 C CNN
+	1    950  5500
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	700  5500 800  5500
+Connection ~ 700  5500
+Wire Wire Line
+	1100 5500 1200 5500
+Wire Wire Line
+	1200 5500 1200 5600
+$Comp
+L Device:LED D?
+U 1 1 5BF58CED
+P 1200 5750
+F 0 "D?" V 1239 5633 50  0000 R CNN
+F 1 "LED" V 1148 5633 50  0000 R CNN
+F 2 "" H 1200 5750 50  0001 C CNN
+F 3 "~" H 1200 5750 50  0001 C CNN
+	1    1200 5750
+	0    -1   -1   0   
+$EndComp
+Text Label 1200 5900 2    50   ~ 0
+GND
+Text Label 3000 6000 0    50   ~ 0
+RX
+Text Label 3000 6100 0    50   ~ 0
+TX
+Text Label 3000 6200 0    50   ~ 0
+D2
+Text Label 3000 6300 0    50   ~ 0
+D3
+Text Label 3000 6400 0    50   ~ 0
+D4
+Text Label 3000 6500 0    50   ~ 0
+D5
+Text Label 3000 6600 0    50   ~ 0
+D6
+Text Label 3000 6700 0    50   ~ 0
+D7
+Text Label 3000 5200 0    50   ~ 0
+A0
+Text Label 3000 5400 0    50   ~ 0
+A2
+Text Label 3000 5500 0    50   ~ 0
+A3
+Text Label 3000 5600 0    50   ~ 0
+A4
+Text Label 3000 5700 0    50   ~ 0
+A5
+Text Label 3000 5300 0    50   ~ 0
+A1
+Text Label 1800 4500 2    50   ~ 0
+A6
+Text Label 1800 4600 2    50   ~ 0
+A7
+Text Label 1800 4300 2    50   ~ 0
+AREF
+Text Label 1550 5350 0    50   ~ 0
+AREF
+$Comp
+L Device:C C6
+U 1 1 5BF637C2
+P 1550 5500
+F 0 "C6" H 1665 5546 50  0000 L CNN
+F 1 "100n" H 1665 5455 50  0000 L CNN
+F 2 "" H 1588 5350 50  0001 C CNN
+F 3 "~" H 1550 5500 50  0001 C CNN
+	1    1550 5500
+	1    0    0    -1  
+$EndComp
+Text Label 1550 5650 0    50   ~ 0
+GND
+Text Label 3000 4300 0    50   ~ 0
+D8
+Text Label 3000 4400 0    50   ~ 0
+D9
+Text Label 3000 4500 0    50   ~ 0
+D10
 $EndSCHEMATC
