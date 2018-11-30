@@ -1,6 +1,6 @@
 EESchema Schematic File Version 4
 LIBS:FrontDash_circuitry-cache
-EELAYER 26 0
+EELAYER 28 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -288,33 +288,25 @@ Wire Wire Line
 Connection ~ 1450 3800
 Wire Wire Line
 	1450 3800 1450 3950
-Wire Bus Line
-	550  7750 6900 7750
-Wire Bus Line
-	6900 3350 550  3350
-Wire Bus Line
-	550  3350 550  7750
-Wire Bus Line
-	6900 3350 6900 7750
 Text Label 2400 4000 1    50   ~ 0
 VCC
 Text Label 2500 4000 1    50   ~ 0
 AVCC
 Wire Wire Line
-	800  4400 950  4400
-Text Label 1100 4400 0    50   ~ 0
+	3600 4300 3750 4300
+Text Label 3900 4300 0    50   ~ 0
 AVCC
-Text Label 800  4400 2    50   ~ 0
+Text Label 3600 4300 2    50   ~ 0
 VCC
 $Comp
 L Device:C C2
 U 1 1 5BEEEC4C
-P 950 4550
-F 0 "C2" H 1065 4596 50  0000 L CNN
-F 1 "100n" H 1065 4505 50  0000 L CNN
-F 2 "" H 988 4400 50  0001 C CNN
-F 3 "~" H 950 4550 50  0001 C CNN
-	1    950  4550
+P 4100 4750
+F 0 "C2" H 4215 4796 50  0000 L CNN
+F 1 "1u" H 4215 4705 50  0000 L CNN
+F 2 "" H 4138 4600 50  0001 C CNN
+F 3 "~" H 4100 4750 50  0001 C CNN
+	1    4100 4750
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -328,11 +320,11 @@ F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/ATmega328_P%20AVR%20MCU%20w
 	1    2400 5500
 	1    0    0    -1  
 $EndComp
-Connection ~ 950  4400
+Connection ~ 3750 4300
 Wire Wire Line
-	950  4300 950  4400
+	3750 4200 3750 4300
 Wire Wire Line
-	1100 4400 950  4400
+	3900 4300 3750 4300
 Text Label 3000 5800 0    50   ~ 0
 RESET
 Text Label 1600 4750 0    50   ~ 0
@@ -353,19 +345,19 @@ $EndComp
 $Comp
 L Switch:SW_Push SW1
 U 1 1 5BF1B5B4
-P 900 5050
-F 0 "SW1" H 900 5335 50  0000 C CNN
-F 1 "SW_Push" H 900 5244 50  0000 C CNN
-F 2 "" H 900 5250 50  0001 C CNN
-F 3 "" H 900 5250 50  0001 C CNN
-	1    900  5050
+P 1000 4750
+F 0 "SW1" H 1000 5035 50  0000 C CNN
+F 1 "SW_Push" H 1000 4944 50  0000 C CNN
+F 2 "" H 1000 4950 50  0001 C CNN
+F 3 "" H 1000 4950 50  0001 C CNN
+	1    1000 4750
 	0    -1   -1   0   
 $EndComp
 Wire Wire Line
 	1600 5100 1600 5200
 Wire Wire Line
 	1600 5200 1200 5200
-Text Label 950  4700 0    50   ~ 0
+Text Label 3750 5300 0    50   ~ 0
 GND
 Text Label 2400 7000 0    50   ~ 0
 GND
@@ -384,9 +376,9 @@ F 3 "" H 3000 3500 50  0001 C CNN
 	1    3000 3500
 	1    0    0    -1  
 $EndComp
-Text Label 900  4850 0    50   ~ 0
+Text Label 1000 4550 0    50   ~ 0
 RESET
-Text Label 900  5250 0    50   ~ 0
+Text Label 1000 4950 0    50   ~ 0
 GND
 Text Label 1200 4800 0    50   ~ 0
 +5V
@@ -434,7 +426,7 @@ Text Label 4200 3800 0    50   ~ 0
 MOSI
 Text Label 3700 3800 2    50   ~ 0
 SCK
-Text Label 950  4300 0    50   ~ 0
+Text Label 3750 4200 0    50   ~ 0
 +5V
 Text Label 700  5400 0    50   ~ 0
 +5V
@@ -927,4 +919,62 @@ Text Notes 7400 4050 0    59   ~ 0
 MINI SD CARD \nhttps://learn.adafruit.com/adafruit-micro-sd-breakout-board-card-tutorial/download
 Text Notes 7450 4200 0    59   ~ 0
 RTC 
+$Comp
+L Device:C C?
+U 1 1 5C01A2F6
+P 3350 4750
+F 0 "C?" H 3465 4796 50  0000 L CNN
+F 1 "1u" H 3465 4705 50  0000 L CNN
+F 2 "" H 3388 4600 50  0001 C CNN
+F 3 "~" H 3350 4750 50  0001 C CNN
+	1    3350 4750
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:CP C?
+U 1 1 5C023C80
+P 3750 4750
+F 0 "C?" H 3868 4796 50  0000 L CNN
+F 1 "4.7u" H 3868 4705 50  0000 L CNN
+F 2 "" H 3788 4600 50  0001 C CNN
+F 3 "~" H 3750 4750 50  0001 C CNN
+	1    3750 4750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3750 4300 3750 4450
+Wire Wire Line
+	3350 4600 3350 4450
+Wire Wire Line
+	3350 4450 3750 4450
+Connection ~ 3750 4450
+Wire Wire Line
+	3750 4450 3750 4600
+Wire Wire Line
+	3750 4450 4100 4450
+Wire Wire Line
+	4100 4450 4100 4600
+Wire Wire Line
+	4100 4900 4100 5100
+Wire Wire Line
+	4100 5100 3750 5100
+Wire Wire Line
+	3350 5100 3350 4900
+Wire Wire Line
+	3750 4900 3750 5100
+Connection ~ 3750 5100
+Wire Wire Line
+	3750 5100 3350 5100
+Wire Wire Line
+	3750 5100 3750 5300
+Text Notes 3350 7450 0    50   ~ 0
+AtMega 328p (nano)\n
+Wire Notes Line
+	550  7650 4450 7650
+Wire Notes Line
+	4450 7650 4450 3300
+Wire Notes Line
+	4450 3300 550  3300
+Wire Notes Line
+	550  3300 550  7650
 $EndSCHEMATC

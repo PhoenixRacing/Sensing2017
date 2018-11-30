@@ -923,4 +923,8 @@ Text Notes 4550 700  0    50   ~ 0
 CAN system: Transceiver and Controller
 Text Notes 6300 3100 0    20   ~ 0
 https://download.mikroe.com/documents/add-on-boards/click/canspi-5v/can-spi-click-5v-manual-v100.pdf
+Text Notes 7400 4050 0    59   ~ 0
+MINI SD CARD \nhttps://learn.adafruit.com/adafruit-micro-sd-breakout-board-card-tutorial/download
+Text Notes 7450 4200 0    59   ~ 0
+RTC 
 $EndSCHEMATC
