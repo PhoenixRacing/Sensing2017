@@ -337,7 +337,7 @@ U 1 1 5BF0D770
 P 1600 4950
 F 0 "R3" H 1670 4996 50  0000 L CNN
 F 1 "1k" H 1670 4905 50  0000 L CNN
-F 2 "" V 1530 4950 50  0001 C CNN
+F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal" V 1530 4950 50  0001 C CNN
 F 3 "~" H 1600 4950 50  0001 C CNN
 	1    1600 4950
 	1    0    0    -1  
@@ -451,7 +451,7 @@ U 1 1 5BF55492
 P 950 5500
 F 0 "R1" V 743 5500 50  0000 C CNN
 F 1 "1k" V 834 5500 50  0000 C CNN
-F 2 "" V 880 5500 50  0001 C CNN
+F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal" V 880 5500 50  0001 C CNN
 F 3 "~" H 950 5500 50  0001 C CNN
 	1    950  5500
 	0    1    1    0   
@@ -1156,4 +1156,8 @@ F 3 "" H 7300 5450 50  0001 C CNN
 $EndComp
 Text Label 7300 5550 0    50   ~ 0
 CLK
+Text Label 7300 5250 0    50   ~ 0
+CD_SD
+Text Notes 6050 4950 0    50   ~ 0
+https://learn.adafruit.com/assets/35635
 $EndSCHEMATC
