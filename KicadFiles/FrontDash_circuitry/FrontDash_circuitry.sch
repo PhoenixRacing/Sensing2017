@@ -1,6 +1,6 @@
 EESchema Schematic File Version 4
 LIBS:FrontDash_circuitry-cache
-EELAYER 28 0
+EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -917,8 +917,6 @@ Text Notes 6300 3100 0    20   ~ 0
 https://download.mikroe.com/documents/add-on-boards/click/canspi-5v/can-spi-click-5v-manual-v100.pdf
 Text Notes 7400 4050 0    59   ~ 0
 MINI SD CARD \nhttps://learn.adafruit.com/adafruit-micro-sd-breakout-board-card-tutorial/download
-Text Notes 7450 4200 0    59   ~ 0
-RTC 
 $Comp
 L Device:C C?
 U 1 1 5C01A2F6
@@ -977,4 +975,189 @@ Wire Notes Line
 	4450 3300 550  3300
 Wire Notes Line
 	550  3300 550  7650
+$Comp
+L Regulator_Linear:LP2985-3.3 U?
+U 1 1 5C075051
+P 6050 3900
+F 0 "U?" H 6050 4242 50  0000 C CNN
+F 1 "LP2985-3.3" H 6050 4151 50  0000 C CNN
+F 2 "Package_TO_SOT_SMD:SOT-23-5" H 6050 4225 50  0001 C CNN
+F 3 "http://www.ti.com/lit/ds/symlink/lp2985.pdf" H 6050 3900 50  0001 C CNN
+	1    6050 3900
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3V3 #PWR?
+U 1 1 5C0753B8
+P 6550 3750
+F 0 "#PWR?" H 6550 3600 50  0001 C CNN
+F 1 "+3V3" H 6565 3923 50  0000 C CNN
+F 2 "" H 6550 3750 50  0001 C CNN
+F 3 "" H 6550 3750 50  0001 C CNN
+	1    6550 3750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6450 3800 6550 3800
+Wire Wire Line
+	6550 3800 6550 3750
+$Comp
+L power:GND #PWR?
+U 1 1 5C0774A6
+P 6050 4200
+F 0 "#PWR?" H 6050 3950 50  0001 C CNN
+F 1 "GND" H 6055 4027 50  0000 C CNN
+F 2 "" H 6050 4200 50  0001 C CNN
+F 3 "" H 6050 4200 50  0001 C CNN
+	1    6050 4200
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+5V #PWR?
+U 1 1 5C0779E3
+P 5550 3800
+F 0 "#PWR?" H 5550 3650 50  0001 C CNN
+F 1 "+5V" H 5565 3973 50  0000 C CNN
+F 2 "" H 5550 3800 50  0001 C CNN
+F 3 "" H 5550 3800 50  0001 C CNN
+	1    5550 3800
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5650 3800 5550 3800
+$Comp
+L Device:C C?
+U 1 1 5C079EC3
+P 6800 3950
+F 0 "C?" H 6915 3996 50  0000 L CNN
+F 1 "100 nF" H 6915 3905 50  0000 L CNN
+F 2 "" H 6838 3800 50  0001 C CNN
+F 3 "~" H 6800 3950 50  0001 C CNN
+	1    6800 3950
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C?
+U 1 1 5C07A03B
+P 5100 3950
+F 0 "C?" H 5215 3996 50  0000 L CNN
+F 1 "100 nF" H 5215 3905 50  0000 L CNN
+F 2 "" H 5138 3800 50  0001 C CNN
+F 3 "~" H 5100 3950 50  0001 C CNN
+	1    5100 3950
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5550 3800 5500 3800
+Connection ~ 5550 3800
+Wire Wire Line
+	6550 3800 6800 3800
+Connection ~ 6550 3800
+$Comp
+L power:GND #PWR?
+U 1 1 5C07E085
+P 5100 4100
+F 0 "#PWR?" H 5100 3850 50  0001 C CNN
+F 1 "GND" H 5105 3927 50  0000 C CNN
+F 2 "" H 5100 4100 50  0001 C CNN
+F 3 "" H 5100 4100 50  0001 C CNN
+	1    5100 4100
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5C07E0DA
+P 6800 4100
+F 0 "#PWR?" H 6800 3850 50  0001 C CNN
+F 1 "GND" H 6805 3927 50  0000 C CNN
+F 2 "" H 6800 4100 50  0001 C CNN
+F 3 "" H 6800 4100 50  0001 C CNN
+	1    6800 4100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5650 3900 5500 3900
+Wire Wire Line
+	5500 3900 5500 3800
+Connection ~ 5500 3800
+Wire Wire Line
+	5500 3800 5100 3800
+Text Notes 5250 3550 0    50   ~ 0
+Linear Regulator
+Wire Notes Line
+	4600 3300 11050 3300
+Wire Notes Line
+	11050 3300 11050 6450
+Wire Notes Line
+	11050 6450 4600 6450
+Wire Notes Line
+	4600 6450 4600 3300
+Text Notes 5700 5650 0    50   ~ 0
+insert CD54HC4050 here (level shifter)
+$Comp
+L Connector:Micro_SD_Card J?
+U 1 1 5C085268
+P 8600 5450
+F 0 "J?" H 8550 6167 50  0000 C CNN
+F 1 "Micro_SD_Card" H 8550 6076 50  0000 C CNN
+F 2 "" H 9750 5750 50  0001 C CNN
+F 3 "http://katalog.we-online.de/em/datasheet/693072010801.pdf" H 8600 5450 50  0001 C CNN
+	1    8600 5450
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5C0855B0
+P 9400 6050
+F 0 "#PWR?" H 9400 5800 50  0001 C CNN
+F 1 "GND" H 9405 5877 50  0000 C CNN
+F 2 "" H 9400 6050 50  0001 C CNN
+F 3 "" H 9400 6050 50  0001 C CNN
+	1    9400 6050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7700 5650 7550 5650
+Wire Wire Line
+	7700 5550 7300 5550
+Wire Wire Line
+	7300 5450 7700 5450
+Wire Wire Line
+	7700 5350 7300 5350
+Wire Wire Line
+	7300 5250 7700 5250
+Wire Wire Line
+	7700 5150 7300 5150
+Wire Wire Line
+	7300 5750 7700 5750
+Wire Wire Line
+	7300 5850 7700 5850
+$Comp
+L power:GND #PWR?
+U 1 1 5C0B5CF7
+P 7550 5650
+F 0 "#PWR?" H 7550 5400 50  0001 C CNN
+F 1 "GND" H 7555 5477 50  0000 C CNN
+F 2 "" H 7550 5650 50  0001 C CNN
+F 3 "" H 7550 5650 50  0001 C CNN
+	1    7550 5650
+	0    1    1    0   
+$EndComp
+$Comp
+L power:+3V3 #PWR?
+U 1 1 5C0B5E0C
+P 7300 5450
+F 0 "#PWR?" H 7300 5300 50  0001 C CNN
+F 1 "+3V3" H 7315 5623 50  0000 C CNN
+F 2 "" H 7300 5450 50  0001 C CNN
+F 3 "" H 7300 5450 50  0001 C CNN
+	1    7300 5450
+	0    -1   -1   0   
+$EndComp
+Text Label 7300 5550 0    50   ~ 0
+CLK
+Text Label 7300 5250 0    50   ~ 0
+CD_SD
+Text Notes 6050 4950 0    50   ~ 0
+https://learn.adafruit.com/assets/35635
 $EndSCHEMATC
