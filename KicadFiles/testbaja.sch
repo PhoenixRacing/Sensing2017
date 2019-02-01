@@ -1,6 +1,5 @@
 EESchema Schematic File Version 4
-LIBS:testbaja-cache
-EELAYER 26 0
+EELAYER 28 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -186,7 +185,7 @@ d12
 Text Label 5800 1850 0    50   ~ 0
 SCK
 Text Label 5800 1950 0    50   ~ 0
-CS
+d10
 Text Label 5800 2050 0    50   ~ 0
 RST
 Text Label 5800 2150 0    50   ~ 0
