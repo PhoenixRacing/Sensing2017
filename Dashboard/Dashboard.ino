@@ -256,12 +256,13 @@ void setup() {
 
 
   // Initialize MCP2515 running at 16MHz with a baudrate of 500kb/s and the masks and filters disabled.
-  if(!CAN0.begin(MCP_ANY, CAN_500KBPS, MCP_16MHZ) == CAN_OK)
+  if(!CAN0.begin(MCP_ANY, CAN_500KBPS, MCP_16MHZ) == CAN_OK){
     displayError(4);
     #ifdef DEBUG
       Serial.println("CAN failed initialization");
     #endif
     delay(ERROR_DISPLAY_TIME);
+  }
 
 
   
@@ -310,7 +311,6 @@ void loop() {
   CAN0.readMsgBuf(0x101, DATA_LEN, rxBuf);
   memcpy(recentData,rxBuf,DATA_LEN*sizeof(int));
 
-<<<<<<< HEAD:DashInfoWithCAN/DashInfoWithCAN.ino
   acceptSample(&tach, recentData[0]);
   acceptSample(&speedo, recentData[1]);
   acceptSample(&cvtTemp, recentData[2]);
