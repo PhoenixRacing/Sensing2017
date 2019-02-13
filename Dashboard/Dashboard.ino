@@ -19,7 +19,8 @@
 E 01: RTC failed initialization
 E 02: RTC time has been lost
 E 03: SD failed initialization
-E 04: File creation failed
+E 04: CAN failed initialization
+E 05: File creation failed
 */
 
 #include <Wire.h>
@@ -253,6 +254,7 @@ void setup() {
     delay(ERROR_DISPLAY_TIME);
   }
 
+
   // Initialize MCP2515 running at 16MHz with a baudrate of 500kb/s and the masks and filters disabled.
   if(!CAN0.begin(MCP_ANY, CAN_500KBPS, MCP_16MHZ) == CAN_OK)
     displayError(4);
@@ -260,6 +262,7 @@ void setup() {
       Serial.println("CAN failed initialization");
     #endif
     delay(ERROR_DISPLAY_TIME);
+
 
   
   CAN0.setMode(MCP_NORMAL);                     // Set operation mode to normal so the MCP2515 sends acks to received data. //makes the Message Sent successfully on the RX side. 
@@ -284,12 +287,16 @@ void setup() {
   #endif
 
   logFile = SD.open(fileName, FILE_WRITE);
+
+
   if(!logFile){
-    displayError(4);
+    displayError(5);
     #ifdef DEBUG
       Serial.println("File creation failed");
     #endif
     delay(5000);
+
+
   }
   logFile.close();
 }
