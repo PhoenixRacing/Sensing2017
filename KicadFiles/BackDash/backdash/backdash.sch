@@ -66,10 +66,10 @@ RST
 Text Label 1550 1200 2    50   ~ 0
 RX0
 $Comp
-L Connector:Conn_01x30_Female NANO?
+L Connector:Conn_01x30_Female NANO2
 U 1 1 5BD90424
 P 1750 2500
-F 0 "NANO?" H 1777 2476 50  0000 L CNN
+F 0 "NANO2" H 1777 2476 50  0000 L CNN
 F 1 "Conn_01x30_Female" H 1777 2385 50  0000 L CNN
 F 2 "TestBaja:arduino_nano" H 1750 2500 50  0001 C CNN
 F 3 "~" H 1750 2500 50  0001 C CNN
@@ -85,37 +85,10 @@ REF
 Text Label 1550 1100 2    50   ~ 0
 TX1
 $Comp
-L Connector:Conn_01x08_Female RTD?
-U 1 1 5BD9076A
-P 2850 1550
-F 0 "RTD?" H 2877 1526 50  0000 L CNN
-F 1 "Conn_01x08_Female" H 2877 1435 50  0000 L CNN
-F 2 "TestBaja:RTD" H 2850 1550 50  0001 C CNN
-F 3 "~" H 2850 1550 50  0001 C CNN
-	1    2850 1550
-	1    0    0    -1  
-$EndComp
-Text Label 2650 1250 2    50   ~ 0
-VIN
-Text Label 2650 1350 2    50   ~ 0
-GND
-Text Label 2650 1450 2    50   ~ 0
-3V3
-Text Label 2650 1550 2    50   ~ 0
-CLK
-Text Label 2650 1650 2    50   ~ 0
-SDO
-Text Label 2650 1750 2    50   ~ 0
-SDI
-Text Label 2650 1850 2    50   ~ 0
-CS
-Text Label 2650 1950 2    50   ~ 0
-RDY
-$Comp
-L Connector:Conn_01x16_Female CAN?
+L Connector:Conn_01x16_Female CAN1
 U 1 1 5BD90B2E
 P 3450 2950
-F 0 "CAN?" H 3477 2926 50  0000 L CNN
+F 0 "CAN1" H 3477 2926 50  0000 L CNN
 F 1 "Conn_01x16_Female" H 3477 2835 50  0000 L CNN
 F 2 "TestBaja:CAN_Module" H 3450 2950 50  0001 C CNN
 F 3 "~" H 3450 2950 50  0001 C CNN
@@ -155,10 +128,10 @@ VCC
 Text Label 3250 3750 2    50   ~ 0
 GND
 $Comp
-L Connector:Conn_01x05_Female BUCK?
+L Connector:Conn_01x05_Female BUCK1
 U 1 1 5BDBB2FB
 P 4350 1900
-F 0 "BUCK?" H 4378 1926 50  0000 L CNN
+F 0 "BUCK1" H 4378 1926 50  0000 L CNN
 F 1 "Conn_01x05_Female" H 4378 1835 50  0000 L CNN
 F 2 "TestBaja:Buck_module" H 4350 1900 50  0001 C CNN
 F 3 "~" H 4350 1900 50  0001 C CNN
@@ -220,10 +193,10 @@ RST
 Text Label 6050 2050 2    50   ~ 0
 RX0
 $Comp
-L Connector:Conn_01x30_Female NANO?
+L Connector:Conn_01x30_Female NANO4
 U 1 1 5BDBACFE
 P 6250 3350
-F 0 "NANO?" H 6277 3326 50  0000 L CNN
+F 0 "NANO4" H 6277 3326 50  0000 L CNN
 F 1 "Conn_01x30_Female" H 6277 3235 50  0000 L CNN
 F 2 "TestBaja:arduino_nano" H 6250 3350 50  0001 C CNN
 F 3 "~" H 6250 3350 50  0001 C CNN
@@ -291,10 +264,10 @@ RST
 Text Label 1500 4450 2    50   ~ 0
 RX0
 $Comp
-L Connector:Conn_01x30_Female NANO?
+L Connector:Conn_01x30_Female NANO1
 U 1 1 5BDBAFDD
 P 1700 5750
-F 0 "NANO?" H 1727 5726 50  0000 L CNN
+F 0 "NANO1" H 1727 5726 50  0000 L CNN
 F 1 "Conn_01x30_Female" H 1727 5635 50  0000 L CNN
 F 2 "TestBaja:arduino_nano" H 1700 5750 50  0001 C CNN
 F 3 "~" H 1700 5750 50  0001 C CNN
@@ -362,10 +335,10 @@ RST
 Text Label 3250 4550 2    50   ~ 0
 RX0
 $Comp
-L Connector:Conn_01x30_Female NANO?
+L Connector:Conn_01x30_Female NANO3
 U 1 1 5BDBB034
 P 3450 5850
-F 0 "NANO?" H 3477 5826 50  0000 L CNN
+F 0 "NANO3" H 3477 5826 50  0000 L CNN
 F 1 "Conn_01x30_Female" H 3477 5735 50  0000 L CNN
 F 2 "TestBaja:arduino_nano" H 3450 5850 50  0001 C CNN
 F 3 "~" H 3450 5850 50  0001 C CNN
@@ -381,284 +354,241 @@ REF
 Text Label 3250 4450 2    50   ~ 0
 TX1
 $Comp
-L Diode:1N4007 D?
+L Diode:1N4007 D1
 U 1 1 5BBFFAF7
-P 3000 2650
-F 0 "D?" V 2954 2729 50  0000 L CNN
-F 1 "1N4007" V 3045 2729 50  0000 L CNN
-F 2 "Diode_THT:D_DO-41_SOD81_P7.62mm_Horizontal" H 3000 2475 50  0001 C CNN
-F 3 "http://www.vishay.com/docs/88503/1n4001.pdf" H 3000 2650 50  0001 C CNN
-	1    3000 2650
+P 7800 2250
+F 0 "D1" V 7754 2329 50  0000 L CNN
+F 1 "1N4007" V 7845 2329 50  0000 L CNN
+F 2 "Diode_THT:D_DO-41_SOD81_P7.62mm_Horizontal" H 7800 2075 50  0001 C CNN
+F 3 "http://www.vishay.com/docs/88503/1n4001.pdf" H 7800 2250 50  0001 C CNN
+	1    7800 2250
 	0    1    1    0   
 $EndComp
 $Comp
-L Diode:1N4007 D?
+L Diode:1N4007 D2
 U 1 1 5BC00EDC
-P 3150 2500
-F 0 "D?" H 3150 2284 50  0000 C CNN
-F 1 "1N4007" H 3150 2375 50  0000 C CNN
-F 2 "Diode_THT:D_DO-41_SOD81_P7.62mm_Horizontal" H 3150 2325 50  0001 C CNN
-F 3 "http://www.vishay.com/docs/88503/1n4001.pdf" H 3150 2500 50  0001 C CNN
-	1    3150 2500
+P 7950 2100
+F 0 "D2" H 7950 1884 50  0000 C CNN
+F 1 "1N4007" H 7950 1975 50  0000 C CNN
+F 2 "Diode_THT:D_DO-41_SOD81_P7.62mm_Horizontal" H 7950 1925 50  0001 C CNN
+F 3 "http://www.vishay.com/docs/88503/1n4001.pdf" H 7950 2100 50  0001 C CNN
+	1    7950 2100
 	-1   0    0    1   
 $EndComp
 $Comp
-L Device:R R?
+L Device:R R1
 U 1 1 5BC02B7A
-P 3450 2500
-F 0 "R?" V 3243 2500 50  0000 C CNN
-F 1 "10k" V 3334 2500 50  0000 C CNN
-F 2 "Resistor_SMD:R_0805_2012Metric" V 3380 2500 50  0001 C CNN
-F 3 "~" H 3450 2500 50  0001 C CNN
-	1    3450 2500
+P 8250 2100
+F 0 "R1" V 8043 2100 50  0000 C CNN
+F 1 "10k" V 8134 2100 50  0000 C CNN
+F 2 "Resistor_SMD:R_0805_2012Metric" V 8180 2100 50  0001 C CNN
+F 3 "~" H 8250 2100 50  0001 C CNN
+	1    8250 2100
 	0    1    1    0   
 $EndComp
 $Comp
-L Device:R R?
+L Device:R R2
 U 1 1 5BC034F1
-P 3600 2650
-F 0 "R?" H 3530 2604 50  0000 R CNN
-F 1 "10k" H 3530 2695 50  0000 R CNN
-F 2 "Resistor_SMD:R_0805_2012Metric" V 3530 2650 50  0001 C CNN
-F 3 "~" H 3600 2650 50  0001 C CNN
-	1    3600 2650
+P 8400 2250
+F 0 "R2" H 8330 2204 50  0000 R CNN
+F 1 "10k" H 8330 2295 50  0000 R CNN
+F 2 "Resistor_SMD:R_0805_2012Metric" V 8330 2250 50  0001 C CNN
+F 3 "~" H 8400 2250 50  0001 C CNN
+	1    8400 2250
 	-1   0    0    1   
 $EndComp
 $Comp
-L Diode:1N4148 D?
+L Diode:1N4148 D3
 U 1 1 5BC044BB
-P 3750 2500
-F 0 "D?" H 3750 2284 50  0000 C CNN
-F 1 "1N4148" H 3750 2375 50  0000 C CNN
-F 2 "Diode_THT:D_T-1_P5.08mm_Horizontal" H 3750 2325 50  0001 C CNN
-F 3 "http://www.nxp.com/documents/data_sheet/1N4148_1N4448.pdf" H 3750 2500 50  0001 C CNN
-	1    3750 2500
+P 8550 2100
+F 0 "D3" H 8550 1884 50  0000 C CNN
+F 1 "1N4148" H 8550 1975 50  0000 C CNN
+F 2 "Diode_THT:D_T-1_P5.08mm_Horizontal" H 8550 1925 50  0001 C CNN
+F 3 "http://www.nxp.com/documents/data_sheet/1N4148_1N4448.pdf" H 8550 2100 50  0001 C CNN
+	1    8550 2100
 	-1   0    0    1   
 $EndComp
-Connection ~ 3600 2500
 $Comp
-L Diode:1N47xxA D?
+L Diode:1N47xxA D4
 U 1 1 5BC05DC7
-P 3900 2650
-F 0 "D?" V 3854 2729 50  0000 L CNN
-F 1 "1N4738" V 3945 2729 50  0000 L CNN
-F 2 "Diode_THT:D_DO-41_SOD81_P7.62mm_Horizontal" H 3900 2475 50  0001 C CNN
-F 3 "https://www.vishay.com/docs/85816/1n4728a.pdf" H 3900 2650 50  0001 C CNN
-	1    3900 2650
+P 8700 2250
+F 0 "D4" V 8654 2329 50  0000 L CNN
+F 1 "1N4738" V 8745 2329 50  0000 L CNN
+F 2 "Diode_THT:D_DO-41_SOD81_P7.62mm_Horizontal" H 8700 2075 50  0001 C CNN
+F 3 "https://www.vishay.com/docs/85816/1n4728a.pdf" H 8700 2250 50  0001 C CNN
+	1    8700 2250
 	0    1    1    0   
 $EndComp
 $Comp
-L Device:R DNP?
+L Device:R DNP1
 U 1 1 5BC07838
-P 3900 2950
-F 0 "DNP?" H 3970 2996 50  0000 L CNN
-F 1 "DNP" H 3970 2905 50  0000 L CNN
-F 2 "Resistor_SMD:R_0805_2012Metric" V 3830 2950 50  0001 C CNN
-F 3 "~" H 3900 2950 50  0001 C CNN
-	1    3900 2950
+P 8700 2550
+F 0 "DNP1" H 8770 2596 50  0000 L CNN
+F 1 "DNP" H 8770 2505 50  0000 L CNN
+F 2 "Resistor_SMD:R_0805_2012Metric" V 8630 2550 50  0001 C CNN
+F 3 "~" H 8700 2550 50  0001 C CNN
+	1    8700 2550
 	1    0    0    -1  
 $EndComp
 $Comp
-L Transistor_BJT:2N3904 Q?
+L Transistor_BJT:2N3904 Q1
 U 1 1 5BC09DC2
-P 4200 2500
-F 0 "Q?" H 4390 2546 50  0000 L CNN
-F 1 "2N3904" H 4390 2455 50  0000 L CNN
-F 2 "Package_TO_SOT_THT:TO-92_Inline" H 4400 2425 50  0001 L CIN
-F 3 "https://www.fairchildsemi.com/datasheets/2N/2N3904.pdf" H 4200 2500 50  0001 L CNN
-	1    4200 2500
+P 9000 2100
+F 0 "Q1" H 9190 2146 50  0000 L CNN
+F 1 "2N3904" H 9190 2055 50  0000 L CNN
+F 2 "Package_TO_SOT_THT:TO-92_Inline" H 9200 2025 50  0001 L CIN
+F 3 "https://www.fairchildsemi.com/datasheets/2N/2N3904.pdf" H 9000 2100 50  0001 L CNN
+	1    9000 2100
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	4000 2500 3900 2500
-Connection ~ 3900 2500
+	8800 2100 8700 2100
+Connection ~ 8700 2100
 $Comp
-L Device:R R?
+L Device:R R3
 U 1 1 5BC153C6
-P 4300 2150
-F 0 "R?" H 4370 2196 50  0000 L CNN
-F 1 "4.7k" H 4370 2105 50  0000 L CNN
-F 2 "Resistor_SMD:R_0805_2012Metric" V 4230 2150 50  0001 C CNN
-F 3 "~" H 4300 2150 50  0001 C CNN
-	1    4300 2150
+P 9100 1750
+F 0 "R3" H 9170 1796 50  0000 L CNN
+F 1 "4.7k" H 9170 1705 50  0000 L CNN
+F 2 "Resistor_SMD:R_0805_2012Metric" V 9030 1750 50  0001 C CNN
+F 3 "~" H 9100 1750 50  0001 C CNN
+	1    9100 1750
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:+5V #PWR?
-U 1 1 5BC1681F
-P 4300 2000
-F 0 "#PWR?" H 4300 1850 50  0001 C CNN
-F 1 "+5V" H 4315 2173 50  0000 C CNN
-F 2 "" H 4300 2000 50  0001 C CNN
-F 3 "" H 4300 2000 50  0001 C CNN
-	1    4300 2000
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:C C?
+L Device:C C1
 U 1 1 5BC19656
-P 4850 2700
-F 0 "C?" V 4598 2700 50  0000 C CNN
-F 1 "2200pF" V 4689 2700 50  0000 C CNN
-F 2 "Capacitor_THT:C_Rect_L11.0mm_W3.5mm_P10.00mm_MKT" H 4888 2550 50  0001 C CNN
-F 3 "~" H 4850 2700 50  0001 C CNN
-	1    4850 2700
+P 9650 2300
+F 0 "C1" V 9398 2300 50  0000 C CNN
+F 1 "2200pF" V 9489 2300 50  0000 C CNN
+F 2 "Capacitor_THT:C_Rect_L11.0mm_W3.5mm_P10.00mm_MKT" H 9688 2150 50  0001 C CNN
+F 3 "~" H 9650 2300 50  0001 C CNN
+	1    9650 2300
 	0    1    1    0   
 $EndComp
 $Comp
-L Connector_Generic:Conn_02x07_Counter_Clockwise DIP?
+L Connector_Generic:Conn_02x07_Counter_Clockwise DIP1
 U 1 1 5BC2544C
-P 5450 3000
-F 0 "DIP?" H 5500 3517 50  0000 C CNN
-F 1 "SN74HC14N" H 5500 3426 50  0000 C CNN
-F 2 "Package_DIP:DIP-14_W7.62mm" H 5450 3000 50  0001 C CNN
-F 3 "~" H 5450 3000 50  0001 C CNN
-	1    5450 3000
+P 10250 2600
+F 0 "DIP1" H 10300 3117 50  0000 C CNN
+F 1 "SN74HC14N" H 10300 3026 50  0000 C CNN
+F 2 "Package_DIP:DIP-14_W7.62mm" H 10250 2600 50  0001 C CNN
+F 3 "~" H 10250 2600 50  0001 C CNN
+	1    10250 2600
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	4700 2700 4300 2700
+	9500 2300 9100 2300
 Wire Wire Line
-	5000 2700 5000 2300
+	9800 2300 9800 1900
 Wire Wire Line
-	5000 2300 4300 2300
-Connection ~ 5000 2700
-Connection ~ 4300 2300
+	9800 1900 9100 1900
+Connection ~ 9800 2300
+Connection ~ 9100 1900
 Wire Wire Line
-	5000 2700 5200 2700
+	9800 2300 10000 2300
 Wire Wire Line
-	5750 2700 5750 2000
+	10550 2300 10550 1600
 Wire Wire Line
-	5750 2000 4300 2000
-Connection ~ 4300 2000
+	10550 1600 9100 1600
 Wire Wire Line
-	5200 2700 5200 2350
+	10000 2300 10000 1950
 Wire Wire Line
-	5200 2350 5850 2350
+	10000 1950 10650 1950
 Wire Wire Line
-	5850 2350 5850 2800
+	10650 1950 10650 2400
 Wire Wire Line
-	5850 2800 5750 2800
-Connection ~ 5200 2700
+	10650 2400 10550 2400
+Connection ~ 10000 2300
 Wire Wire Line
-	5200 2700 5250 2700
+	10000 2300 10050 2300
 $Comp
-L Connector:Conn_01x01_Female In?
+L Connector:Conn_01x01_Female In2
 U 1 1 5BC5B638
-P 2700 2800
-F 0 "In?" H 2592 2575 50  0000 C CNN
-F 1 "Vin-" H 2592 2666 50  0000 C CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 2700 2800 50  0001 C CNN
-F 3 "~" H 2700 2800 50  0001 C CNN
-	1    2700 2800
+P 7500 2400
+F 0 "In2" H 7392 2175 50  0000 C CNN
+F 1 "Vin-" H 7392 2266 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 7500 2400 50  0001 C CNN
+F 3 "~" H 7500 2400 50  0001 C CNN
+	1    7500 2400
 	-1   0    0    1   
 $EndComp
 $Comp
-L Connector:Conn_01x01_Female In?
+L Connector:Conn_01x01_Female In1
 U 1 1 5BC5D466
-P 2700 2500
-F 0 "In?" H 2592 2275 50  0000 C CNN
-F 1 "Vin +" H 2592 2366 50  0000 C CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 2700 2500 50  0001 C CNN
-F 3 "~" H 2700 2500 50  0001 C CNN
-	1    2700 2500
+P 7500 2100
+F 0 "In1" H 7392 1875 50  0000 C CNN
+F 1 "Vin +" H 7392 1966 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 7500 2100 50  0001 C CNN
+F 3 "~" H 7500 2100 50  0001 C CNN
+	1    7500 2100
 	-1   0    0    1   
 $EndComp
-Connection ~ 3000 2500
-Connection ~ 3000 2800
+Connection ~ 7800 2100
+Connection ~ 7800 2400
 Wire Wire Line
-	3000 2800 3600 2800
+	7800 2400 8400 2400
 Wire Wire Line
-	2900 2800 3000 2800
+	7700 2400 7800 2400
 Wire Wire Line
-	2900 2500 3000 2500
+	7700 2100 7800 2100
 $Comp
-L Connector:Conn_01x01_Female Out?
-U 1 1 5BC6D568
-P 6100 2900
-F 0 "Out?" H 6128 2926 50  0000 L CNN
-F 1 "Vout" H 6128 2835 50  0000 L CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 6100 2900 50  0001 C CNN
-F 3 "~" H 6100 2900 50  0001 C CNN
-	1    6100 2900
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:C C?
+L Device:C C2
 U 1 1 5BC6F5B7
-P 5900 3150
-F 0 "C?" H 6015 3196 50  0000 L CNN
-F 1 "39nF" H 6015 3105 50  0000 L CNN
-F 2 "Capacitor_THT:C_Rect_L7.0mm_W3.5mm_P5.00mm" H 5938 3000 50  0001 C CNN
-F 3 "~" H 5900 3150 50  0001 C CNN
-	1    5900 3150
+P 10700 2750
+F 0 "C2" H 10815 2796 50  0000 L CNN
+F 1 "39nF" H 10815 2705 50  0000 L CNN
+F 2 "Capacitor_THT:C_Rect_L7.0mm_W3.5mm_P5.00mm" H 10738 2600 50  0001 C CNN
+F 3 "~" H 10700 2750 50  0001 C CNN
+	1    10700 2750
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	5750 2900 5900 2900
+	10550 2500 10700 2500
 Wire Wire Line
-	5900 2900 5900 3000
-Connection ~ 5900 2900
+	10700 2500 10700 2600
+Wire Wire Line
+	10700 3150 10050 3150
+Wire Wire Line
+	8700 3150 8700 2700
+Wire Wire Line
+	9100 2300 9100 3150
+Connection ~ 9100 2300
+Connection ~ 9100 3150
+Wire Wire Line
+	9100 3150 8700 3150
+Connection ~ 10050 3150
+Wire Wire Line
+	10050 3150 9100 3150
+Wire Wire Line
+	10050 2900 10050 3150
 $Comp
-L power:GND #PWR?
-U 1 1 5BC77515
-P 5900 3550
-F 0 "#PWR?" H 5900 3300 50  0001 C CNN
-F 1 "GND" H 5905 3377 50  0000 C CNN
-F 2 "" H 5900 3550 50  0001 C CNN
-F 3 "" H 5900 3550 50  0001 C CNN
-	1    5900 3550
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	5900 3300 5900 3550
-Wire Wire Line
-	5900 3550 5250 3550
-Wire Wire Line
-	3900 3550 3900 3100
-Connection ~ 5900 3550
-Wire Wire Line
-	4300 2700 4300 3550
-Connection ~ 4300 2700
-Connection ~ 4300 3550
-Wire Wire Line
-	4300 3550 3900 3550
-Connection ~ 5250 3550
-Wire Wire Line
-	5250 3550 4300 3550
-$Comp
-L Connector:Conn_01x01_Female VCC?
-U 1 1 5BC71D92
-P 4300 1800
-F 0 "VCC?" V 4238 1712 50  0000 R CNN
-F 1 "5V" V 4147 1712 50  0000 R CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 4300 1800 50  0001 C CNN
-F 3 "~" H 4300 1800 50  0001 C CNN
-	1    4300 1800
-	0    -1   -1   0   
-$EndComp
-$Comp
-L Connector:Conn_01x01_Female GND?
-U 1 1 5BC72FD8
-P 5900 3750
-F 0 "GND?" V 5746 3798 50  0000 L CNN
-F 1 "GND" V 5837 3798 50  0000 L CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 5900 3750 50  0001 C CNN
-F 3 "~" H 5900 3750 50  0001 C CNN
-	1    5900 3750
-	0    1    1    0   
-$EndComp
-Wire Wire Line
-	5250 3300 5250 3550
-$Comp
-L Graphic:Logo_Open_Hardware_Small #LOGO?
+L Graphic:Logo_Open_Hardware_Small #LOGO1
 U 1 1 5BE4F1B1
-P 6450 2350
-F 0 "#LOGO?" H 6450 2625 50  0001 C CNN
-F 1 "Logo_Open_Hardware_Small" H 6450 2125 50  0001 C CNN
-F 2 "TestBaja:Baja_Logo_Tach" H 6450 2350 50  0001 C CNN
-F 3 "~" H 6450 2350 50  0001 C CNN
-	1    6450 2350
+P 10450 1100
+F 0 "#LOGO1" H 10450 1375 50  0001 C CNN
+F 1 "Logo_Open_Hardware_Small" H 10450 875 50  0001 C CNN
+F 2 "TestBaja:Baja_Logo_Tach" H 10450 1100 50  0001 C CNN
+F 3 "~" H 10450 1100 50  0001 C CNN
+	1    10450 1100
 	1    0    0    -1  
 $EndComp
+Connection ~ 8400 2100
+Wire Wire Line
+	10700 2900 10700 3150
+Wire Wire Line
+	10700 2500 10850 2500
+Connection ~ 10700 2500
+Text Label 10850 2500 0    50   ~ 0
+A0
+Wire Wire Line
+	10700 3150 10700 3300
+Connection ~ 10700 3150
+Text Label 10700 3300 0    50   ~ 0
+GND
+Wire Wire Line
+	9100 1600 9100 1450
+Connection ~ 9100 1600
+Text Label 9100 1450 0    50   ~ 0
+VCC
 $EndSCHEMATC
