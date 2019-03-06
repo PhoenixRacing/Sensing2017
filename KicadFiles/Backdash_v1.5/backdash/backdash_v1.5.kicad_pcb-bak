@@ -1716,7 +1716,7 @@
       (xy -6.702229 -4.977358) (xy -6.486088 -5.005262) (xy -6.326909 -5.018797) (xy -5.80409 -5.016603)) (layer F.SilkS) (width 0.01))
   )
 
-  (gr_text "Backdash_v1.5 / 2019\n- Skye Ozga" (at 147.32 59.69) (layer F.SilkS)
+  (gr_text "Backdash_v1.5 / 2019\n- Magic Squad" (at 147.32 59.69) (layer F.SilkS)
     (effects (font (size 1 1) (thickness 0.15)))
   )
   (gr_line (start 62.23 19.05) (end 63.5 17.78) (layer Edge.Cuts) (width 0.15))
