@@ -1,4 +1,5 @@
 EESchema Schematic File Version 4
+LIBS:backdash_v1.5-cache
 EELAYER 28 0
 EELAYER END
 $Descr A4 11693 8268
@@ -30,10 +31,10 @@ GND
 Text Label 1550 1300 2    50   ~ 0
 RST
 $Comp
-L Connector:Conn_01x30_Female NANO2
+L Connector:Conn_01x30_Female NANO2/Wheel1
 U 1 1 5BD90424
 P 1750 2500
-F 0 "NANO2" H 1777 2476 50  0000 L CNN
+F 0 "NANO2/Wheel1" H 1777 2476 50  0000 L CNN
 F 1 "Conn_01x30_Female" H 1777 2385 50  0000 L CNN
 F 2 "TestBaja:arduino_nano" H 1750 2500 50  0001 C CNN
 F 3 "~" H 1750 2500 50  0001 C CNN
@@ -97,10 +98,10 @@ GND
 Text Label 1500 4550 2    50   ~ 0
 RST
 $Comp
-L Connector:Conn_01x30_Female NANO1
+L Connector:Conn_01x30_Female NANO1/Tach1
 U 1 1 5BDBAFDD
 P 1700 5750
-F 0 "NANO1" H 1727 5726 50  0000 L CNN
+F 0 "NANO1/Tach1" H 1727 5726 50  0000 L CNN
 F 1 "Conn_01x30_Female" H 1727 5635 50  0000 L CNN
 F 2 "TestBaja:arduino_nano" H 1700 5750 50  0001 C CNN
 F 3 "~" H 1700 5750 50  0001 C CNN
@@ -128,10 +129,10 @@ GND
 Text Label 3250 4650 2    50   ~ 0
 RST
 $Comp
-L Connector:Conn_01x30_Female NANO3
+L Connector:Conn_01x30_Female NANO3/CVT1
 U 1 1 5BDBB034
 P 3450 5850
-F 0 "NANO3" H 3477 5826 50  0000 L CNN
+F 0 "NANO3/CVT1" H 3477 5826 50  0000 L CNN
 F 1 "Conn_01x30_Female" H 3477 5735 50  0000 L CNN
 F 2 "TestBaja:arduino_nano" H 3450 5850 50  0001 C CNN
 F 3 "~" H 3450 5850 50  0001 C CNN

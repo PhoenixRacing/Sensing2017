@@ -23,16 +23,12 @@ Text Label 1550 3800 2    50   ~ 0
 RST
 Text Label 1550 3900 2    50   ~ 0
 GND
-Text Label 1550 4000 2    50   ~ 0
-VIN
 Text Label 1550 2300 2    50   ~ 0
 D10
 Text Label 1550 1400 2    50   ~ 0
 GND
 Text Label 1550 1300 2    50   ~ 0
 RST
-Text Label 1550 1200 2    50   ~ 0
-RX0
 $Comp
 L Connector:Conn_01x30_Female NANO2
 U 1 1 5BD90424
@@ -44,8 +40,6 @@ F 3 "~" H 1750 2500 50  0001 C CNN
 	1    1750 2500
 	1    0    0    -1  
 $EndComp
-Text Label 1550 1100 2    50   ~ 0
-TX1
 $Comp
 L Connector:Conn_01x16_Female CAN1
 U 1 1 5BD90B2E
@@ -98,14 +92,10 @@ Text Label 1500 7050 2    50   ~ 0
 RST
 Text Label 1500 7150 2    50   ~ 0
 GND
-Text Label 1500 7250 2    50   ~ 0
-VIN
 Text Label 1500 4650 2    50   ~ 0
 GND
 Text Label 1500 4550 2    50   ~ 0
 RST
-Text Label 1500 4450 2    50   ~ 0
-RX0
 $Comp
 L Connector:Conn_01x30_Female NANO1
 U 1 1 5BDBAFDD
@@ -117,8 +107,6 @@ F 3 "~" H 1700 5750 50  0001 C CNN
 	1    1700 5750
 	1    0    0    -1  
 $EndComp
-Text Label 1500 4350 2    50   ~ 0
-TX1
 Text Label 3250 6650 2    50   ~ 0
 A4
 Text Label 3250 6750 2    50   ~ 0
@@ -129,20 +117,16 @@ Text Label 3250 7150 2    50   ~ 0
 RST
 Text Label 3250 7250 2    50   ~ 0
 GND
-Text Label 3250 7350 2    50   ~ 0
-VIN
 Text Label 3250 5850 2    50   ~ 0
 SDO
 Text Label 3250 5750 2    50   ~ 0
-SD
+SDI
 Text Label 3250 5650 2    50   ~ 0
 CS
 Text Label 3250 4750 2    50   ~ 0
 GND
 Text Label 3250 4650 2    50   ~ 0
 RST
-Text Label 3250 4550 2    50   ~ 0
-RX0
 $Comp
 L Connector:Conn_01x30_Female NANO3
 U 1 1 5BDBB034
@@ -156,8 +140,6 @@ F 3 "~" H 3450 5850 50  0001 C CNN
 $EndComp
 Text Label 3250 5950 2    50   ~ 0
 SCK
-Text Label 3250 4450 2    50   ~ 0
-TX1
 $Comp
 L Diode:1N4007 D1
 U 1 1 5BBFFAF7
@@ -214,17 +196,6 @@ F 3 "http://www.nxp.com/documents/data_sheet/1N4148_1N4448.pdf" H 8550 2100 50  
 	-1   0    0    1   
 $EndComp
 $Comp
-L Diode:1N47xxA D4
-U 1 1 5BC05DC7
-P 8700 2250
-F 0 "D4" V 8654 2329 50  0000 L CNN
-F 1 "1N4738" V 8745 2329 50  0000 L CNN
-F 2 "Diode_THT:D_DO-41_SOD81_P7.62mm_Horizontal" H 8700 2075 50  0001 C CNN
-F 3 "https://www.vishay.com/docs/85816/1n4728a.pdf" H 8700 2250 50  0001 C CNN
-	1    8700 2250
-	0    1    1    0   
-$EndComp
-$Comp
 L Device:R DNP1
 U 1 1 5BC07838
 P 8700 2550
@@ -235,20 +206,8 @@ F 3 "~" H 8700 2550 50  0001 C CNN
 	1    8700 2550
 	1    0    0    -1  
 $EndComp
-$Comp
-L Transistor_BJT:2N3904 Q1
-U 1 1 5BC09DC2
-P 9000 2100
-F 0 "Q1" H 9190 2146 50  0000 L CNN
-F 1 "2N3904" H 9190 2055 50  0000 L CNN
-F 2 "Package_TO_SOT_THT:TO-92_Inline" H 9200 2025 50  0001 L CIN
-F 3 "https://www.fairchildsemi.com/datasheets/2N/2N3904.pdf" H 9000 2100 50  0001 L CNN
-	1    9000 2100
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	8800 2100 8700 2100
-Connection ~ 8700 2100
 $Comp
 L Device:R R3
 U 1 1 5BC153C6
@@ -289,7 +248,6 @@ Wire Wire Line
 Wire Wire Line
 	9800 1900 9100 1900
 Connection ~ 9800 2300
-Connection ~ 9100 1900
 Wire Wire Line
 	9800 2300 10000 2300
 Wire Wire Line
@@ -358,7 +316,6 @@ Wire Wire Line
 	8700 3150 8700 2700
 Wire Wire Line
 	9100 2300 9100 3150
-Connection ~ 9100 2300
 Connection ~ 9100 3150
 Wire Wire Line
 	9100 3150 8700 3150
@@ -397,10 +354,10 @@ Connection ~ 9100 1600
 Text Label 9100 1450 0    50   ~ 0
 VCC
 $Comp
-L Connector:Conn_01x04_Female DC
+L Connector:Conn_01x04_Female DC1
 U 1 1 5C761CCC
 P 4350 1250
-F 0 "DC" H 4378 1226 50  0000 L CNN
+F 0 "DC1" H 4378 1226 50  0000 L CNN
 F 1 "Conn_01x04_Female" H 4378 1135 50  0000 L CNN
 F 2 "TestBaja:DC_Connector" H 4350 1250 50  0001 C CNN
 F 3 "~" H 4350 1250 50  0001 C CNN
@@ -408,10 +365,10 @@ F 3 "~" H 4350 1250 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Connector:Conn_01x04_Female CVT
+L Connector:Conn_01x04_Female CVT1
 U 1 1 5C76BA7F
 P 4350 700
-F 0 "CVT" H 4378 676 50  0000 L CNN
+F 0 "CVT1" H 4378 676 50  0000 L CNN
 F 1 "Conn_01x04_Female" H 4378 585 50  0000 L CNN
 F 2 "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical" H 4350 700 50  0001 C CNN
 F 3 "~" H 4350 700 50  0001 C CNN
@@ -433,10 +390,10 @@ Text Label 4150 1250 2    50   ~ 0
 Text Label 4150 1900 2    50   ~ 0
 +
 $Comp
-L Connector:Conn_01x03_Female Wheel
+L Connector:Conn_01x03_Female Wheel1
 U 1 1 5C77A570
 P 6000 750
-F 0 "Wheel" H 6028 776 50  0000 L CNN
+F 0 "Wheel1" H 6028 776 50  0000 L CNN
 F 1 "Conn_01x03_Female" H 6028 685 50  0000 L CNN
 F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 6000 750 50  0001 C CNN
 F 3 "~" H 6000 750 50  0001 C CNN
@@ -448,10 +405,10 @@ VCC
 Text Label 5800 850  2    50   ~ 0
 GND
 $Comp
-L Connector:Conn_01x03_Female Tach
+L Connector:Conn_01x03_Female Tach1
 U 1 1 5C77F31E
 P 6000 1200
-F 0 "Tach" H 6028 1226 50  0000 L CNN
+F 0 "Tach1" H 6028 1226 50  0000 L CNN
 F 1 "Conn_01x03_Female" H 6028 1135 50  0000 L CNN
 F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 6000 1200 50  0001 C CNN
 F 3 "~" H 6000 1200 50  0001 C CNN
@@ -472,4 +429,29 @@ Text Label 5800 750  2    50   ~ 0
 D10
 Text Label 3250 6150 2    50   ~ 0
 REF
+Connection ~ 9100 1900
+Connection ~ 9100 2300
+$Comp
+L Transistor_BJT:2N3904 Q1
+U 1 1 5BC09DC2
+P 9000 2100
+F 0 "Q1" H 9190 2146 50  0000 L CNN
+F 1 "2N3904" H 9190 2055 50  0000 L CNN
+F 2 "Package_TO_SOT_THT:TO-92_Inline" H 9200 2025 50  0001 L CIN
+F 3 "https://www.fairchildsemi.com/datasheets/2N/2N3904.pdf" H 9000 2100 50  0001 L CNN
+	1    9000 2100
+	1    0    0    -1  
+$EndComp
+Connection ~ 8700 2100
+$Comp
+L Diode:1N47xxA D4
+U 1 1 5BC05DC7
+P 8700 2250
+F 0 "D4" V 8654 2329 50  0000 L CNN
+F 1 "1N4738" V 8745 2329 50  0000 L CNN
+F 2 "Diode_THT:D_DO-41_SOD81_P7.62mm_Horizontal" H 8700 2075 50  0001 C CNN
+F 3 "https://www.vishay.com/docs/85816/1n4728a.pdf" H 8700 2250 50  0001 C CNN
+	1    8700 2250
+	0    1    1    0   
+$EndComp
 $EndSCHEMATC
